@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Client } from "@shared/schema";
+import { useState, useEffect } from "react";
+import { Client, Survey } from "@shared/schema";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useCreateSurvey, surveyTemplates, useAddSurveyRecipient } from "@/hooks/use-surveys";
+import { useCreateSurvey, useUpdateSurvey, surveyTemplates, useAddSurveyRecipient } from "@/hooks/use-surveys";
 import { Loader, BarChart2, Plus, Trash2, Edit2, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,17 +29,34 @@ interface SurveyQuestion {
   };
 }
 
-export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSurveyModalProps) {
-  const [surveyType, setSurveyType] = useState("wtp");
-  const [deadline, setDeadline] = useState("");
-  const [isEditingQuestions, setIsEditingQuestions] = useState(false);
+export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdit }: CreateSurveyModalProps) {
+  const [surveyType, setSurveyType] = useState(surveyToEdit?.type || "wtp");
+  const [deadline, setDeadline] = useState(surveyToEdit?.deadline ? new Date(surveyToEdit.deadline).toISOString().split('T')[0] : "");
+  const [isEditingQuestions, setIsEditingQuestions] = useState(surveyToEdit ? true : false);
   const [customQuestions, setCustomQuestions] = useState<SurveyQuestion[]>([]);
   const [editingQuestion, setEditingQuestion] = useState<SurveyQuestion | null>(null);
-  const [activeTab, setActiveTab] = useState<string>("template");
+  const [activeTab, setActiveTab] = useState<string>(surveyToEdit?.type === "custom" ? "custom" : "template");
+  const [surveyId, setSurveyId] = useState<number | undefined>(surveyToEdit?.id);
   
   const createSurvey = useCreateSurvey();
+  const updateSurvey = useUpdateSurvey();
   const addRecipient = useAddSurveyRecipient();
   const { toast } = useToast();
+  
+  // Initialize questions from survey if editing
+  useEffect(() => {
+    if (surveyToEdit) {
+      if (surveyToEdit.questions && Array.isArray(surveyToEdit.questions)) {
+        setCustomQuestions(surveyToEdit.questions as SurveyQuestion[]);
+        setIsEditingQuestions(true);
+      } else if (surveyToEdit.type !== "custom") {
+        // If no questions but we have a type, load from template
+        const templateQuestions = surveyTemplates[surveyToEdit.type as keyof typeof surveyTemplates]?.questions || [];
+        setCustomQuestions([...templateQuestions]);
+      }
+      setSurveyId(surveyToEdit.id);
+    }
+  }, [surveyToEdit]);
   
   // When the survey type changes, reset custom questions
   const handleSurveyTypeChange = (value: string) => {
@@ -87,7 +104,8 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
-    if (!selectedClient) {
+    // When editing we don't need a selected client
+    if (!surveyToEdit && !selectedClient) {
       toast({
         title: "Error",
         description: "Please select a client for this survey.",
@@ -146,32 +164,56 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
         questions = template.questions;
       }
       
-      // Create the survey
-      const survey = await createSurvey.mutateAsync({
-        type: surveyType,
-        title: surveyTitle,
-        deadline: new Date(deadline),
-        status: "active",
-        questions: questions
-      });
-      
-      // Add recipient
-      await addRecipient.mutateAsync({
-        surveyId: survey.id,
-        clientId: selectedClient.id,
-        status: "pending"
-      });
-      
-      toast({
-        title: "Survey Created",
-        description: `Survey has been sent to ${selectedClient.name}.`,
-      });
+      // Create or Update the survey
+      if (surveyToEdit && surveyId) {
+        // Update existing survey
+        await updateSurvey.mutateAsync({
+          id: surveyId,
+          data: {
+            type: surveyType,
+            title: surveyTitle,
+            deadline: new Date(deadline),
+            status: surveyToEdit.status,
+            questions: questions
+          }
+        });
+        
+        toast({
+          title: "Survey Updated",
+          description: "Your survey has been updated successfully.",
+        });
+      } else {
+        // Create new survey
+        const survey = await createSurvey.mutateAsync({
+          type: surveyType,
+          title: surveyTitle,
+          deadline: new Date(deadline),
+          status: "active",
+          questions: questions
+        });
+        
+        // Add recipient for new survey
+        if (selectedClient) {
+          await addRecipient.mutateAsync({
+            surveyId: survey.id,
+            clientId: selectedClient.id,
+            status: "pending"
+          });
+        }
+        
+        toast({
+          title: "Survey Created",
+          description: selectedClient 
+            ? `Survey has been sent to ${selectedClient.name}.`
+            : "Survey has been created successfully.",
+        });
+      }
       
       onClose();
     } catch (error) {
       toast({
-        title: "Failed to create survey",
-        description: "There was an error creating the survey. Please try again.",
+        title: surveyToEdit ? "Failed to update survey" : "Failed to create survey",
+        description: "There was an error. Please try again.",
         variant: "destructive",
       });
     }
@@ -184,9 +226,14 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 mb-4">
             <BarChart2 className="h-6 w-6 text-primary-600" />
           </div>
-          <DialogTitle className="text-center">Create New Survey</DialogTitle>
+          <DialogTitle className="text-center">
+            {surveyToEdit ? "Edit Survey" : "Create New Survey"}
+          </DialogTitle>
           <DialogDescription className="text-center">
-            Send a quick survey to gather feedback from your clients. Choose a template or create a custom survey.
+            {surveyToEdit 
+              ? "Edit your survey questions and settings."
+              : "Send a quick survey to gather feedback from your clients. Choose a template or create a custom survey."
+            }
           </DialogDescription>
         </DialogHeader>
         
@@ -393,13 +440,15 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
             </Button>
             <Button
               type="submit"
-              disabled={createSurvey.isPending || addRecipient.isPending}
+              disabled={createSurvey.isPending || updateSurvey.isPending || addRecipient.isPending}
             >
-              {(createSurvey.isPending || addRecipient.isPending) ? (
+              {(createSurvey.isPending || updateSurvey.isPending || addRecipient.isPending) ? (
                 <>
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                   Processing...
                 </>
+              ) : surveyToEdit ? (
+                'Update Survey'
               ) : (
                 'Send Survey'
               )}
