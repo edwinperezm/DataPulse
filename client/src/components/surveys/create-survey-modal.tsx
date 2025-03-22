@@ -15,6 +15,7 @@ interface CreateSurveyModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedClient?: Client;
+  surveyToEdit?: any; // Using 'any' for now since we don't have the type easily accessible
 }
 
 interface SurveyQuestion {
@@ -262,7 +263,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
               
               {/* Questions view/edit mode */}
               {(isEditingQuestions || surveyType === 'custom') ? (
-                <div className="bg-gray-50 p-4 rounded-md space-y-4">
+                <div className="bg-gray-50 p-4 rounded-md space-y-4 max-h-[400px] overflow-y-auto">
                   {/* Question List */}
                   {customQuestions.map((question, index) => (
                     <div key={question.id} className="bg-white p-3 rounded-md border space-y-3">

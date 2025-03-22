@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 export default function Surveys() {
   const { data: surveys = [], isLoading } = useSurveys();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null);
   
   // Helper function to get survey status colors
   const getSurveyStatusColors = (status: string) => {
@@ -203,7 +204,11 @@ export default function Surveys() {
                       </div>
                       
                       <div className="border-t border-gray-200 bg-gray-50 px-6 py-3 flex justify-between">
-                        <Button variant="ghost" size="sm">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => setSelectedSurvey(survey)}
+                        >
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
                         </Button>
@@ -225,6 +230,15 @@ export default function Surveys() {
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
       />
+
+      {/* Edit Survey Modal */}
+      {selectedSurvey && (
+        <CreateSurveyModal 
+          isOpen={selectedSurvey !== null}
+          onClose={() => setSelectedSurvey(null)}
+          surveyToEdit={selectedSurvey}
+        />
+      )}
     </>
   );
 }
