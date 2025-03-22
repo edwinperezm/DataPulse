@@ -9,8 +9,9 @@ interface AiCoachProps {
 }
 
 export function AiCoach({ suggestions, onCompleteSuggestion, isLoading = false }: AiCoachProps) {
-  // Filter for pending suggestions
-  const pendingSuggestions = suggestions.filter(s => s.status === 'pending');
+  // Ensure suggestions is an array and filter for valid pending suggestions
+  const validSuggestions = Array.isArray(suggestions) ? suggestions : [];
+  const pendingSuggestions = validSuggestions.filter(s => s && s.id && s.status === 'pending');
 
   if (isLoading) {
     return (

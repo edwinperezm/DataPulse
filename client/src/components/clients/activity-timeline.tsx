@@ -60,43 +60,50 @@ export function ActivityTimeline({ activities, isLoading = false }: ActivityTime
       <h3 className="text-lg font-medium text-gray-900 mb-2">Recent Activity</h3>
       <div className="flow-root">
         <ul className="-mb-8">
-          {activities.map((activity, index) => (
-            <li key={activity.id}>
-              <div className="relative pb-8">
-                {index < activities.length - 1 && (
-                  <span
-                    className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                    aria-hidden="true"
-                  ></span>
-                )}
-                <div className="relative flex space-x-3">
-                  <div>
+          {activities.map((activity, index) => {
+            // Skip activities with invalid data
+            if (!activity || !activity.id || !activity.icon || !activity.iconBackground || !activity.createdAt) {
+              return null;
+            }
+            
+            return (
+              <li key={activity.id}>
+                <div className="relative pb-8">
+                  {index < activities.length - 1 && (
                     <span
-                      className={cn(
-                        "h-8 w-8 rounded-full flex items-center justify-center",
-                        getIconBackground(activity.iconBackground),
-                        getIconColor(activity.iconBackground)
-                      )}
-                    >
-                      {getIconComponent(activity.icon)}
-                    </span>
-                  </div>
-                  <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                      className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                      aria-hidden="true"
+                    ></span>
+                  )}
+                  <div className="relative flex space-x-3">
                     <div>
-                      <p className="text-sm text-gray-800">
-                        {activity.description}
-                      </p>
+                      <span
+                        className={cn(
+                          "h-8 w-8 rounded-full flex items-center justify-center",
+                          getIconBackground(activity.iconBackground),
+                          getIconColor(activity.iconBackground)
+                        )}
+                      >
+                        {getIconComponent(activity.icon)}
+                      </span>
                     </div>
-                    <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                      <time dateTime={activity.createdAt.toString()}>
-                        {formatActivityDate(new Date(activity.createdAt))}
-                      </time>
+                    <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                      <div>
+                        <p className="text-sm text-gray-800">
+                          {activity.description}
+                        </p>
+                      </div>
+                      <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                        <time dateTime={typeof activity.createdAt === 'string' ? activity.createdAt : activity.createdAt.toString()}>
+                          {formatActivityDate(new Date(activity.createdAt))}
+                        </time>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
