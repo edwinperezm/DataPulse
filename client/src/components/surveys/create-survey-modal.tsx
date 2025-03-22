@@ -221,7 +221,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[calc(100vh-200px)] overflow-y-auto my-auto">
         <DialogHeader>
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 mb-4">
             <BarChart2 className="h-6 w-6 text-primary-600" />
@@ -260,31 +260,34 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
               </Select>
             </div>
             
-            {/* Recipients */}
-            <div className="space-y-2">
-              <Label htmlFor="recipients">Recipients</Label>
-              <div className="flex rounded-md shadow-sm">
+            {/* Recipients and Deadline in a grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Recipients */}
+              <div className="space-y-2">
+                <Label htmlFor="recipients">Recipients</Label>
+                <div className="flex rounded-md shadow-sm">
+                  <Input
+                    type="text"
+                    id="recipients"
+                    value={selectedClient?.name || ""}
+                    placeholder="Select clients or groups"
+                    disabled
+                  />
+                </div>
+              </div>
+              
+              {/* Deadline */}
+              <div className="space-y-2">
+                <Label htmlFor="deadline">Response Deadline</Label>
                 <Input
-                  type="text"
-                  id="recipients"
-                  value={selectedClient?.name || ""}
-                  placeholder="Select clients or groups"
-                  disabled
+                  type="date"
+                  id="deadline"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  min={new Date().toISOString().split('T')[0]}
+                  required
                 />
               </div>
-            </div>
-            
-            {/* Deadline */}
-            <div className="space-y-2">
-              <Label htmlFor="deadline">Response Deadline</Label>
-              <Input
-                type="date"
-                id="deadline"
-                value={deadline}
-                onChange={(e) => setDeadline(e.target.value)}
-                min={new Date().toISOString().split('T')[0]}
-                required
-              />
             </div>
             
             {/* Questions Section */}
