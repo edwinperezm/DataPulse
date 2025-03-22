@@ -3,11 +3,13 @@ import { Client } from "@shared/schema";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useCreateSurvey, surveyTemplates, useAddSurveyRecipient } from "@/hooks/use-surveys";
-import { Loader, BarChart2 } from "lucide-react";
+import { Loader, BarChart2, Plus, Trash2, Edit2, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface CreateSurveyModalProps {
   isOpen: boolean;
@@ -15,13 +17,71 @@ interface CreateSurveyModalProps {
   selectedClient?: Client;
 }
 
+interface SurveyQuestion {
+  id: number;
+  text: string;
+  type: string;
+  options?: {
+    min?: number;
+    max?: number;
+    choices?: string[];
+  };
+}
+
 export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSurveyModalProps) {
   const [surveyType, setSurveyType] = useState("wtp");
   const [deadline, setDeadline] = useState("");
+  const [isEditingQuestions, setIsEditingQuestions] = useState(false);
+  const [customQuestions, setCustomQuestions] = useState<SurveyQuestion[]>([]);
+  const [editingQuestion, setEditingQuestion] = useState<SurveyQuestion | null>(null);
+  const [activeTab, setActiveTab] = useState<string>("template");
   
   const createSurvey = useCreateSurvey();
   const addRecipient = useAddSurveyRecipient();
   const { toast } = useToast();
+  
+  // When the survey type changes, reset custom questions
+  const handleSurveyTypeChange = (value: string) => {
+    setSurveyType(value);
+    if (value === "custom") {
+      setActiveTab("custom");
+      if (customQuestions.length === 0) {
+        // Initialize with one empty question
+        setCustomQuestions([
+          { id: 1, text: "", type: "text" }
+        ]);
+      }
+    } else {
+      setActiveTab("template");
+      // Load questions from template
+      const templateQuestions = surveyTemplates[value as keyof typeof surveyTemplates]?.questions || [];
+      setCustomQuestions([...templateQuestions]);
+    }
+    setIsEditingQuestions(false);
+  };
+  // Add a new question to the list
+  const handleAddQuestion = () => {
+    // Find the highest id number
+    const highestId = customQuestions.reduce((max, q) => Math.max(max, q.id), 0);
+    const newQuestion: SurveyQuestion = {
+      id: highestId + 1,
+      text: "",
+      type: "text"
+    };
+    setCustomQuestions([...customQuestions, newQuestion]);
+  };
+  
+  // Handle updating a question
+  const handleQuestionChange = (id: number, field: keyof SurveyQuestion, value: any) => {
+    setCustomQuestions(questions => 
+      questions.map(q => q.id === id ? { ...q, [field]: value } : q)
+    );
+  };
+  
+  // Handle removing a question
+  const handleRemoveQuestion = (id: number) => {
+    setCustomQuestions(questions => questions.filter(q => q.id !== id));
+  };
   
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -44,17 +104,54 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
       return;
     }
     
+    // Validate custom questions if using custom survey
+    if (surveyType === "custom" || isEditingQuestions) {
+      if (customQuestions.length === 0) {
+        toast({
+          title: "Error",
+          description: "Please add at least one question to your survey.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      const emptyQuestions = customQuestions.filter(q => !q.text.trim());
+      if (emptyQuestions.length > 0) {
+        toast({
+          title: "Error",
+          description: "Please fill in all question text fields.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+    
     try {
-      // Get template based on selected type
-      const template = surveyTemplates[surveyType as keyof typeof surveyTemplates];
+      let surveyTitle = "";
+      let questions = [];
+      
+      if (surveyType === "custom") {
+        surveyTitle = "Custom Survey";
+        questions = customQuestions;
+      } else if (isEditingQuestions) {
+        // Using a template but with custom edits
+        const template = surveyTemplates[surveyType as keyof typeof surveyTemplates];
+        surveyTitle = template.title;
+        questions = customQuestions;
+      } else {
+        // Using a template as is
+        const template = surveyTemplates[surveyType as keyof typeof surveyTemplates];
+        surveyTitle = template.title;
+        questions = template.questions;
+      }
       
       // Create the survey
       const survey = await createSurvey.mutateAsync({
         type: surveyType,
-        title: template.title,
+        title: surveyTitle,
         deadline: new Date(deadline),
         status: "active",
-        questions: template.questions
+        questions: questions
       });
       
       // Add recipient
@@ -99,7 +196,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
               <Label htmlFor="survey-type">Survey Type</Label>
               <Select
                 value={surveyType}
-                onValueChange={setSurveyType}
+                onValueChange={handleSurveyTypeChange}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select survey type" />
@@ -142,24 +239,150 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient }: CreateSur
               />
             </div>
             
-            {/* Questions Preview */}
+            {/* Questions Section */}
             <div className="space-y-2">
-              <Label>Questions Preview</Label>
-              <div className="bg-gray-50 p-3 rounded-md">
-                <ul className="space-y-2 text-sm">
-                  {surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions.map((q) => (
-                    <li key={q.id} className="flex items-center">
-                      <span className="text-primary-500 mr-2">●</span>
-                      <span>{q.text}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-2 text-right">
-                  <button type="button" className="text-primary-600 hover:text-primary-900 text-xs font-medium">
+              <div className="flex justify-between items-center">
+                <Label>Survey Questions</Label>
+                {!isEditingQuestions && surveyType !== 'custom' && (
+                  <button 
+                    type="button" 
+                    className="text-primary-600 hover:text-primary-900 text-xs font-medium"
+                    onClick={() => {
+                      // Load template questions into custom questions
+                      const templateQuestions = surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions || [];
+                      setCustomQuestions([...templateQuestions]);
+                      setIsEditingQuestions(true);
+                    }}
+                  >
+                    <Edit2 className="h-3 w-3 inline mr-1" />
                     Edit Questions
                   </button>
-                </div>
+                )}
               </div>
+              
+              {/* Questions view/edit mode */}
+              {(isEditingQuestions || surveyType === 'custom') ? (
+                <div className="bg-gray-50 p-4 rounded-md space-y-4">
+                  {/* Question List */}
+                  {customQuestions.map((question, index) => (
+                    <div key={question.id} className="bg-white p-3 rounded-md border space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium">Question {index + 1}</span>
+                        <button 
+                          type="button" 
+                          onClick={() => handleRemoveQuestion(question.id)}
+                          className="text-gray-400 hover:text-red-500"
+                          aria-label="Remove question"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor={`question-${question.id}`} className="text-xs">Question Text</Label>
+                        <Textarea
+                          id={`question-${question.id}`}
+                          value={question.text}
+                          onChange={(e) => handleQuestionChange(question.id, 'text', e.target.value)}
+                          placeholder="Enter your question here..."
+                          className="min-h-[60px]"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor={`question-type-${question.id}`} className="text-xs">Question Type</Label>
+                        <Select
+                          value={question.type}
+                          onValueChange={(value) => handleQuestionChange(question.id, 'type', value)}
+                        >
+                          <SelectTrigger id={`question-type-${question.id}`}>
+                            <SelectValue placeholder="Select question type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="text">Text Response</SelectItem>
+                            <SelectItem value="rating">Rating</SelectItem>
+                            <SelectItem value="select">Multiple Choice</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      {/* Show additional fields based on question type */}
+                      {question.type === 'rating' && (
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="space-y-1">
+                            <Label htmlFor={`min-${question.id}`} className="text-xs">Min Value</Label>
+                            <Input
+                              id={`min-${question.id}`}
+                              type="number"
+                              value={question.options?.min || 1}
+                              onChange={(e) => handleQuestionChange(
+                                question.id, 
+                                'options', 
+                                { ...question.options, min: Number(e.target.value) }
+                              )}
+                              min={0}
+                              max={10}
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label htmlFor={`max-${question.id}`} className="text-xs">Max Value</Label>
+                            <Input
+                              id={`max-${question.id}`}
+                              type="number"
+                              value={question.options?.max || 5}
+                              onChange={(e) => handleQuestionChange(
+                                question.id, 
+                                'options', 
+                                { ...question.options, max: Number(e.target.value) }
+                              )}
+                              min={1}
+                              max={10}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      
+                      {question.type === 'select' && (
+                        <div className="space-y-2">
+                          <Label className="text-xs">Options (comma separated)</Label>
+                          <Input
+                            type="text"
+                            value={(question.options?.choices || []).join(', ')}
+                            onChange={(e) => {
+                              const choices = e.target.value.split(',').map(c => c.trim()).filter(Boolean);
+                              handleQuestionChange(
+                                question.id, 
+                                'options', 
+                                { ...question.options, choices }
+                              );
+                            }}
+                            placeholder="Option 1, Option 2, Option 3"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {/* Add Question Button */}
+                  <button
+                    type="button"
+                    onClick={handleAddQuestion}
+                    className="w-full py-2 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-600"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add Question
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-gray-50 p-3 rounded-md">
+                  <ul className="space-y-2 text-sm">
+                    {surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions.map((q) => (
+                      <li key={q.id} className="flex items-center">
+                        <span className="text-primary-500 mr-2">●</span>
+                        <span>{q.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
           
