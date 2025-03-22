@@ -221,7 +221,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 mb-4">
             <BarChart2 className="h-6 w-6 text-primary-600" />
@@ -310,7 +310,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
               
               {/* Questions view/edit mode */}
               {(isEditingQuestions || surveyType === 'custom') ? (
-                <div className="bg-gray-50 p-4 rounded-md space-y-4 max-h-[400px] overflow-y-auto">
+                <div className="bg-gray-50 p-4 rounded-md space-y-4 max-h-[280px] overflow-y-auto">
                   {/* Question List */}
                   {customQuestions.map((question, index) => (
                     <div key={question.id} className="bg-white p-3 rounded-md border space-y-3">
