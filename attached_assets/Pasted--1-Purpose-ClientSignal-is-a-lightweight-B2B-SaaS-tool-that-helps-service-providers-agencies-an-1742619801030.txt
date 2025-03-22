@@ -1,0 +1,83 @@
+🧠 1. Purpose
+ClientSignal is a lightweight B2B SaaS tool that helps service providers, agencies, and SaaS teams monitor the health of client relationships using behavioral signals, sentiment trends, and micro-surveys (like WTP and CSAT). It empowers account teams to act before churn happens.
+
+🎯 2. Goals
+Deliver clear, visual insights into client health at a glance.
+
+Allow for rapid user feedback via micro-surveys.
+
+Provide AI-suggested next steps for account managers.
+
+Validate the concept through fast iteration and prototype testing.
+
+👥 3. Target Users
+Persona	Role	Pain Point	Goal
+Agency Owner	Manages clients	Doesn’t know which clients are at risk	Wants clarity to reduce churn
+Customer Success Manager	Handles support & relationships	Lacks real-time client signals	Wants alerts and insights
+Product Manager	Oversees feedback loops	Slow feedback on features/pricing	Wants fast, targeted feedback
+🧩 4. Key Features (MVP Scope)
+a) Client Dashboard
+List of all clients with signal color status (green/yellow/red)
+
+Activity snapshot (logins, time in app, feature usage)
+
+Quick actions: Message, Trigger Survey, Flag Client
+
+b) Client Detail View
+Deeper dive into activity/sentiment patterns
+
+Timeline of recent actions, support tickets, feedback
+
+"AI Coach" module: suggested actions (ex: “schedule a call”)
+
+c) Survey Center
+Create & launch micro-surveys (WTP, CSAT, NPS)
+
+Pre-built templates + AI-generated question sets
+
+Track responses in real-time
+
+d) Signals Engine (logic rules)
+Basic rules to flag changes in usage, sentiment drop, or NPS dips
+
+Optional integration with Slack/Email for notifications
+
+🧪 5. Validation Plan
+Clickable Figma prototype for initial feedback
+
+3–5 mock interviews with agency owners / CSMs
+
+Use WTP-style surveys to test if users would pay for this product
+
+Rapid iterations based on early impressions
+
+🛠 6. Tools & Tech
+Tool	Use
+Figma	UI Design & Prototypes
+Jitter / Lottie	Microinteractions
+AI Assistants	Generate content, layouts, suggested actions
+Notion or Typeform	For fake-survey simulation
+🎨 7. Visual Style
+UI Tone: Minimal, friendly, crisp – think Apple meets Slack
+
+Typography: Clean sans-serif (e.g., Inter, SF Pro)
+
+Color Scheme: White & soft grays with status highlights (green/yellow/red)
+
+Vibe: Confidence + warmth (no enterprise stiffness)
+
+🧠 8. AI Usage (Built-In or Process Support)
+Generate survey questions based on client feedback goals
+
+Suggest next actions based on sentiment analysis
+
+Assist designers with quick UI variation ideas (process AI use)
+
+✅ 9. Success Criteria
+Fast understanding of value prop within 30 seconds
+
+Users can easily send a survey within 3 clicks
+
+Clear visual differentiation from enterprise dashboards
+
+Initial test users say “I would use this” or “I know someone who needs this”
