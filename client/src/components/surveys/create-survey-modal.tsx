@@ -221,7 +221,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[calc(100vh-200px)] overflow-y-auto my-auto">
+      <DialogContent className="sm:max-w-[500px] max-h-[calc(100vh-200px)] overflow-y-auto flex flex-col">
         <DialogHeader>
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 mb-4">
             <BarChart2 className="h-6 w-6 text-primary-600" />
@@ -237,8 +237,8 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
           </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4 py-4">
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1">
+          <div className="space-y-4 py-4 flex-1">
             {/* Survey Type */}
             <div className="space-y-2">
               <Label htmlFor="survey-type">Survey Type</Label>
@@ -437,7 +437,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
             </div>
           </div>
           
-          <DialogFooter>
+          <div className="flex justify-end space-x-2 mt-4">
             <Button variant="outline" onClick={onClose} type="button">
               Cancel
             </Button>
@@ -456,7 +456,7 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
                 'Send Survey'
               )}
             </Button>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
