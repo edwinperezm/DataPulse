@@ -221,9 +221,9 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[calc(100vh-200px)] overflow-y-auto flex flex-col">
-        <DialogHeader>
-          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 mb-4">
+      <DialogContent className="sm:max-w-[500px]">
+        <div className="flex flex-col items-center text-center mb-4">
+          <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 mb-4">
             <BarChart2 className="h-6 w-6 text-primary-600" />
           </div>
           <DialogTitle className="text-center">
@@ -235,209 +235,208 @@ export function CreateSurveyModal({ isOpen, onClose, selectedClient, surveyToEdi
               : "Send a quick survey to gather feedback from your clients. Choose a template or create a custom survey."
             }
           </DialogDescription>
-        </DialogHeader>
+        </div>
         
-        <form onSubmit={handleSubmit} className="flex flex-col flex-1">
-          <div className="space-y-4 py-4 flex-1">
-            {/* Survey Type */}
-            <div className="space-y-2">
-              <Label htmlFor="survey-type">Survey Type</Label>
-              <Select
-                value={surveyType}
-                onValueChange={handleSurveyTypeChange}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select survey type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="wtp">Willingness To Pay (WTP)</SelectItem>
-                    <SelectItem value="csat">Customer Satisfaction (CSAT)</SelectItem>
-                    <SelectItem value="nps">Net Promoter Score (NPS)</SelectItem>
-                    <SelectItem value="custom">Custom Survey</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            {/* Recipients and Deadline in a grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* Recipients */}
-              <div className="space-y-2">
-                <Label htmlFor="recipients">Recipients</Label>
-                <div className="flex rounded-md shadow-sm">
-                  <Input
-                    type="text"
-                    id="recipients"
-                    value={selectedClient?.name || ""}
-                    placeholder="Select clients or groups"
-                    disabled
-                  />
-                </div>
-              </div>
-              
-              {/* Deadline */}
-              <div className="space-y-2">
-                <Label htmlFor="deadline">Response Deadline</Label>
+        <form onSubmit={handleSubmit} className="mt-4">
+          {/* Survey Type */}
+          <div className="mb-4">
+            <Label htmlFor="survey-type" className="mb-2 block">Survey Type</Label>
+            <Select
+              value={surveyType}
+              onValueChange={handleSurveyTypeChange}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select survey type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="wtp">Willingness To Pay (WTP)</SelectItem>
+                  <SelectItem value="csat">Customer Satisfaction (CSAT)</SelectItem>
+                  <SelectItem value="nps">Net Promoter Score (NPS)</SelectItem>
+                  <SelectItem value="custom">Custom Survey</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          {/* Recipients and Deadline in a grid */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            {/* Recipients */}
+            <div>
+              <Label htmlFor="recipients" className="mb-2 block">Recipients</Label>
+              <div className="flex rounded-md shadow-sm">
                 <Input
-                  type="date"
-                  id="deadline"
-                  value={deadline}
-                  onChange={(e) => setDeadline(e.target.value)}
-                  min={new Date().toISOString().split('T')[0]}
-                  required
+                  type="text"
+                  id="recipients"
+                  value={selectedClient?.name || ""}
+                  placeholder="Select clients or groups"
+                  disabled
                 />
               </div>
             </div>
             
-            {/* Questions Section */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <Label>Survey Questions</Label>
-                {!isEditingQuestions && surveyType !== 'custom' && (
-                  <button 
-                    type="button" 
-                    className="text-primary-600 hover:text-primary-900 text-xs font-medium"
-                    onClick={() => {
-                      // Load template questions into custom questions
-                      const templateQuestions = surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions || [];
-                      setCustomQuestions([...templateQuestions]);
-                      setIsEditingQuestions(true);
-                    }}
-                  >
-                    <Edit2 className="h-3 w-3 inline mr-1" />
-                    Edit Questions
-                  </button>
-                )}
-              </div>
-              
-              {/* Questions view/edit mode */}
-              {(isEditingQuestions || surveyType === 'custom') ? (
-                <div className="bg-gray-50 p-4 rounded-md space-y-4 max-h-[280px] overflow-y-auto">
-                  {/* Question List */}
-                  {customQuestions.map((question, index) => (
-                    <div key={question.id} className="bg-white p-3 rounded-md border space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">Question {index + 1}</span>
-                        <button 
-                          type="button" 
-                          onClick={() => handleRemoveQuestion(question.id)}
-                          className="text-gray-400 hover:text-red-500"
-                          aria-label="Remove question"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`question-${question.id}`} className="text-xs">Question Text</Label>
-                        <Textarea
-                          id={`question-${question.id}`}
-                          value={question.text}
-                          onChange={(e) => handleQuestionChange(question.id, 'text', e.target.value)}
-                          placeholder="Enter your question here..."
-                          className="min-h-[60px]"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`question-type-${question.id}`} className="text-xs">Question Type</Label>
-                        <Select
-                          value={question.type}
-                          onValueChange={(value) => handleQuestionChange(question.id, 'type', value)}
-                        >
-                          <SelectTrigger id={`question-type-${question.id}`}>
-                            <SelectValue placeholder="Select question type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="text">Text Response</SelectItem>
-                            <SelectItem value="rating">Rating</SelectItem>
-                            <SelectItem value="select">Multiple Choice</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      
-                      {/* Show additional fields based on question type */}
-                      {question.type === 'rating' && (
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="space-y-1">
-                            <Label htmlFor={`min-${question.id}`} className="text-xs">Min Value</Label>
-                            <Input
-                              id={`min-${question.id}`}
-                              type="number"
-                              value={question.options?.min || 1}
-                              onChange={(e) => handleQuestionChange(
-                                question.id, 
-                                'options', 
-                                { ...question.options, min: Number(e.target.value) }
-                              )}
-                              min={0}
-                              max={10}
-                            />
-                          </div>
-                          <div className="space-y-1">
-                            <Label htmlFor={`max-${question.id}`} className="text-xs">Max Value</Label>
-                            <Input
-                              id={`max-${question.id}`}
-                              type="number"
-                              value={question.options?.max || 5}
-                              onChange={(e) => handleQuestionChange(
-                                question.id, 
-                                'options', 
-                                { ...question.options, max: Number(e.target.value) }
-                              )}
-                              min={1}
-                              max={10}
-                            />
-                          </div>
-                        </div>
-                      )}
-                      
-                      {question.type === 'select' && (
-                        <div className="space-y-2">
-                          <Label className="text-xs">Options (comma separated)</Label>
-                          <Input
-                            type="text"
-                            value={(question.options?.choices || []).join(', ')}
-                            onChange={(e) => {
-                              const choices = e.target.value.split(',').map(c => c.trim()).filter(Boolean);
-                              handleQuestionChange(
-                                question.id, 
-                                'options', 
-                                { ...question.options, choices }
-                              );
-                            }}
-                            placeholder="Option 1, Option 2, Option 3"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                  
-                  {/* Add Question Button */}
-                  <button
-                    type="button"
-                    onClick={handleAddQuestion}
-                    className="w-full py-2 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-600"
-                  >
-                    <Plus className="h-4 w-4 mr-1" />
-                    Add Question
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-gray-50 p-3 rounded-md">
-                  <ul className="space-y-2 text-sm">
-                    {surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions.map((q) => (
-                      <li key={q.id} className="flex items-center">
-                        <span className="text-primary-500 mr-2">●</span>
-                        <span>{q.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            {/* Deadline */}
+            <div>
+              <Label htmlFor="deadline" className="mb-2 block">Response Deadline</Label>
+              <Input
+                type="date"
+                id="deadline"
+                value={deadline}
+                onChange={(e) => setDeadline(e.target.value)}
+                min={new Date().toISOString().split('T')[0]}
+                required
+              />
             </div>
           </div>
           
-          <div className="flex justify-end space-x-2 mt-4">
+          {/* Questions Section */}
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <Label>Survey Questions</Label>
+              {!isEditingQuestions && surveyType !== 'custom' && (
+                <button 
+                  type="button" 
+                  className="text-primary-600 hover:text-primary-900 text-xs font-medium"
+                  onClick={() => {
+                    // Load template questions into custom questions
+                    const templateQuestions = surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions || [];
+                    setCustomQuestions([...templateQuestions]);
+                    setIsEditingQuestions(true);
+                  }}
+                >
+                  <Edit2 className="h-3 w-3 inline mr-1" />
+                  Edit Questions
+                </button>
+              )}
+            </div>
+            
+            {/* Questions view/edit mode */}
+            {(isEditingQuestions || surveyType === 'custom') ? (
+              <div className="bg-gray-50 p-4 rounded-md space-y-4 max-h-[280px] overflow-y-auto">
+                {/* Question List */}
+                {customQuestions.map((question, index) => (
+                  <div key={question.id} className="bg-white p-3 rounded-md border space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Question {index + 1}</span>
+                      <button 
+                        type="button" 
+                        onClick={() => handleRemoveQuestion(question.id)}
+                        className="text-gray-400 hover:text-red-500"
+                        aria-label="Remove question"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor={`question-${question.id}`} className="text-xs">Question Text</Label>
+                      <Textarea
+                        id={`question-${question.id}`}
+                        value={question.text}
+                        onChange={(e) => handleQuestionChange(question.id, 'text', e.target.value)}
+                        placeholder="Enter your question here..."
+                        className="min-h-[60px]"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor={`question-type-${question.id}`} className="text-xs">Question Type</Label>
+                      <Select
+                        value={question.type}
+                        onValueChange={(value) => handleQuestionChange(question.id, 'type', value)}
+                      >
+                        <SelectTrigger id={`question-type-${question.id}`}>
+                          <SelectValue placeholder="Select question type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="text">Text Response</SelectItem>
+                          <SelectItem value="rating">Rating</SelectItem>
+                          <SelectItem value="select">Multiple Choice</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    {/* Show additional fields based on question type */}
+                    {question.type === 'rating' && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="space-y-1">
+                          <Label htmlFor={`min-${question.id}`} className="text-xs">Min Value</Label>
+                          <Input
+                            id={`min-${question.id}`}
+                            type="number"
+                            value={question.options?.min || 1}
+                            onChange={(e) => handleQuestionChange(
+                              question.id, 
+                              'options', 
+                              { ...question.options, min: Number(e.target.value) }
+                            )}
+                            min={0}
+                            max={10}
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <Label htmlFor={`max-${question.id}`} className="text-xs">Max Value</Label>
+                          <Input
+                            id={`max-${question.id}`}
+                            type="number"
+                            value={question.options?.max || 5}
+                            onChange={(e) => handleQuestionChange(
+                              question.id, 
+                              'options', 
+                              { ...question.options, max: Number(e.target.value) }
+                            )}
+                            min={1}
+                            max={10}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    
+                    {question.type === 'select' && (
+                      <div className="space-y-2">
+                        <Label className="text-xs">Options (comma separated)</Label>
+                        <Input
+                          type="text"
+                          value={(question.options?.choices || []).join(', ')}
+                          onChange={(e) => {
+                            const choices = e.target.value.split(',').map(c => c.trim()).filter(Boolean);
+                            handleQuestionChange(
+                              question.id, 
+                              'options', 
+                              { ...question.options, choices }
+                            );
+                          }}
+                          placeholder="Option 1, Option 2, Option 3"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+                
+                {/* Add Question Button */}
+                <button
+                  type="button"
+                  onClick={handleAddQuestion}
+                  className="w-full py-2 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-600"
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  Add Question
+                </button>
+              </div>
+            ) : (
+              <div className="bg-gray-50 p-3 rounded-md">
+                <ul className="space-y-2 text-sm">
+                  {surveyTemplates[surveyType as keyof typeof surveyTemplates]?.questions.map((q) => (
+                    <li key={q.id} className="flex items-center">
+                      <span className="text-primary-500 mr-2">●</span>
+                      <span>{q.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          
+          {/* Footer */}
+          <div className="flex justify-end space-x-2 pt-2 border-t">
             <Button variant="outline" onClick={onClose} type="button">
               Cancel
             </Button>
