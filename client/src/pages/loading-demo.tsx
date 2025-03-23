@@ -14,22 +14,22 @@ export default function LoadingDemo() {
   const [customText, setCustomText] = useState("Loading...");
   
   return (
-    <div className="container mx-auto py-8 bg-gray-50 min-h-screen">
+    <div className="container mx-auto py-8 bg-apple-lightgray min-h-screen animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Loading Spinners</h1>
-        <p className="text-gray-500 mt-1">Customizable loading indicators for the application</p>
+        <h1 className="text-3xl font-bold-onse-bold text-apple-black tracking-tight">Loading Spinners</h1>
+        <p className="text-apple-darkgray mt-2 font-boldonse">Customizable loading indicators for the application</p>
       </div>
       
-      <div className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm mb-8">
-        <h2 className="text-xl font-semibold mb-4">Spinner Configuration</h2>
+      <div className="bg-white/80 backdrop-blur-md p-7 rounded-3xl shadow-apple-sm mb-8 border border-white/20 animate-slide-up">
+        <h2 className="text-xl font-bold-onse-bold text-apple-black tracking-tight mb-5">Spinner Configuration</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <Label htmlFor="spinner-type" className="mb-2 block">Color Variant</Label>
+            <Label htmlFor="spinner-type" className="mb-2 block font-boldonse text-apple-darkgray">Color Variant</Label>
             <Select value={spinnerType} onValueChange={(val: any) => setSpinnerType(val)}>
-              <SelectTrigger id="spinner-type">
+              <SelectTrigger id="spinner-type" className="rounded-xl border-gray-200 focus:ring-apple-blue">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-xl border-gray-200">
                 <SelectItem value="default">Default (Brand)</SelectItem>
                 <SelectItem value="primary">Primary (Blue)</SelectItem>
                 <SelectItem value="secondary">Secondary (Indigo)</SelectItem>
@@ -40,17 +40,32 @@ export default function LoadingDemo() {
           
           <div className="flex items-center space-x-4 pt-7">
             <Switch id="hide-icon" checked={hideIcon} onCheckedChange={setHideIcon} />
-            <Label htmlFor="hide-icon">Hide center icon</Label>
+            <Label htmlFor="hide-icon" className="font-boldonse text-apple-black">Hide center icon</Label>
           </div>
           
-          <div className="flex items-center space-x-4 pt-7">
-            <Button variant="outline" size="sm" onClick={() => setCustomText("Processing...")}>
+          <div className="flex items-center space-x-3 pt-7">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setCustomText("Processing...")}
+              className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
+            >
               Processing...
             </Button>
-            <Button variant="outline" size="sm" onClick={() => setCustomText("Please wait...")}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setCustomText("Please wait...")}
+              className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
+            >
               Please wait...
             </Button>
-            <Button variant="outline" size="sm" onClick={() => setCustomText("Loading...")}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setCustomText("Loading...")}
+              className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
+            >
               Reset
             </Button>
           </div>
@@ -58,23 +73,23 @@ export default function LoadingDemo() {
       </div>
       
       <Tabs defaultValue="standard" className="w-full mb-10">
-        <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
-          <TabsTrigger value="standard">Standard Spinner</TabsTrigger>
-          <TabsTrigger value="premium">Premium Spinner</TabsTrigger>
+        <TabsList className="grid w-full max-w-md grid-cols-2 mb-6 bg-white/60 backdrop-blur-sm rounded-2xl p-1">
+          <TabsTrigger value="standard" className="rounded-xl data-[state=active]:bg-white data-[state=active]:text-apple-black data-[state=active]:shadow-apple-sm font-boldonse">Standard Spinner</TabsTrigger>
+          <TabsTrigger value="premium" className="rounded-xl data-[state=active]:bg-white data-[state=active]:text-apple-black data-[state=active]:shadow-apple-sm font-boldonse">Premium Spinner</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="standard">
-          <Card>
-            <CardHeader>
-              <CardTitle>Standard Branded Spinner</CardTitle>
-              <CardDescription>
+        <TabsContent value="standard" className="animate-scale-in">
+          <Card className="border-0 shadow-apple-sm rounded-3xl bg-white/80 backdrop-blur-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-apple-black font-bold-onse-bold tracking-tight">Standard Branded Spinner</CardTitle>
+              <CardDescription className="text-apple-darkgray font-boldonse">
                 Simple branded loading spinner with configurable sizes and colors
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-10">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
-                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[180px] justify-center">
-                  <p className="text-sm font-medium mb-4">Small</p>
+                <div className="flex flex-col items-center bg-white/60 p-6 border border-white/20 rounded-2xl h-[180px] justify-center shadow-apple-sm hover:shadow-apple-md transition-shadow">
+                  <p className="text-sm font-boldonse font-medium text-apple-black mb-4">Small</p>
                   <BrandedSpinner 
                     size="small" 
                     type={spinnerType}
@@ -82,8 +97,8 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[180px] justify-center">
-                  <p className="text-sm font-medium mb-4">Medium</p>
+                <div className="flex flex-col items-center bg-white/60 p-6 border border-white/20 rounded-2xl h-[180px] justify-center shadow-apple-sm hover:shadow-apple-md transition-shadow">
+                  <p className="text-sm font-boldonse font-medium text-apple-black mb-4">Medium</p>
                   <BrandedSpinner 
                     size="medium" 
                     type={spinnerType}
@@ -91,8 +106,8 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[180px] justify-center">
-                  <p className="text-sm font-medium mb-4">Large</p>
+                <div className="flex flex-col items-center bg-white/60 p-6 border border-white/20 rounded-2xl h-[180px] justify-center shadow-apple-sm hover:shadow-apple-md transition-shadow">
+                  <p className="text-sm font-boldonse font-medium text-apple-black mb-4">Large</p>
                   <BrandedSpinner 
                     size="large" 
                     type={spinnerType}
@@ -103,7 +118,7 @@ export default function LoadingDemo() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-                <Card className="p-6 flex flex-col items-center justify-center h-[160px] border border-gray-200 bg-white">
+                <Card className="p-6 flex flex-col items-center justify-center h-[160px] border-0 bg-white/60 backdrop-blur-sm rounded-2xl shadow-apple-sm">
                   <BrandedSpinner 
                     size="small" 
                     type={spinnerType}
@@ -112,10 +127,10 @@ export default function LoadingDemo() {
                   />
                 </Card>
                 
-                <Card className="p-6 flex flex-col space-y-4 border border-gray-200 bg-white h-[160px] justify-center">
-                  <h3 className="font-medium">Loading Button Example</h3>
+                <Card className="p-6 flex flex-col space-y-4 border-0 bg-white/60 backdrop-blur-sm h-[160px] justify-center rounded-2xl shadow-apple-sm">
+                  <h3 className="font-boldonse font-medium text-apple-black">Loading Button Example</h3>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button className="relative" disabled>
+                    <Button className="relative rounded-xl font-boldonse shadow-apple-sm" disabled>
                       <BrandedSpinner
                         size="small"
                         showText={false}
@@ -126,7 +141,7 @@ export default function LoadingDemo() {
                       <span className="ml-8">Loading...</span>
                     </Button>
                     
-                    <Button variant="outline" className="relative" disabled>
+                    <Button variant="outline" className="relative rounded-xl font-boldonse border-gray-200" disabled>
                       <BrandedSpinner
                         size="small"
                         showText={false}
@@ -143,18 +158,18 @@ export default function LoadingDemo() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="premium">
-          <Card>
-            <CardHeader>
-              <CardTitle>Premium Branded Spinner</CardTitle>
-              <CardDescription>
+        <TabsContent value="premium" className="animate-scale-in">
+          <Card className="border-0 shadow-apple-sm rounded-3xl bg-white/80 backdrop-blur-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-apple-black font-bold-onse-bold tracking-tight">Premium Branded Spinner</CardTitle>
+              <CardDescription className="text-apple-darkgray font-boldonse">
                 Advanced animation with multiple layers, glow effects and customization options
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-10">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
-                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[220px] justify-center">
-                  <p className="text-sm font-medium mb-4">Small</p>
+                <div className="flex flex-col items-center bg-white/60 p-6 border border-white/20 rounded-2xl h-[220px] justify-center shadow-apple-sm hover:shadow-apple-md transition-shadow">
+                  <p className="text-sm font-boldonse font-medium text-apple-black mb-4">Small</p>
                   <BrandedSpinnerPro 
                     size="small" 
                     type={spinnerType}
@@ -162,8 +177,8 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[220px] justify-center">
-                  <p className="text-sm font-medium mb-4">Medium</p>
+                <div className="flex flex-col items-center bg-white/60 p-6 border border-white/20 rounded-2xl h-[220px] justify-center shadow-apple-sm hover:shadow-apple-md transition-shadow">
+                  <p className="text-sm font-boldonse font-medium text-apple-black mb-4">Medium</p>
                   <BrandedSpinnerPro 
                     size="medium" 
                     type={spinnerType}
@@ -171,8 +186,8 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[220px] justify-center">
-                  <p className="text-sm font-medium mb-4">Large</p>
+                <div className="flex flex-col items-center bg-white/60 p-6 border border-white/20 rounded-2xl h-[220px] justify-center shadow-apple-sm hover:shadow-apple-md transition-shadow">
+                  <p className="text-sm font-boldonse font-medium text-apple-black mb-4">Large</p>
                   <BrandedSpinnerPro 
                     size="large" 
                     type={spinnerType}
@@ -183,7 +198,7 @@ export default function LoadingDemo() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-                <Card className="p-6 flex flex-col items-center justify-center h-[180px] border border-gray-200 bg-white">
+                <Card className="p-6 flex flex-col items-center justify-center h-[180px] border-0 bg-white/60 backdrop-blur-sm rounded-2xl shadow-apple-sm">
                   <BrandedSpinnerPro 
                     size="small" 
                     type={spinnerType} 
@@ -192,7 +207,7 @@ export default function LoadingDemo() {
                   />
                 </Card>
                 
-                <Card className="p-6 flex items-center justify-center h-[180px] border border-gray-200 bg-white">
+                <Card className="p-6 flex items-center justify-center h-[180px] border-0 bg-white/60 backdrop-blur-sm rounded-2xl shadow-apple-sm">
                   <div className="text-center">
                     <BrandedSpinnerPro 
                       size="medium" 
@@ -200,7 +215,7 @@ export default function LoadingDemo() {
                       hideIcon={hideIcon}
                       text="Generating report..."
                     />
-                    <p className="text-xs text-gray-500 mt-4">
+                    <p className="text-xs font-boldonse text-apple-darkgray mt-4">
                       This may take a few moments
                     </p>
                   </div>
@@ -211,19 +226,19 @@ export default function LoadingDemo() {
         </TabsContent>
       </Tabs>
       
-      <Card className="border border-gray-200 shadow-sm mb-6">
-        <CardHeader>
-          <CardTitle>Integration Examples</CardTitle>
-          <CardDescription>
+      <Card className="border-0 shadow-apple-sm rounded-3xl bg-white/80 backdrop-blur-md mb-8 animate-slide-up">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-apple-black font-bold-onse-bold tracking-tight">Integration Examples</CardTitle>
+          <CardDescription className="text-apple-darkgray font-boldonse">
             How to use the spinners in different UI contexts
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-6 flex flex-col border border-gray-200 bg-white h-[180px]">
+            <Card className="p-6 flex flex-col border-0 bg-white/60 backdrop-blur-sm rounded-2xl shadow-apple-sm h-[180px]">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium">Dashboard Widget</h3>
-                <div className="text-gray-400 text-xs">Updating...</div>
+                <h3 className="font-boldonse font-medium text-apple-black">Dashboard Widget</h3>
+                <div className="text-apple-darkgray text-xs font-boldonse">Updating...</div>
               </div>
               <div className="flex-1 flex items-center justify-center">
                 <BrandedSpinner 
@@ -235,9 +250,9 @@ export default function LoadingDemo() {
               </div>
             </Card>
             
-            <Card className="p-6 flex flex-col border border-gray-200 bg-white h-[180px]">
+            <Card className="p-6 flex flex-col border-0 bg-white/60 backdrop-blur-sm rounded-2xl shadow-apple-sm h-[180px]">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium">Page Transition</h3>
+                <h3 className="font-boldonse font-medium text-apple-black">Page Transition</h3>
               </div>
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center">
@@ -251,17 +266,17 @@ export default function LoadingDemo() {
               </div>
             </Card>
             
-            <Card className="p-6 flex flex-col border border-gray-200 bg-white h-[180px]">
+            <Card className="p-6 flex flex-col border-0 bg-white/60 backdrop-blur-sm rounded-2xl shadow-apple-sm h-[180px]">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium">Form Submission</h3>
+                <h3 className="font-boldonse font-medium text-apple-black">Form Submission</h3>
               </div>
               <div className="space-y-3 mb-4">
-                <div className="h-2 bg-gray-100 rounded animate-pulse"></div>
-                <div className="h-2 bg-gray-100 rounded animate-pulse"></div>
-                <div className="h-2 bg-gray-100 rounded w-3/4 animate-pulse"></div>
+                <div className="h-2 bg-apple-gray/50 rounded-full animate-pulse"></div>
+                <div className="h-2 bg-apple-gray/50 rounded-full animate-pulse"></div>
+                <div className="h-2 bg-apple-gray/50 rounded-full w-3/4 animate-pulse"></div>
               </div>
               <div className="flex-1 flex items-end justify-end">
-                <Button disabled className="relative">
+                <Button disabled className="relative rounded-xl font-boldonse shadow-apple-sm">
                   <BrandedSpinner
                     size="small"
                     showText={false}
@@ -277,8 +292,8 @@ export default function LoadingDemo() {
         </CardContent>
       </Card>
       
-      <div className="text-center text-gray-500 text-sm">
-        Use <code className="bg-gray-100 px-1 py-0.5 rounded">BrandedSpinner</code> or <code className="bg-gray-100 px-1 py-0.5 rounded">BrandedSpinnerPro</code> components for consistent loading indicators throughout the application.
+      <div className="text-center text-apple-darkgray text-sm font-boldonse pb-8">
+        Use <code className="bg-white/60 px-2 py-0.5 rounded-lg shadow-apple-sm">BrandedSpinner</code> or <code className="bg-white/60 px-2 py-0.5 rounded-lg shadow-apple-sm">BrandedSpinnerPro</code> components for consistent loading indicators throughout the application.
       </div>
     </div>
   );
