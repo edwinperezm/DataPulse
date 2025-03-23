@@ -27,23 +27,27 @@ const Widget = ({
   children
 }: WidgetProps) => {
   return (
-    <Card className={`w-full h-full overflow-hidden flex flex-col ${className}`}>
-      <CardHeader className="py-3 px-4 flex flex-row items-center justify-between bg-gray-50 border-b">
+    <Card className={`w-full h-full overflow-hidden flex flex-col shadow-sm border-gray-200 ${className}`}>
+      <CardHeader className="py-3 px-4 flex flex-row items-center justify-between bg-white border-b">
         <div>
-          <CardTitle className="text-md font-medium">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <CardTitle className="text-md font-medium text-gray-800">{title}</CardTitle>
+          {description && (
+            <CardDescription className="text-xs text-gray-500 mt-0.5">
+              {description}
+            </CardDescription>
+          )}
         </div>
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className="h-7 w-7 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full"
           onClick={onToggleExpand}
           title={expanded ? "Collapse" : "Expand"}
         >
           {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
         </Button>
       </CardHeader>
-      <CardContent className="flex-1 overflow-auto p-4">
+      <CardContent className="flex-1 overflow-auto p-4 bg-white">
         {children}
       </CardContent>
     </Card>
@@ -101,26 +105,56 @@ export default function WidgetDashboard() {
   // Update width on window resize
   useEffect(() => {
     const updateWidth = () => {
-      // Get the container width with a 32px buffer for padding
+      // Get the container width with padding adjustments
       const containerElem = document.querySelector('.grid-container');
       if (containerElem) {
-        setWidth(containerElem.clientWidth - 32);
+        const containerWidth = containerElem.clientWidth;
+        // Adjust width based on container size, subtracting padding
+        setWidth(Math.max(containerWidth - 32, 320)); // Ensure minimum width of 320px
       } else {
         // Fallback if container not found yet
         const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        // Adjust based on viewport size (90% of viewport on mobile, 95% on larger screens)
-        setWidth(viewportWidth < 768 ? viewportWidth * 0.9 : viewportWidth * 0.95);
+        // More conservative width calculation for better fit
+        const calculatedWidth = viewportWidth < 768 
+          ? Math.min(viewportWidth - 40, 500) // Mobile: narrower with 20px padding on each side
+          : viewportWidth < 1024
+            ? Math.min(viewportWidth - 80, 800) // Tablet: medium width
+            : Math.min(viewportWidth - 120, 1200); // Desktop: wider layout
+
+        setWidth(Math.max(calculatedWidth, 320)); // Ensure minimum width
       }
     };
     
-    // Set initial width
-    updateWidth();
+    // Set initial width after a short delay to ensure container is rendered
+    setTimeout(updateWidth, 100);
     
     // Add event listener for resize
     window.addEventListener('resize', updateWidth);
     
     // Clean up event listener
     return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+  
+  // Handle layout change with size adjustments for better responsiveness
+  useEffect(() => {
+    // Adjust layout based on screen size
+    const handleScreenSizeChange = () => {
+      const viewportWidth = window.innerWidth;
+      if (viewportWidth < 768) {
+        // Mobile layout: stack widgets vertically
+        setLayout([
+          { i: 'clients', x: 0, y: 0, w: 12, h: 2, minW: 3, minH: 2 },
+          { i: 'activity', x: 0, y: 2, w: 12, h: 2, minW: 3, minH: 2 },
+          { i: 'surveys', x: 0, y: 4, w: 12, h: 3, minW: 3, minH: 2 },
+          { i: 'metrics', x: 0, y: 7, w: 12, h: 3, minW: 4, minH: 2 },
+        ]);
+      }
+    };
+    
+    // Call once on component mount
+    handleScreenSizeChange();
+    
+    // No need to add resize listener here as the width effect already handles it
   }, []);
 
   // Sample content for widgets
@@ -192,24 +226,33 @@ export default function WidgetDashboard() {
   );
 
   return (
-    <div className="container mx-auto py-6 px-4">
+    <div className="container mx-auto py-6 px-4 bg-gray-50 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Customizable Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Customizable Dashboard</h1>
         <p className="text-gray-500 mt-1">
           Drag and resize widgets to customize your dashboard layout
         </p>
       </div>
 
-      <div className="bg-gray-100 p-4 rounded-lg mb-6">
-        <p className="text-sm font-medium mb-2">Instructions:</p>
-        <ul className="list-disc pl-5 text-sm text-gray-600 space-y-1">
-          <li>Drag widgets by their header to reposition</li>
-          <li>Resize widgets by dragging the bottom-right corner</li>
-          <li>Click the expand/collapse button to toggle widget size</li>
-        </ul>
+      <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg mb-6">
+        <div className="flex items-start">
+          <div className="flex-shrink-0 pt-0.5">
+            <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <div className="ml-3">
+            <p className="text-sm font-medium text-blue-800 mb-2">Instructions:</p>
+            <ul className="list-disc pl-5 text-xs text-blue-700 space-y-1">
+              <li>Drag widgets by their header to reposition</li>
+              <li>Resize widgets by dragging the bottom-right corner</li>
+              <li>Click the expand/collapse button to toggle widget size</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div className="bg-white p-1 border rounded-lg grid-container">
+      <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm grid-container">
         <GridLayout
           className="layout"
           layout={layout}
@@ -222,6 +265,7 @@ export default function WidgetDashboard() {
           margin={[16, 16]}
           containerPadding={[16, 16]}
           resizeHandles={['se']}
+          isBounded={true}
         >
           <div key="clients">
             <Widget
