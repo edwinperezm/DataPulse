@@ -17,7 +17,7 @@ interface WidgetProps {
   children: React.ReactNode;
 }
 
-// Widget component that can be expanded/collapsed
+// Widget component that can be expanded/collapsed with Apple-style design
 const Widget = ({
   title,
   description,
@@ -27,12 +27,12 @@ const Widget = ({
   children
 }: WidgetProps) => {
   return (
-    <Card className={`w-full h-full overflow-hidden flex flex-col shadow-sm border-gray-200 ${className}`}>
-      <CardHeader className="py-3 px-4 flex flex-row items-center justify-between bg-white border-b">
+    <Card className={`w-full h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-apple-sm border-0 hover:shadow-apple-md transition-all duration-300 ${className}`}>
+      <CardHeader className="py-3 px-5 flex flex-row items-center justify-between bg-transparent">
         <div>
-          <CardTitle className="text-md font-medium text-gray-800">{title}</CardTitle>
+          <CardTitle className="text-md font-bold-onse-bold text-apple-black">{title}</CardTitle>
           {description && (
-            <CardDescription className="text-xs text-gray-500 mt-0.5">
+            <CardDescription className="text-xs text-apple-darkgray mt-0.5 font-boldonse">
               {description}
             </CardDescription>
           )}
@@ -40,14 +40,14 @@ const Widget = ({
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+          className="h-8 w-8 text-apple-darkgray hover:text-apple-black hover:bg-white/40 rounded-full transition-colors"
           onClick={onToggleExpand}
           title={expanded ? "Collapse" : "Expand"}
         >
           {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
         </Button>
       </CardHeader>
-      <CardContent className="flex-1 overflow-auto p-4 bg-white">
+      <CardContent className="flex-1 overflow-auto p-5 bg-transparent">
         {children}
       </CardContent>
     </Card>
@@ -180,32 +180,32 @@ export default function WidgetDashboard() {
     return () => window.removeEventListener('resize', handleScreenSizeChange);
   }, []);
 
-  // Sample content for widgets
+  // Sample content for widgets with Apple-style design
   const clientListContent = (
     <div className="space-y-4">
-      <div className="border rounded overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-hidden rounded-xl bg-white/60 backdrop-blur-sm">
+        <table className="min-w-full divide-y divide-gray-100">
+          <thead className="bg-apple-gray/30">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
+              <th className="px-4 py-3 text-left text-xs font-boldonse text-apple-darkgray uppercase tracking-wider">Client</th>
+              <th className="px-4 py-3 text-left text-xs font-boldonse text-apple-darkgray uppercase tracking-wider">Status</th>
+              <th className="px-4 py-3 text-left text-xs font-boldonse text-apple-darkgray uppercase tracking-wider">Revenue</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-transparent divide-y divide-gray-100">
             {clientStatusData.map((client, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{client.name}</td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                    ${client.status === 'healthy' ? 'bg-green-100 text-green-800' : 
-                      client.status === 'needs-attention' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'}`}>
+              <tr key={index} className="hover:bg-white/40 transition-colors">
+                <td className="px-4 py-3 whitespace-nowrap text-sm font-boldonse font-medium text-apple-black">{client.name}</td>
+                <td className="px-4 py-3 whitespace-nowrap text-sm">
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-boldonse
+                    ${client.status === 'healthy' ? 'bg-green-100/70 text-green-700' : 
+                      client.status === 'needs-attention' ? 'bg-yellow-100/70 text-yellow-700' :
+                      'bg-red-100/70 text-red-700'}`}>
                     {client.status === 'healthy' ? 'Healthy' : 
                      client.status === 'needs-attention' ? 'Needs Attention' : 'At Risk'}
                   </span>
                 </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{client.revenue}</td>
+                <td className="px-4 py-3 whitespace-nowrap text-sm font-boldonse text-apple-darkgray">{client.revenue}</td>
               </tr>
             ))}
           </tbody>
@@ -217,15 +217,15 @@ export default function WidgetDashboard() {
   const activityContent = (
     <div className="space-y-3">
       {recentActivities.map((activity, index) => (
-        <div key={index} className="flex items-start space-x-4 py-2 border-b last:border-0">
-          <div className="bg-primary-50 p-2 rounded-full">
-            <Activity className="h-5 w-5 text-primary-500" />
+        <div key={index} className="flex items-start space-x-4 py-3 px-2 border-b border-gray-100 last:border-0 hover:bg-white/40 rounded-xl transition-colors">
+          <div className="bg-apple-blue/10 p-2.5 rounded-full">
+            <Activity className="h-5 w-5 text-apple-blue" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{activity.client}</p>
-            <p className="text-sm text-gray-500">{activity.description}</p>
+            <p className="text-sm font-boldonse font-medium text-apple-black truncate">{activity.client}</p>
+            <p className="text-sm font-boldonse text-apple-darkgray">{activity.description}</p>
           </div>
-          <div className="text-xs text-gray-400">{activity.date}</div>
+          <div className="text-xs font-boldonse text-apple-darkgray">{activity.date}</div>
         </div>
       ))}
     </div>
@@ -235,7 +235,7 @@ export default function WidgetDashboard() {
     <div className="flex flex-col items-center justify-center h-full">
       <div className="text-center space-y-4">
         <BrandedSpinner />
-        <div className="text-gray-500 text-sm">Loading survey data...</div>
+        <div className="text-apple-darkgray text-sm font-boldonse">Loading survey data...</div>
       </div>
     </div>
   );
@@ -249,24 +249,24 @@ export default function WidgetDashboard() {
   );
 
   return (
-    <div className="container mx-auto py-6 px-4 bg-gray-50 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Customizable Dashboard</h1>
-        <p className="text-gray-500 mt-1">
+    <div className="container mx-auto py-6 px-4 bg-apple-lightgray min-h-screen animate-fade-in">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold-onse-bold text-apple-black tracking-tight">Customizable Dashboard</h1>
+        <p className="text-apple-darkgray mt-2 font-boldonse">
           Drag and resize widgets to customize your dashboard layout
         </p>
       </div>
 
-      <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg mb-6">
+      <div className="bg-white/60 backdrop-blur-md p-5 rounded-2xl shadow-apple-sm mb-8 border border-white/20">
         <div className="flex items-start">
           <div className="flex-shrink-0 pt-0.5">
-            <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg className="h-5 w-5 text-apple-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
           </div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-blue-800 mb-2">Instructions:</p>
-            <ul className="list-disc pl-5 text-xs text-blue-700 space-y-1">
+            <p className="text-sm font-medium font-boldonse text-apple-black mb-2">Instructions:</p>
+            <ul className="list-disc pl-5 text-xs font-boldonse text-apple-darkgray space-y-1.5">
               <li>Drag widgets by their header to reposition</li>
               <li>Resize widgets by dragging the bottom-right corner</li>
               <li>Click the expand/collapse button to toggle widget size</li>
@@ -275,7 +275,7 @@ export default function WidgetDashboard() {
         </div>
       </div>
 
-      <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm grid-container">
+      <div className="grid-container p-0 animate-slide-up">
         <GridLayout
           className="layout"
           layout={layout}

@@ -26,19 +26,21 @@ function NavItem({ href, icon, children, active = false }: NavItemProps) {
     <Link href={href}>
       <div
         className={cn(
-          "flex items-center px-2 py-2 text-sm font-medium rounded-md cursor-pointer",
+          "flex items-center px-3 py-2.5 text-sm font-medium rounded-xl cursor-pointer transition-all duration-200 ease-in-out",
           active
-            ? "bg-primary-50 text-primary-700"
-            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            ? "bg-white/30 text-apple-black shadow-apple-sm backdrop-blur-sm"
+            : "text-apple-darkgray hover:bg-white/20 hover:text-apple-black"
         )}
       >
         <div className={cn(
-          "w-6 h-6 mr-3", 
-          active ? "text-primary-500" : "text-gray-400"
+          "w-5 h-5 mr-3", 
+          active ? "text-apple-blue" : "text-apple-darkgray"
         )}>
           {icon}
         </div>
-        {children}
+        <span className="font-boldonse">
+          {children}
+        </span>
       </div>
     </Link>
   );
@@ -51,23 +53,23 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile header bar */}
-      <div className="md:hidden flex items-center justify-between pl-3 pt-3 border-b border-gray-200 bg-white h-16">
+      <div className="md:hidden flex items-center justify-between pl-3 pt-3 bg-apple-gray h-16 animate-fade-in">
         <button
           type="button"
-          className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+          className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-full text-apple-darkgray hover:text-apple-black hover:bg-white/30 transition-colors"
           onClick={() => setMobileOpen(true)}
         >
           <span className="sr-only">Open sidebar</span>
-          <Menu className="h-6 w-6" />
+          <Menu className="h-5 w-5" />
         </button>
         <div className="px-4">
-          <h1 className="text-xl font-semibold text-gray-800">
-            <span className="text-primary-500 mr-2">●</span>
+          <h1 className="text-xl font-bold-onse-bold text-apple-black tracking-tight">
+            <span className="text-apple-blue mr-2">●</span>
             ClientSignal
           </h1>
         </div>
-        <div className="pr-2">
-          <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+        <div className="pr-4">
+          <div className="h-9 w-9 rounded-full bg-apple-blue/10 flex items-center justify-center text-apple-blue font-boldonse font-bold shadow-apple-sm">
             SJ
           </div>
         </div>
@@ -75,15 +77,15 @@ export function Sidebar() {
 
       {/* Mobile sidebar */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="p-0 bg-white w-64">
-          <div className="flex h-16 flex-shrink-0 items-center px-4 border-b border-gray-200 bg-white">
-            <h1 className="text-xl font-semibold text-gray-800">
-              <span className="text-primary-500 mr-2">●</span>
+        <SheetContent side="left" className="p-0 bg-apple-gray w-72 backdrop-blur-lg border-0">
+          <div className="flex h-16 flex-shrink-0 items-center px-6 animate-fade-in">
+            <h1 className="text-xl font-bold-onse-bold text-apple-black tracking-tight">
+              <span className="text-apple-blue mr-2">●</span>
               ClientSignal
             </h1>
           </div>
           <div className="h-0 flex-1 flex flex-col overflow-y-auto">
-            <nav className="flex-1 px-2 py-4 space-y-1">
+            <nav className="flex-1 px-3 py-6 space-y-1.5 animate-slide-up">
               <NavItem
                 href="/"
                 icon={<HomeIcon />}
@@ -127,16 +129,17 @@ export function Sidebar() {
                 Widget Dashboard
               </NavItem>
             </nav>
-            <div className="px-4 py-4 border-t border-gray-200">
+            
+            <div className="p-4 m-3 mt-auto bg-white/40 rounded-2xl backdrop-blur-sm shadow-apple-sm">
               <div className="flex items-center">
-                <div className="flex-shrink-0 h-10 w-10">
-                  <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+                <div className="flex-shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-apple-blue/10 flex items-center justify-center text-apple-blue font-boldonse font-bold shadow-apple-sm">
                     SJ
                   </div>
                 </div>
                 <div className="ml-3">
-                  <div className="text-sm font-medium text-gray-700">Sarah Johnson</div>
-                  <div className="text-xs text-gray-500">Agency Owner</div>
+                  <div className="text-sm font-medium text-apple-black font-boldonse">Sarah Johnson</div>
+                  <div className="text-xs text-apple-darkgray font-boldonse">Agency Owner</div>
                 </div>
               </div>
             </div>
@@ -146,15 +149,15 @@ export function Sidebar() {
 
       {/* Desktop sidebar */}
       <div className="hidden md:flex md:flex-shrink-0">
-        <div className="flex flex-col w-64 border-r border-gray-200 bg-white">
-          <div className="flex items-center h-16 flex-shrink-0 px-4 border-b border-gray-200">
-            <h1 className="text-xl font-semibold text-gray-800">
-              <span className="text-primary-500 mr-2">●</span>
+        <div className="flex flex-col w-72 bg-apple-gray animate-fade-in">
+          <div className="flex items-center h-16 flex-shrink-0 px-6">
+            <h1 className="text-xl font-bold-onse-bold text-apple-black tracking-tight">
+              <span className="text-apple-blue mr-2">●</span>
               ClientSignal
             </h1>
           </div>
           <div className="h-0 flex-1 flex flex-col overflow-y-auto">
-            <nav className="flex-1 px-2 py-4 space-y-1">
+            <nav className="flex-1 px-3 py-6 space-y-1.5 animate-slide-up">
               <NavItem
                 href="/"
                 icon={<HomeIcon />}
@@ -198,16 +201,17 @@ export function Sidebar() {
                 Widget Dashboard
               </NavItem>
             </nav>
-            <div className="px-4 py-4 border-t border-gray-200">
+            
+            <div className="p-4 m-3 mt-auto bg-white/40 rounded-2xl backdrop-blur-sm shadow-apple-sm">
               <div className="flex items-center">
-                <div className="flex-shrink-0 h-10 w-10">
-                  <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+                <div className="flex-shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-apple-blue/10 flex items-center justify-center text-apple-blue font-boldonse font-bold shadow-apple-sm">
                     SJ
                   </div>
                 </div>
                 <div className="ml-3">
-                  <div className="text-sm font-medium text-gray-700">Sarah Johnson</div>
-                  <div className="text-xs text-gray-500">Agency Owner</div>
+                  <div className="text-sm font-medium text-apple-black font-boldonse">Sarah Johnson</div>
+                  <div className="text-xs text-apple-darkgray font-boldonse">Agency Owner</div>
                 </div>
               </div>
             </div>
