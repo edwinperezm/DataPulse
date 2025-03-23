@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GridLayout from 'react-grid-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -82,6 +82,9 @@ export default function WidgetDashboard() {
     metrics: false,
   });
 
+  // Use useState for responsive width calculation
+  const [width, setWidth] = useState(1200);
+
   // Toggle widget expansion
   const toggleWidgetExpansion = (widgetId: string) => {
     setExpandedWidgets(prev => ({
@@ -94,6 +97,31 @@ export default function WidgetDashboard() {
   const handleLayoutChange = (newLayout: any) => {
     setLayout(newLayout);
   };
+  
+  // Update width on window resize
+  useEffect(() => {
+    const updateWidth = () => {
+      // Get the container width with a 32px buffer for padding
+      const containerElem = document.querySelector('.grid-container');
+      if (containerElem) {
+        setWidth(containerElem.clientWidth - 32);
+      } else {
+        // Fallback if container not found yet
+        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        // Adjust based on viewport size (90% of viewport on mobile, 95% on larger screens)
+        setWidth(viewportWidth < 768 ? viewportWidth * 0.9 : viewportWidth * 0.95);
+      }
+    };
+    
+    // Set initial width
+    updateWidth();
+    
+    // Add event listener for resize
+    window.addEventListener('resize', updateWidth);
+    
+    // Clean up event listener
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   // Sample content for widgets
   const clientListContent = (
@@ -181,13 +209,13 @@ export default function WidgetDashboard() {
         </ul>
       </div>
 
-      <div className="bg-white p-1 border rounded-lg">
+      <div className="bg-white p-1 border rounded-lg grid-container">
         <GridLayout
           className="layout"
           layout={layout}
           cols={12}
           rowHeight={100}
-          width={1200}
+          width={width}
           onLayoutChange={handleLayoutChange}
           draggableHandle=".react-draggable-handle"
           compactType="vertical"
