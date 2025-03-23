@@ -7,6 +7,7 @@ import {
   Settings, 
   SlidersHorizontal, 
   Menu, 
+  Loader,
   X
 } from "lucide-react";
 import { useState } from "react";
