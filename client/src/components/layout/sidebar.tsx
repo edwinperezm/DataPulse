@@ -8,6 +8,7 @@ import {
   SlidersHorizontal, 
   Menu, 
   Loader,
+  LayoutGrid,
   X
 } from "lucide-react";
 import { useState } from "react";
@@ -118,6 +119,13 @@ export function Sidebar() {
               >
                 Loading Demo
               </NavItem>
+              <NavItem
+                href="/widget-dashboard"
+                icon={<LayoutGrid />}
+                active={location === "/widget-dashboard"}
+              >
+                Widget Dashboard
+              </NavItem>
             </nav>
             <div className="px-4 py-4 border-t border-gray-200">
               <div className="flex items-center">
@@ -181,6 +189,13 @@ export function Sidebar() {
                 active={location === "/loading-demo"}
               >
                 Loading Demo
+              </NavItem>
+              <NavItem
+                href="/widget-dashboard"
+                icon={<LayoutGrid />}
+                active={location === "/widget-dashboard"}
+              >
+                Widget Dashboard
               </NavItem>
             </nav>
             <div className="px-4 py-4 border-t border-gray-200">
