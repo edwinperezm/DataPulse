@@ -14,15 +14,44 @@ export default function LoadingDemo() {
   const [customText, setCustomText] = useState("Loading...");
   
   return (
-    <div className="container mx-auto py-8 bg-apple-lightgray min-h-screen animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold-onse-bold text-apple-black tracking-tight">Loading Spinners</h1>
-        <p className="text-apple-darkgray mt-2 font-boldonse">Customizable loading indicators for the application</p>
+    <div className="animate-fade-in">
+      <div className="flex justify-between items-center mb-4 pl-2">
+        <div>
+          <h1 className="text-3xl font-bold-onse-bold text-apple-black tracking-tight">Loading Spinners</h1>
+          <p className="text-apple-darkgray mt-1 font-boldonse">Customizable loading indicators for the application</p>
+        </div>
+        
+        <div className="flex items-center space-x-3">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setCustomText("Processing...")}
+            className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
+          >
+            Processing...
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setCustomText("Please wait...")}
+            className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
+          >
+            Please wait...
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setCustomText("Loading...")}
+            className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
+          >
+            Reset
+          </Button>
+        </div>
       </div>
       
       <div className="bg-white/80 backdrop-blur-md p-7 rounded-3xl shadow-apple-sm mb-8 border border-white/20 animate-slide-up">
         <h2 className="text-xl font-bold-onse-bold text-apple-black tracking-tight mb-5">Spinner Configuration</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <Label htmlFor="spinner-type" className="mb-2 block font-boldonse text-apple-darkgray">Color Variant</Label>
             <Select value={spinnerType} onValueChange={(val: any) => setSpinnerType(val)}>
@@ -38,36 +67,9 @@ export default function LoadingDemo() {
             </Select>
           </div>
           
-          <div className="flex items-center space-x-4 pt-7">
+          <div className="flex items-center space-x-4">
             <Switch id="hide-icon" checked={hideIcon} onCheckedChange={setHideIcon} />
             <Label htmlFor="hide-icon" className="font-boldonse text-apple-black">Hide center icon</Label>
-          </div>
-          
-          <div className="flex items-center space-x-3 pt-7">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setCustomText("Processing...")}
-              className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
-            >
-              Processing...
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setCustomText("Please wait...")}
-              className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
-            >
-              Please wait...
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setCustomText("Loading...")}
-              className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
-            >
-              Reset
-            </Button>
           </div>
         </div>
       </div>

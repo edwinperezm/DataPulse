@@ -13,11 +13,11 @@ import { Sidebar } from "@/components/layout/sidebar";
 
 function Router() {
   return (
-    <div className="flex h-screen overflow-hidden bg-apple-lightgray">
+    <div className="flex h-screen overflow-hidden bg-apple-gray">
       <Sidebar />
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-          <div className="py-6 px-4 sm:px-6 md:px-8 animate-fade-in">
+          <div className="pt-16 px-4 sm:px-6 md:px-8 animate-fade-in">
             <Switch>
               <Route path="/" component={Dashboard} />
               <Route path="/clients" component={Clients} />
