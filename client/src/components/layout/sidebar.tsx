@@ -23,9 +23,9 @@ interface NavItemProps {
 function NavItem({ href, icon, children, active = false }: NavItemProps) {
   return (
     <Link href={href}>
-      <a
+      <div
         className={cn(
-          "flex items-center px-2 py-2 text-sm font-medium rounded-md",
+          "flex items-center px-2 py-2 text-sm font-medium rounded-md cursor-pointer",
           active
             ? "bg-primary-50 text-primary-700"
             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -38,7 +38,7 @@ function NavItem({ href, icon, children, active = false }: NavItemProps) {
           {icon}
         </div>
         {children}
-      </a>
+      </div>
     </Link>
   );
 }
@@ -111,6 +111,13 @@ export function Sidebar() {
               >
                 Settings
               </NavItem>
+              <NavItem
+                href="/loading-demo"
+                icon={<Loader />}
+                active={location === "/loading-demo"}
+              >
+                Loading Demo
+              </NavItem>
             </nav>
             <div className="px-4 py-4 border-t border-gray-200">
               <div className="flex items-center">
@@ -167,6 +174,13 @@ export function Sidebar() {
                 active={location === "/settings"}
               >
                 Settings
+              </NavItem>
+              <NavItem
+                href="/loading-demo"
+                icon={<Loader />}
+                active={location === "/loading-demo"}
+              >
+                Loading Demo
               </NavItem>
             </nav>
             <div className="px-4 py-4 border-t border-gray-200">

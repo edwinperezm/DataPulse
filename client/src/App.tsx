@@ -8,6 +8,7 @@ import Clients from "@/pages/clients";
 import NewClient from "@/pages/new-client";
 import Surveys from "@/pages/surveys";
 import LoadingDemo from "@/pages/loading-demo";
+import WidgetDashboard from "@/pages/widget-dashboard";
 import { Sidebar } from "@/components/layout/sidebar";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
           <Route path="/clients/new" component={NewClient} />
           <Route path="/surveys" component={Surveys} />
           <Route path="/loading-demo" component={LoadingDemo} />
+          <Route path="/widget-dashboard" component={WidgetDashboard} />
           <Route component={NotFound} />
         </Switch>
       </div>
