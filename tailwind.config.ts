@@ -5,12 +5,25 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        boldonse: ["Bold Onse", "system-ui", "sans-serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "20px", // Apple-style rounded corners
+        "3xl": "30px", // Apple-style heavily rounded corners
       },
       colors: {
+        // Apple-style colors
+        apple: {
+          gray: "#f5f5f7",
+          lightgray: "#fbfbfd",
+          darkgray: "#86868b",
+          blue: "#0071e3",
+          black: "#1d1d1f",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -79,10 +92,32 @@ export default {
             height: "0",
           },
         },
+        // Apple-style smooth animations
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(10px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "scale-in": {
+          "0%": { transform: "scale(0.95)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+        "slide-up": "slide-up 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+        "scale-in": "scale-in 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+      },
+      boxShadow: {
+        // Apple-style shadows
+        "apple-sm": "0 2px 5px rgba(0, 0, 0, 0.05)",
+        "apple-md": "0 4px 12px rgba(0, 0, 0, 0.08)",
+        "apple-lg": "0 10px 25px rgba(0, 0, 0, 0.1)",
       },
     },
   },

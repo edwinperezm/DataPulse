@@ -2,13 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Bold Onse Font */
+@font-face {
+  font-family: 'Bold Onse';
+  src: url('/fonts/BoldOnse-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bold Onse';
+  src: url('/fonts/BoldOnse-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-boldonse antialiased bg-background text-foreground;
+  }
+
+  /* Apple-style variable font weights */
+  .font-boldonse {
+    font-family: 'Bold Onse', system-ui, sans-serif;
+  }
+
+  .font-bold-onse-regular {
+    font-family: 'Bold Onse', system-ui, sans-serif;
+    font-weight: normal;
+  }
+
+  .font-bold-onse-bold {
+    font-family: 'Bold Onse', system-ui, sans-serif;
+    font-weight: bold;
+  }
+
+  /* Apple-style typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-boldonse font-bold tracking-tight text-gray-900;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  p {
+    @apply font-boldonse text-gray-700;
   }
 }
 
@@ -23,6 +76,32 @@
   
   .duration-2000 {
     animation-duration: 2000ms;
+  }
+
+  /* Apple-style bento box utilities */
+  .bento-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4;
+  }
+  
+  .bento-card {
+    @apply bg-white rounded-2xl shadow-sm p-6 transition-all hover:shadow-md;
+  }
+
+  .bento-card-span-2 {
+    @apply md:col-span-2;
+  }
+
+  .bento-card-span-3 {
+    @apply md:col-span-3;
+  }
+
+  .bento-card-span-row-2 {
+    @apply md:row-span-2;
+  }
+
+  /* Apple-style glassmorphism */
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
   }
 }
 
