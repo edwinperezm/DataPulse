@@ -72,8 +72,8 @@ export default function LoadingDemo() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-10">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 w-full">
-                <div className="flex flex-col items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[180px] justify-center">
                   <p className="text-sm font-medium mb-4">Small</p>
                   <BrandedSpinner 
                     size="small" 
@@ -82,7 +82,7 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[180px] justify-center">
                   <p className="text-sm font-medium mb-4">Medium</p>
                   <BrandedSpinner 
                     size="medium" 
@@ -91,7 +91,7 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[180px] justify-center">
                   <p className="text-sm font-medium mb-4">Large</p>
                   <BrandedSpinner 
                     size="large" 
@@ -103,7 +103,7 @@ export default function LoadingDemo() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-                <Card className="p-6 flex flex-col items-center justify-center h-[200px] border border-gray-200 bg-gray-50">
+                <Card className="p-6 flex flex-col items-center justify-center h-[160px] border border-gray-200 bg-white">
                   <BrandedSpinner 
                     size="small" 
                     type={spinnerType}
@@ -112,7 +112,7 @@ export default function LoadingDemo() {
                   />
                 </Card>
                 
-                <Card className="p-6 space-y-4 border border-gray-200 bg-gray-50">
+                <Card className="p-6 flex flex-col space-y-4 border border-gray-200 bg-white h-[160px] justify-center">
                   <h3 className="font-medium">Loading Button Example</h3>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button className="relative" disabled>
@@ -152,8 +152,8 @@ export default function LoadingDemo() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-10">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 w-full">
-                <div className="flex flex-col items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[220px] justify-center">
                   <p className="text-sm font-medium mb-4">Small</p>
                   <BrandedSpinnerPro 
                     size="small" 
@@ -162,7 +162,7 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[220px] justify-center">
                   <p className="text-sm font-medium mb-4">Medium</p>
                   <BrandedSpinnerPro 
                     size="medium" 
@@ -171,7 +171,7 @@ export default function LoadingDemo() {
                     text={customText}
                   />
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center bg-white p-6 border border-gray-200 rounded-lg h-[220px] justify-center">
                   <p className="text-sm font-medium mb-4">Large</p>
                   <BrandedSpinnerPro 
                     size="large" 
@@ -183,7 +183,7 @@ export default function LoadingDemo() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-                <Card className="p-6 flex flex-col items-center justify-center min-h-[200px] border border-gray-200 bg-gray-50">
+                <Card className="p-6 flex flex-col items-center justify-center h-[180px] border border-gray-200 bg-white">
                   <BrandedSpinnerPro 
                     size="small" 
                     type={spinnerType} 
@@ -192,7 +192,7 @@ export default function LoadingDemo() {
                   />
                 </Card>
                 
-                <Card className="p-6 flex items-center justify-center min-h-[200px] border border-gray-200 bg-gray-50">
+                <Card className="p-6 flex items-center justify-center h-[180px] border border-gray-200 bg-white">
                   <div className="text-center">
                     <BrandedSpinnerPro 
                       size="medium" 
@@ -220,12 +220,12 @@ export default function LoadingDemo() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="p-6 flex flex-col border border-gray-200 bg-gray-50">
+            <Card className="p-6 flex flex-col border border-gray-200 bg-white h-[180px]">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium">Dashboard Widget</h3>
                 <div className="text-gray-400 text-xs">Updating...</div>
               </div>
-              <div className="flex-1 flex items-center justify-center py-8">
+              <div className="flex-1 flex items-center justify-center">
                 <BrandedSpinner 
                   size="small"
                   type={spinnerType}
@@ -235,11 +235,11 @@ export default function LoadingDemo() {
               </div>
             </Card>
             
-            <Card className="p-6 border border-gray-200 bg-gray-50">
+            <Card className="p-6 flex flex-col border border-gray-200 bg-white h-[180px]">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium">Page Transition</h3>
               </div>
-              <div className="flex items-center justify-center h-[120px]">
+              <div className="flex-1 flex items-center justify-center">
                 <div className="text-center">
                   <BrandedSpinnerPro 
                     size="small"
@@ -251,16 +251,16 @@ export default function LoadingDemo() {
               </div>
             </Card>
             
-            <Card className="p-6 border border-gray-200 bg-gray-50">
+            <Card className="p-6 flex flex-col border border-gray-200 bg-white h-[180px]">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium">Form Submission</h3>
               </div>
               <div className="space-y-3 mb-4">
-                <div className="h-2 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-2 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-2 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                <div className="h-2 bg-gray-100 rounded animate-pulse"></div>
+                <div className="h-2 bg-gray-100 rounded animate-pulse"></div>
+                <div className="h-2 bg-gray-100 rounded w-3/4 animate-pulse"></div>
               </div>
-              <div className="flex justify-end">
+              <div className="flex-1 flex items-end justify-end">
                 <Button disabled className="relative">
                   <BrandedSpinner
                     size="small"

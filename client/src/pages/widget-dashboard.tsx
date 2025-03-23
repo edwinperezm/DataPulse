@@ -109,19 +109,20 @@ export default function WidgetDashboard() {
       const containerElem = document.querySelector('.grid-container');
       if (containerElem) {
         const containerWidth = containerElem.clientWidth;
-        // Adjust width based on container size, subtracting padding
-        setWidth(Math.max(containerWidth - 32, 320)); // Ensure minimum width of 320px
+        // Adjust width based on container size, accounting for padding
+        // The value 64 comes from: containerPadding (16*2) + margin (16*2)
+        setWidth(Math.max(containerWidth - 64, 320)); 
       } else {
         // Fallback if container not found yet
         const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
         // More conservative width calculation for better fit
         const calculatedWidth = viewportWidth < 768 
-          ? Math.min(viewportWidth - 40, 500) // Mobile: narrower with 20px padding on each side
+          ? viewportWidth - 48 // Mobile: narrower
           : viewportWidth < 1024
-            ? Math.min(viewportWidth - 80, 800) // Tablet: medium width
-            : Math.min(viewportWidth - 120, 1200); // Desktop: wider layout
+            ? viewportWidth - 64 // Tablet
+            : viewportWidth - 96; // Desktop
 
-        setWidth(Math.max(calculatedWidth, 320)); // Ensure minimum width
+        setWidth(Math.max(calculatedWidth, 320));
       }
     };
     
@@ -137,16 +138,34 @@ export default function WidgetDashboard() {
   
   // Handle layout change with size adjustments for better responsiveness
   useEffect(() => {
-    // Adjust layout based on screen size
+    // Function to handle screen size changes
     const handleScreenSizeChange = () => {
       const viewportWidth = window.innerWidth;
-      if (viewportWidth < 768) {
-        // Mobile layout: stack widgets vertically
+      
+      // Adjust layout based on screen size
+      if (viewportWidth < 640) {
+        // Mobile layout: stack widgets vertically, full width
         setLayout([
           { i: 'clients', x: 0, y: 0, w: 12, h: 2, minW: 3, minH: 2 },
           { i: 'activity', x: 0, y: 2, w: 12, h: 2, minW: 3, minH: 2 },
           { i: 'surveys', x: 0, y: 4, w: 12, h: 3, minW: 3, minH: 2 },
           { i: 'metrics', x: 0, y: 7, w: 12, h: 3, minW: 4, minH: 2 },
+        ]);
+      } else if (viewportWidth < 1024) {
+        // Tablet layout: 2-column layout
+        setLayout([
+          { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'surveys', x: 0, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
+          { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 4, minH: 2 },
+        ]);
+      } else {
+        // Desktop layout: maintain original
+        setLayout([
+          { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'surveys', x: 0, y: 2, w: 4, h: 3, minW: 3, minH: 2 },
+          { i: 'metrics', x: 4, y: 2, w: 8, h: 3, minW: 4, minH: 2 },
         ]);
       }
     };
@@ -154,7 +173,11 @@ export default function WidgetDashboard() {
     // Call once on component mount
     handleScreenSizeChange();
     
-    // No need to add resize listener here as the width effect already handles it
+    // Add resize listener to update layout on window resize
+    window.addEventListener('resize', handleScreenSizeChange);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleScreenSizeChange);
   }, []);
 
   // Sample content for widgets
