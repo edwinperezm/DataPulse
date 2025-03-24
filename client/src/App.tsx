@@ -10,25 +10,38 @@ import Surveys from "@/pages/surveys";
 import LoadingDemo from "@/pages/loading-demo";
 import WidgetDashboard from "@/pages/widget-dashboard";
 import { Sidebar } from "@/components/layout/sidebar";
+import { TopNav } from "@/components/layout/topnav";
+import { useState } from "react";
 
 function Router() {
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setIsMobileOpen(!isMobileOpen);
+  };
+  
   return (
-    <div className="l-layout">
-      <Sidebar />
-      <div className="l-layout-main">
-        <main className="l-layout-content">
-          <div className="animate-fade-in">
-            <Switch>
-              <Route path="/" component={Dashboard} />
-              <Route path="/clients" component={Clients} />
-              <Route path="/clients/new" component={NewClient} />
-              <Route path="/surveys" component={Surveys} />
-              <Route path="/loading-demo" component={LoadingDemo} />
-              <Route path="/widget-dashboard" component={WidgetDashboard} />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </main>
+    <div className="u-layout">
+      <TopNav toggleSidebar={toggleSidebar} />
+      
+      <div className="u-layout-main-container">
+        <Sidebar isMobileOpen={isMobileOpen} toggleSidebar={toggleSidebar} />
+        
+        <div className="u-layout-main">
+          <main className="u-layout-content">
+            <div className="animate-fade-in">
+              <Switch>
+                <Route path="/" component={Dashboard} />
+                <Route path="/clients" component={Clients} />
+                <Route path="/clients/new" component={NewClient} />
+                <Route path="/surveys" component={Surveys} />
+                <Route path="/loading-demo" component={LoadingDemo} />
+                <Route path="/widget-dashboard" component={WidgetDashboard} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export default function Dashboard() {
   const pendingSurveys = 5; // Placeholder - should be calculated from real data
   
   return (
-    <div className="l-layout-container">
+    <div className="u-layout-container">
       <SectionTitle
         title="Client Dashboard"
         subtitle="Monitor client health, sentiment, and engagement"
