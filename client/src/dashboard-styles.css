@@ -26,7 +26,7 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  padding: 1.25rem 1.25rem 1.25rem 0; /* Top, Right, Bottom, Left */
+  padding: 20px 20px 20px 0px; /* Top, Right, Bottom, Left - as shown in screenshot */
 }
 
 /* Sidebar for the U-shaped layout */
@@ -35,7 +35,6 @@
   background-color: var(--apple-gray, #f5f5f7);
   overflow-y: auto;
   transition: width 0.3s ease;
-  padding-right: 0.625rem;
 }
 
 /* Main content area with white box */
