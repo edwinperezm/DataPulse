@@ -63,7 +63,7 @@ export function Sidebar() {
           <Menu className="h-5 w-5" />
         </button>
         <div className="px-4">
-          <h1 className="text-xl font-bold-onse-bold text-apple-black tracking-tight">
+          <h1 className="l-layout-title">
             <span className="text-apple-blue mr-2">●</span>
             ClientSignal
           </h1>
@@ -79,7 +79,7 @@ export function Sidebar() {
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="p-0 bg-apple-gray w-72 backdrop-blur-lg border-0">
           <div className="flex h-16 flex-shrink-0 items-center px-6 animate-fade-in">
-            <h1 className="text-xl font-bold-onse-bold text-apple-black tracking-tight">
+            <h1 className="l-layout-title">
               <span className="text-apple-blue mr-2">●</span>
               ClientSignal
             </h1>

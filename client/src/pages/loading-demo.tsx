@@ -15,37 +15,31 @@ export default function LoadingDemo() {
   
   return (
     <div className="animate-fade-in">
-      <div className="flex justify-between items-center mb-4 pl-2">
-        <div>
-          <h1 className="text-3xl font-bold-onse-bold text-apple-black tracking-tight">Loading Spinners</h1>
-          <p className="text-apple-darkgray mt-1 font-boldonse">Customizable loading indicators for the application</p>
+      <div className="l-layout-header pl-0">
+        <div className="l-layout-title-wrapper">
+          <h1 className="l-layout-title">Loading Spinners</h1>
+          <p className="l-layout-subtitle">Customizable loading indicators for the application</p>
         </div>
         
-        <div className="flex items-center space-x-3">
-          <Button 
-            variant="outline" 
-            size="sm" 
+        <div className="l-layout-actions">
+          <button 
+            className="apple-button secondary"
             onClick={() => setCustomText("Processing...")}
-            className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
           >
             Processing...
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          </button>
+          <button 
+            className="apple-button secondary"
             onClick={() => setCustomText("Please wait...")}
-            className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
           >
             Please wait...
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          </button>
+          <button 
+            className="apple-button"
             onClick={() => setCustomText("Loading...")}
-            className="rounded-xl hover:border-apple-blue hover:text-apple-blue transition-colors font-boldonse"
           >
             Reset
-          </Button>
+          </button>
         </div>
       </div>
       
