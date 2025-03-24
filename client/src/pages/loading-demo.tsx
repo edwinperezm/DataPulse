@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { SectionTitle } from '@/components/ui/section-title';
 
 export default function LoadingDemo() {
   // State for spinner configuration
@@ -14,34 +15,33 @@ export default function LoadingDemo() {
   const [customText, setCustomText] = useState("Loading...");
   
   return (
-    <div className="animate-fade-in">
-      <div className="l-layout-header pl-0">
-        <div className="l-layout-title-wrapper">
-          <h1 className="l-layout-title">Loading Spinners</h1>
-          <p className="l-layout-subtitle">Customizable loading indicators for the application</p>
-        </div>
-        
-        <div className="l-layout-actions">
-          <button 
-            className="apple-button secondary"
-            onClick={() => setCustomText("Processing...")}
-          >
-            Processing...
-          </button>
-          <button 
-            className="apple-button secondary"
-            onClick={() => setCustomText("Please wait...")}
-          >
-            Please wait...
-          </button>
-          <button 
-            className="apple-button"
-            onClick={() => setCustomText("Loading...")}
-          >
-            Reset
-          </button>
-        </div>
-      </div>
+    <div className="l-layout-container animate-fade-in">
+      <SectionTitle
+        title="Loading Spinners"
+        subtitle="Customizable loading indicators for the application"
+        actions={
+          <>
+            <button 
+              className="apple-button secondary"
+              onClick={() => setCustomText("Processing...")}
+            >
+              Processing...
+            </button>
+            <button 
+              className="apple-button secondary"
+              onClick={() => setCustomText("Please wait...")}
+            >
+              Please wait...
+            </button>
+            <button 
+              className="apple-button"
+              onClick={() => setCustomText("Loading...")}
+            >
+              Reset
+            </button>
+          </>
+        }
+      />
       
       <div className="bg-white/80 backdrop-blur-md p-7 rounded-3xl shadow-apple-sm mb-8 border border-white/20 animate-slide-up">
         <h2 className="text-xl font-bold-onse-bold text-apple-black tracking-tight mb-5">Spinner Configuration</h2>

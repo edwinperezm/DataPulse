@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { BrandedSpinner, BrandedSpinnerPro } from '@/components/ui/branded-spinner';
 import { BarChart2, Users, Clipboard, Activity, Maximize2, Minimize2 } from 'lucide-react';
+import { SectionTitle } from '@/components/ui/section-title';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
@@ -249,13 +250,12 @@ export default function WidgetDashboard() {
   );
 
   return (
-    <div className="container mx-auto py-6 px-4 bg-apple-lightgray min-h-screen animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold-onse-bold text-apple-black tracking-tight">Customizable Dashboard</h1>
-        <p className="text-apple-darkgray mt-2 font-boldonse">
-          Drag and resize widgets to customize your dashboard layout
-        </p>
-      </div>
+    <div className="l-layout-container animate-fade-in">
+      <SectionTitle
+        title="Customizable Dashboard"
+        subtitle="Drag and resize widgets to customize your dashboard layout"
+        className="mb-6"
+      />
 
       <div className="bg-white/60 backdrop-blur-md p-5 rounded-2xl shadow-apple-sm mb-8 border border-white/20">
         <div className="flex items-start">

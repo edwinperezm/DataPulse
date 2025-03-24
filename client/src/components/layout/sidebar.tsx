@@ -26,7 +26,7 @@ function NavItem({ href, icon, children, active = false }: NavItemProps) {
     <Link href={href}>
       <div
         className={cn(
-          "flex items-center px-3 py-2.5 text-sm font-medium rounded-xl cursor-pointer transition-all duration-200 ease-in-out",
+          "flex items-center px-3 py-2.5 text-sm font-boldonse rounded-xl cursor-pointer transition-all duration-200 ease-in-out",
           active
             ? "bg-white/30 text-apple-black shadow-apple-sm backdrop-blur-sm"
             : "text-apple-darkgray hover:bg-white/20 hover:text-apple-black"
@@ -38,7 +38,7 @@ function NavItem({ href, icon, children, active = false }: NavItemProps) {
         )}>
           {icon}
         </div>
-        <span className="font-boldonse">
+        <span>
           {children}
         </span>
       </div>
@@ -148,15 +148,15 @@ export function Sidebar() {
       </Sheet>
 
       {/* Desktop sidebar */}
-      <div className="hidden md:flex md:flex-shrink-0">
-        <div className="flex flex-col w-72 bg-apple-gray animate-fade-in">
+      <div className="hidden md:block l-layout-sidebar">
+        <div className="flex flex-col animate-fade-in">
           <div className="flex items-center h-16 flex-shrink-0 px-6">
-            <h1 className="text-xl font-bold-onse-bold text-apple-black tracking-tight">
+            <h1 className="l-layout-title">
               <span className="text-apple-blue mr-2">●</span>
               ClientSignal
             </h1>
           </div>
-          <div className="h-0 flex-1 flex flex-col overflow-y-auto">
+          <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-3 py-6 space-y-1.5 animate-slide-up">
               <NavItem
                 href="/"
