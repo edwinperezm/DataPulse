@@ -1,4 +1,4 @@
-/* Apple-style U-shaped layout styles */
+/* Apple-style U-shaped layout (rotated right) */
 
 /* Main overall layout */
 .u-layout {
@@ -6,6 +6,7 @@
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--apple-lightgray, #f5f5f7);
+  overflow: hidden;
 }
 
 /* Top navigation bar */
@@ -20,33 +21,12 @@
   z-index: 20;
 }
 
-/* Main container below top nav */
+/* Main container - holds sidebar and content */
 .u-layout-main-container {
   display: flex;
   flex: 1;
   overflow: hidden;
-}
-
-/* Main content area */
-.u-layout-main {
-  flex: 1;
-  position: relative;
-  overflow-y: auto;
-}
-
-/* Content container */
-.u-layout-content {
-  position: relative;
-  width: 100%;
-  animation: fade-in 0.3s ease-in-out;
-}
-
-/* Main layout container inside content pages */
-.u-layout-container {
-  position: relative;
-  padding: 1.5rem;
-  background-color: var(--apple-lightgray, #f5f5f7);
-  animation: fade-in 0.3s ease-in-out;
+  padding: 1.25rem 1.25rem 1.25rem 0; /* Top, Right, Bottom, Left */
 }
 
 /* Sidebar for the U-shaped layout */
@@ -55,7 +35,32 @@
   background-color: var(--apple-gray, #f5f5f7);
   overflow-y: auto;
   transition: width 0.3s ease;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  padding-right: 0.625rem;
+}
+
+/* Main content area with white box */
+.u-layout-main {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content container - the white box */
+.u-layout-content {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  overflow-y: auto;
+  animation: fade-in 0.3s ease-in-out;
+}
+
+/* Content padding inside the white box */
+.u-layout-container {
+  padding: 1.5rem;
+  animation: fade-in 0.3s ease-in-out;
 }
 
 /* Header area of the L-shape */
