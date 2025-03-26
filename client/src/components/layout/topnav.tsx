@@ -1,6 +1,5 @@
-import { Bell, Menu, MoreHorizontal, Search } from "lucide-react";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Bell, Menu, MoreHorizontal } from "lucide-react";
+import { SearchBar } from "./search-bar";
 
 interface TopNavProps {
   toggleSidebar: () => void;
@@ -25,16 +24,12 @@ export function TopNav({ toggleSidebar }: TopNavProps) {
       </div>
       
       <div className="hidden md:flex flex-1 max-w-md mx-4">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-apple-darkgray" />
-          <Input 
-            className="pl-10 pr-4 py-2 w-full bg-white/80 border-transparent focus:border-apple-blue rounded-xl" 
-            placeholder="Search..." 
-          />
-        </div>
+        <SearchBar className="w-full" />
       </div>
       
       <div className="flex items-center gap-3">
+        <SearchBar className="md:hidden" />
+        
         <button className="h-9 w-9 rounded-full bg-white/80 flex items-center justify-center text-apple-darkgray hover:text-apple-black hover:bg-white transition-colors">
           <Bell className="h-5 w-5" />
         </button>
