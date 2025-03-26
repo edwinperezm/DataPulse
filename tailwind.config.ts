@@ -16,6 +16,13 @@ export default {
         "3xl": "30px", // Apple-style heavily rounded corners
       },
       colors: {
+        apple: {
+          gray: "#f5f5f7",
+          lightgray: "#fafafa", 
+          darkgray: "#86868b",
+          black: "#1d1d1f",
+          blue: "#0071e3",
+        },
         brand: {
           cream: "#FDFBEE",
           teal: {
