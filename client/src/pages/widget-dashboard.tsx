@@ -73,10 +73,10 @@ const recentActivities = [
 export default function WidgetDashboard() {
   // Define the initial layout for the grid
   const [layout, setLayout] = useState([
-    { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
-    { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
-    { i: 'surveys', x: 0, y: 2, w: 4, h: 3, minW: 3, minH: 2 },
-    { i: 'metrics', x: 4, y: 2, w: 8, h: 3, minW: 4, minH: 2 },
+    { i: 'clients', x: 0, y: 0, w: 8, h: 2, minW: 4, minH: 2 },
+    { i: 'activity', x: 8, y: 0, w: 4, h: 2, minW: 3, minH: 2 },
+    { i: 'surveys', x: 0, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
+    { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 4, minH: 2 },
   ]);
 
   // Track which widgets are expanded

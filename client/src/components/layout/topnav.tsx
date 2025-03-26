@@ -1,6 +1,12 @@
 import { Bell, Menu, MoreHorizontal } from "lucide-react";
 import { SearchBar } from "./search-bar";
 
+const TOP_NAV_STYLES = {
+  wrapper: "h-16 px-6 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-gray-100",
+  actions: "flex items-center space-x-4",
+  icon: "w-5 h-5 text-gray-600 hover:text-gray-900 transition-colors",
+};
+
 interface TopNavProps {
   toggleSidebar: () => void;
 }
