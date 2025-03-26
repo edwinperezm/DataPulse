@@ -9,10 +9,8 @@ export function useClientSearch() {
     items: clients,
     keys: [
       'name', 
-      'industry', 
-      'contactName', 
-      'contactEmail',
-      'description'
+      'initials',
+      'status'
     ],
   });
 
