@@ -57,7 +57,7 @@ app.use((req, res, next) => {
   }
 
   // Use port from environment variable or fallback to 5000
-  const port = process.env.PORT || 5000;
+  const port = process.env.PORT || 3000;
   server.listen({
     port,
     host: "0.0.0.0",
