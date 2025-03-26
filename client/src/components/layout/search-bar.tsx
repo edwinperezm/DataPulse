@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { useClientSearch } from '../../hooks/use-client-search';
+import { Client } from "@shared/schema";
+import { getStatusColor, getStatusLabel, ClientStatus } from '@/lib/status-utils';
 import { useLocation } from 'wouter';
 
 interface SearchBarProps {
@@ -36,7 +38,7 @@ export function SearchBar({ className = '' }: SearchBarProps) {
   };
 
   const handleClientSelect = (id: number) => {
-    navigate(`/clients/${id}`);
+    setLocation(`/clients/${id}`);
     setQuery('');
     setShowResults(false);
     setIsExpanded(false);
@@ -104,28 +106,4 @@ export function SearchBar({ className = '' }: SearchBarProps) {
   );
 }
 
-function getStatusColor(status: string) {
-  switch (status) {
-    case 'healthy':
-      return 'bg-green-100 text-green-800';
-    case 'needs-attention':
-      return 'bg-yellow-100 text-yellow-800';
-    case 'at-risk':
-      return 'bg-red-100 text-red-800';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
-}
-
-function getStatusLabel(status: string): string {
-  switch (status) {
-    case 'healthy':
-      return 'Healthy';
-    case 'needs-attention':
-      return 'Needs Attention';
-    case 'at-risk':
-      return 'At Risk';
-    default:
-      return 'Unknown Status';
-  }
-}
+// These functions are now imported from status-utils.ts
