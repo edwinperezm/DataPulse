@@ -16,13 +16,14 @@ export default {
         "3xl": "30px", // Apple-style heavily rounded corners
       },
       colors: {
-        // Apple-style colors
-        apple: {
-          gray: "#f5f5f7",
-          lightgray: "#fbfbfd",
-          darkgray: "#86868b",
-          blue: "#0071e3",
-          black: "#1d1d1f",
+        brand: {
+          cream: "#FDFBEE",
+          teal: {
+            light: "#57B4BA",
+            DEFAULT: "#57B4BA",
+            dark: "#015551",
+          },
+          coral: "#FE4F2D",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

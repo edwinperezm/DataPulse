@@ -28,8 +28,8 @@ function NavItem({ href, icon, children, active = false }: NavItemProps) {
         className={cn(
           "flex items-center px-3 py-2.5 text-sm font-boldonse rounded-xl cursor-pointer transition-all duration-200 ease-in-out",
           active
-            ? "bg-white/30 text-apple-black shadow-apple-sm backdrop-blur-sm"
-            : "text-apple-darkgray hover:bg-white/20 hover:text-apple-black"
+            ? "bg-[#57B4BA]/20 text-[#015551] shadow-none backdrop-blur-sm"
+            : "text-[#015551]/70 hover:bg-[#57B4BA]/10 hover:text-[#015551]"
         )}
       >
         <div className={cn(

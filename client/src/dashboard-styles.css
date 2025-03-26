@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--apple-lightgray, #f5f5f7);
+  background-color: #FDFBEE; /* New color from palette */
   overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -18,8 +18,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  background-color: var(--apple-gray, #f5f5f7);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #57B4BA; /* New color from palette */
+  border-bottom: none; /* Removed border per request */
   z-index: 20;
 }
 
@@ -34,9 +34,10 @@
 /* Sidebar for the U-shaped layout */
 .u-layout-sidebar {
   width: 240px;
-  background-color: var(--apple-gray, #f5f5f7);
+  background-color: #57B4BA; /* New color from palette */
   overflow-y: auto;
   transition: width 0.3s ease;
+  border-radius: 0.75rem; /* Added rounded corners */
 }
 
 /* Main content area with white box */
@@ -111,11 +112,11 @@
     margin-left: 17rem;
     width: calc(100% - 17rem);
   }
-  
+
   .l-layout-content {
     padding: 1.5rem;
   }
-  
+
   .l-layout-container {
     padding: 1.5rem;
   }
@@ -124,9 +125,9 @@
 /* Apple-style buttons */
 .apple-button {
   padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 0.75rem; /* Added rounded corners */
   font-weight: 500;
-  background-color: var(--apple-blue, #0066cc);
+  background-color: #0066cc;
   color: white;
   border: none;
   font-family: 'BoldOnse', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -225,47 +226,84 @@
     z-index: 30;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     transition: left 0.3s ease;
+    border-radius: 0.75rem; /* Added rounded corners */
   }
-  
+
   .u-layout-sidebar.open {
     left: 0;
   }
-  
+
   .u-layout-topnav {
     padding: 0 1rem;
   }
-  
+
   .u-layout-container {
     padding: 1rem;
   }
-  
+
   /* Legacy L-layout adjustments */
   .l-layout-container {
     padding: 1rem;
   }
-  
+
   .l-layout-content {
     padding: 1rem;
   }
-  
+
   .l-layout-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .l-layout-title {
     font-size: 1.5rem;
   }
-  
+
   .l-layout-actions {
     width: 100%;
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-  
+
   .l-layout-main {
     margin-top: 4rem;
   }
+}
+
+/* Added styles based on provided snippets */
+.layout-container {
+  display: flex;
+  height: 100vh;
+  background-color: #FDFBEE; /* Using new cream color */
+}
+
+.sidebar {
+  background-color: transparent;
+  border: none;
+}
+
+.topnav {
+  background-color: transparent;
+  border: none;
+}
+
+button, .button, [role="button"] {
+  border-radius: 0.75rem; /* Using consistent rounded corners */
+}
+
+.collapse-content {
+  transition: all 0.2s ease-in-out;
+}
+
+.collapse[open] .collapse-content {
+  max-height: 100vh;
+  opacity: 1;
+}
+
+.collapse:not([open]) .collapse-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
 }
