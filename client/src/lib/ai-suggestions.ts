@@ -1,3 +1,4 @@
+
 import { Client } from "@shared/schema";
 
 // Define suggestion types
