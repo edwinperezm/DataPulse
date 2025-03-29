@@ -29,7 +29,7 @@ function Router() {
 
         <div className="u-layout-main">
           <div className="u-layout-content">
-            <div className="animate-fade-in">
+            <div className="l-layout-container">
               <Switch>
                 <Route path="/" component={Dashboard} />
                 <Route path="/clients" component={Clients} />
