@@ -15,20 +15,20 @@ import { useState } from "react";
 
 function Router() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  
+
   const toggleSidebar = () => {
     setIsMobileOpen(!isMobileOpen);
   };
-  
+
   return (
     <div className="u-layout">
       <TopNav toggleSidebar={toggleSidebar} />
-      
+
       <div className="u-layout-main-container">
         <Sidebar isMobileOpen={isMobileOpen} toggleSidebar={toggleSidebar} />
-        
+
         <div className="u-layout-main">
-          <main className="u-layout-content">
+          <div className="u-layout-content">
             <div className="animate-fade-in">
               <Switch>
                 <Route path="/" component={Dashboard} />
@@ -40,7 +40,7 @@ function Router() {
                 <Route component={NotFound} />
               </Switch>
             </div>
-          </main>
+          </div>
         </div>
       </div>
     </div>
