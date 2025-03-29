@@ -28,7 +28,7 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  padding: 20px 20px 0 20px; /* Adding top padding, removing bottom padding */
+  padding: 0 20px 20px 0px; /* Top, Right, Bottom, Left - removing top padding */
 }
 
 /* Sidebar for the U-shaped layout */
@@ -53,13 +53,12 @@
 /* Content container - the white box */
 .u-layout-content {
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 1rem 1rem 0 0; /* Rounded corners only on top */
+  border-radius: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.04);
   flex: 1;
   overflow-y: auto;
   animation: fade-in 0.3s ease-in-out;
-  margin-bottom: 0; /* Remove bottom margin */
-  min-height: calc(100vh - 100px); /* Adjust height to maintain U-shape */
+  /*border: 1px solid rgba(0, 0, 0, 0.05);*/ /*Removed border*/
 }
 
 /* Content padding inside the white box */
