@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  background-color: theme('colors.apple.lightgray');
+  background-color: theme('colors.apple.gray');
   /*border-bottom: 1px solid rgba(0, 0, 0, 0.06);*/ /*Removed border*/
   z-index: 20;
 }
@@ -34,7 +34,7 @@
 /* Sidebar for the U-shaped layout */
 .u-layout-sidebar {
   width: 240px;
-  background-color: theme('colors.apple.lightgray');
+  background-color: theme('colors.apple.gray');
   overflow-y: auto;
   transition: width 0.3s ease;
   border-radius: 0;
