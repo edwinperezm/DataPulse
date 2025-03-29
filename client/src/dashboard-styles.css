@@ -19,7 +19,7 @@
   justify-content: space-between;
   padding: 0 1.5rem;
   background-color: theme('colors.apple.lightgray');
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  /*border-bottom: 1px solid rgba(0, 0, 0, 0.06);*/ /*Removed border*/
   z-index: 20;
 }
 
@@ -38,7 +38,7 @@
   overflow-y: auto;
   transition: width 0.3s ease;
   border-radius: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  /*border-right: 1px solid rgba(0, 0, 0, 0.06);*/ /*Removed border*/
 }
 
 /* Main content area with white box */
@@ -58,7 +58,7 @@
   flex: 1;
   overflow-y: auto;
   animation: fade-in 0.3s ease-in-out;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  /*border: 1px solid rgba(0, 0, 0, 0.05);*/ /*Removed border*/
 }
 
 /* Content padding inside the white box */
@@ -152,7 +152,7 @@
 .apple-button.secondary {
   background-color: rgba(255, 255, 255, 0.8);
   color: var(--apple-black, #1d1d1f);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  /*border: 1px solid rgba(0, 0, 0, 0.05);*/ /*Removed border*/
 }
 
 .apple-button.secondary:hover {
