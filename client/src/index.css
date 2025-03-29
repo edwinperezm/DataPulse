@@ -33,8 +33,10 @@
   }
 
   body {
-    font-family: 'Bold Onse', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    @apply antialiased bg-apple-gray text-apple-black;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    @apply antialiased bg-apple-gray text-apple-black tracking-tight;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Apple-style variable font weights */
