@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: theme('colors.brand.lightest'); /* Updated green palette */
+  background-color: #FFFFFF; /* White background */
   overflow: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  background-color: theme('colors.brand.dark'); /* Updated to dark green */
+  background-color: theme('colors.brand.darkest'); /* Updated to darkest green */
   border-bottom: none; /* Removed border per request */
   z-index: 20;
 }
@@ -34,7 +34,7 @@
 /* Sidebar for the U-shaped layout */
 .u-layout-sidebar {
   width: 240px;
-  background-color: theme('colors.brand.darker'); /* Updated to darker green */
+  background-color: theme('colors.brand.darkest'); /* Updated to darkest green */
   overflow-y: auto;
   transition: width 0.3s ease;
   border-radius: 0.75rem; /* Added rounded corners */
@@ -127,7 +127,7 @@
   padding: 0.5rem 1rem;
   border-radius: 0.75rem; /* Added rounded corners */
   font-weight: 500;
-  background-color: theme('colors.brand.dark');
+  background-color: theme('colors.brand.bright');
   color: white;
   border: none;
   font-family: 'BoldOnse', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -137,7 +137,7 @@
 }
 
 .apple-button:hover {
-  background-color: theme('colors.brand.darker');
+  background-color: theme('colors.brand.light');
   transform: translateY(-1px);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
@@ -276,7 +276,7 @@
 .layout-container {
   display: flex;
   height: 100vh;
-  background-color: theme('colors.brand.lightest'); /* Using lightest green from our palette */
+  background-color: #f5f9f5; /* Using a very subtle light green background */
 }
 
 .sidebar {
