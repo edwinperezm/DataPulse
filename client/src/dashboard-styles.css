@@ -18,9 +18,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: theme('colors.apple.lightgray');
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   z-index: 20;
 }
 
@@ -35,12 +34,11 @@
 /* Sidebar for the U-shaped layout */
 .u-layout-sidebar {
   width: 240px;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  background-color: theme('colors.apple.lightgray');
   overflow-y: auto;
   transition: width 0.3s ease;
   border-radius: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* Main content area with white box */
