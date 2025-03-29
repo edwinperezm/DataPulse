@@ -28,7 +28,7 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  padding: 20px 20px 20px 0px; /* Top, Right, Bottom, Left - as shown in screenshot */
+  padding: 0 20px 20px 0px; /* Top, Right, Bottom, Left - removing top padding */
 }
 
 /* Sidebar for the U-shaped layout */
