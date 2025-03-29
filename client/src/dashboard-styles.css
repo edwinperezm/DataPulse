@@ -61,7 +61,7 @@
 
 /* Content padding inside the white box */
 .u-layout-container {
-  padding: 1.5rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
   animation: fade-in 0.3s ease-in-out;
 }
 
