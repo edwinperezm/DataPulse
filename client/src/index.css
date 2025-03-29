@@ -33,7 +33,7 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
     @apply antialiased bg-apple-gray text-apple-black tracking-tight;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -93,11 +93,12 @@
 
   /* Apple-style bento box utilities */
   .bento-container {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4;
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4;
   }
   
   .bento-card {
-    @apply bg-white rounded-2xl shadow-sm p-6 transition-all hover:shadow-md;
+    @apply bg-white rounded-xl shadow-apple-sm p-6 transition-all hover:shadow-apple-md;
+    border: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .bento-card-span-2 {
@@ -114,17 +115,18 @@
 
   /* Apple-style glassmorphism */
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-md border border-white/20;
+    @apply bg-white/80 backdrop-blur-xl;
+    border: 1px solid rgba(255, 255, 255, 0.4);
   }
 }
 
 /* Grid layout styles */
 .react-grid-item.react-grid-placeholder {
-  background: #1e40af;
+  background: #0071e3; /* Apple blue */
   opacity: 0.2;
   transition-duration: 100ms;
   z-index: 2;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem; /* Apple-style rounded corners */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

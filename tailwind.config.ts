@@ -17,24 +17,25 @@ export default {
       },
       colors: {
         brand: {
-          // Dark greens
-          darkest: "#18230F",
-          darker: "#27391C",
-          dark: "#255F38",
-          medium: "#1F7D53",
-          // Bright greens
-          bright: "#059212",
-          light: "#06D001",
-          lightest: "#9BEC00",
+          // Apple colors
+          primary: "#0071e3", // Apple blue
+          secondary: "#86868b", // Apple dark gray
+          accent: "#06c", // Apple link blue
+          // Neutrals
+          darkest: "#1d1d1f", // Apple black
+          dark: "#424245", // Apple dark gray
+          medium: "#6e6e73", // Apple medium gray
+          light: "#d2d2d7", // Apple light gray
+          lightest: "#f5f5f7", // Apple lightest gray
           // White
           white: "#FFFFFF",
         },
         apple: {
-          gray: "#f5f5f7",
-          lightgray: "#fafafa", 
-          darkgray: "#86868b",
-          black: "#1d1d1f",
-          blue: "#0071e3",
+          gray: "#f5f5f7", // Apple gray background
+          lightgray: "#fafafa", // Apple lighter gray
+          darkgray: "#86868b", // Apple dark gray text
+          black: "#1d1d1f", // Apple black text
+          blue: "#0071e3", // Apple blue
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
