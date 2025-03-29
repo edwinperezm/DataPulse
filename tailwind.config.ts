@@ -16,21 +16,25 @@ export default {
         "3xl": "30px", // Apple-style heavily rounded corners
       },
       colors: {
+        brand: {
+          // Dark greens
+          darkest: "#18230F",
+          darker: "#27391C",
+          dark: "#255F38",
+          medium: "#1F7D53",
+          // Bright greens
+          bright: "#059212",
+          light: "#06D001",
+          lightest: "#9BEC00",
+          // White
+          white: "#FFFFFF",
+        },
         apple: {
           gray: "#f5f5f7",
           lightgray: "#fafafa", 
           darkgray: "#86868b",
           black: "#1d1d1f",
           blue: "#0071e3",
-        },
-        brand: {
-          cream: "#FDFBEE",
-          teal: {
-            light: "#57B4BA",
-            DEFAULT: "#57B4BA",
-            dark: "#015551",
-          },
-          coral: "#FE4F2D",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
