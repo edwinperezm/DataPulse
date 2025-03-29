@@ -7,12 +7,12 @@ export const getStatusColor = (status: ClientStatus) => {
   switch (status) {
     case 'healthy':
       return {
-        bg: 'bg-green-100',
-        text: 'text-green-800',
-        badge: 'bg-green-100 text-green-800',
-        dot: 'bg-green-500',
-        icon: 'text-green-500',
-        accentBg: 'bg-green-50'
+        bg: 'bg-blue-100',
+        text: 'text-blue-800',
+        badge: 'bg-blue-100 text-blue-800',
+        dot: 'bg-blue-500',
+        icon: 'text-blue-500',
+        accentBg: 'bg-blue-50'
       };
     case 'needs-attention':
       return {
