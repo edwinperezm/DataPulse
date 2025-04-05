@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { useClientSearch } from '../../hooks/use-client-search';
 import { Client } from "@shared/schema";
-import { getStatusColor, getStatusLabel, ClientStatus } from '@/lib/status-utils';
+import { getStatusColor, getStatusLabel, ClientStatus } from '@/utils/status-utils';
 import { useLocation } from 'wouter';
 
 interface SearchBarProps {

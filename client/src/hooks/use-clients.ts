@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient, apiRequest } from "@/lib/queryClient";
+import { queryClient, apiRequest } from "@/utils/queryClient";
 import { Client, InsertClient } from "@shared/schema";
 
 export function useClients() {

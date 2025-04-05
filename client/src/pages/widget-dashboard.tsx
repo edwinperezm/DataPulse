@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import GridLayout from 'react-grid-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { BrandedSpinner, BrandedSpinnerPro } from '@/components/ui/branded-spinner';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/common/card';
+import { Button } from '@/components/common/button';
+import { BrandedSpinner, BrandedSpinnerPro } from '@/components/common/branded-spinner';
 import { BarChart2, Users, Clipboard, Activity, Maximize2, Minimize2 } from 'lucide-react';
-import { SectionTitle } from '@/components/ui/section-title';
+import { SectionTitle } from '@/components/common/section-title';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 

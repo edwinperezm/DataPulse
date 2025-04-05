@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { BrandedSpinner, BrandedSpinnerPro } from '@/components/ui/branded-spinner';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { SectionTitle } from '@/components/ui/section-title';
+import { BrandedSpinner, BrandedSpinnerPro } from '@/components/common/branded-spinner';
+import { Button } from '@/components/common/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/common/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/common/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/common/select";
+import { Switch } from "@/components/common/switch";
+import { Label } from "@/components/common/label";
+import { SectionTitle } from '@/components/common/section-title';
 
 export default function LoadingDemo() {
   // State for spinner configuration

@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient, apiRequest } from "@/lib/queryClient";
+import { queryClient, apiRequest } from "@/utils/queryClient";
 import { Survey, InsertSurvey, SurveyRecipient, InsertSurveyRecipient } from "@shared/schema";
 
 export function useSurveys() {
@@ -56,6 +56,19 @@ export function useAddSurveyRecipient() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['/api/surveys', variables.surveyId.toString(), 'recipients'] });
     },
+  });
+}
+
+export function usePendingSurveysCount() {
+  return useQuery<number>({
+    queryKey: ['/api/surveys/pending/count'],
+  });
+}
+
+export function useSurveysByClient(clientId: number) {
+  return useQuery<Survey[]>({
+    queryKey: ['/api/surveys/client', clientId],
+    enabled: !!clientId,
   });
 }
 

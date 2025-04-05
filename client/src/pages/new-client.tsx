@@ -2,17 +2,18 @@ import React from "react";
 import { useCreateClient } from "@/hooks/use-clients";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/common/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/common/card";
+import { Input } from "@/components/common/input";
+import { Label } from "@/components/common/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/common/select";
 import { Loader, ArrowLeft } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/common/form";
 import { insertClientSchema } from "@shared/schema";
+import { MainLayout } from "@/components/layout/main-layout";
 
 // Extend the insert schema with validation rules
 const formSchema = insertClientSchema.extend({
@@ -77,20 +78,9 @@ export default function NewClient() {
   };
   
   return (
-    <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-      {/* Page header */}
-      <div className="py-6 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center">
-          <h1 className="text-2xl font-semibold text-gray-900">Add New Client</h1>
-          <Button variant="outline" onClick={() => navigate("/clients")}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Clients
-          </Button>
-        </div>
-      </div>
-      
-      {/* Form content */}
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 py-6">
+    <MainLayout>
+      <div className="space-y-6">
+        <h1 className="text-2xl font-semibold">New Client</h1>
         <Card>
           <CardHeader>
             <CardTitle>Client Information</CardTitle>
@@ -276,6 +266,6 @@ export default function NewClient() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </MainLayout>
   );
 }
