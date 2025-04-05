@@ -1,38 +1,31 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./utils/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/common/toaster";
-import { MainLayout } from "@/components/layout/main-layout";
-import NotFound from "@/pages/not-found";
-import Dashboard from "@/pages/dashboard";
-import Clients from "@/pages/clients";
-import NewClient from "@/pages/new-client";
-import Surveys from "@/pages/surveys";
-import LoadingDemo from "@/pages/loading-demo";
-import WidgetDashboard from "@/pages/widget-dashboard";
-
-function Router() {
-  return (
-    <MainLayout>
-      <Switch>
-        <Route path="/" component={Dashboard} />
-        <Route path="/clients" component={Clients} />
-        <Route path="/clients/new" component={NewClient} />
-        <Route path="/surveys" component={Surveys} />
-        <Route path="/loading-demo" component={LoadingDemo} />
-        <Route path="/widget-dashboard" component={WidgetDashboard} />
-        <Route component={NotFound} />
-      </Switch>
-    </MainLayout>
-  );
-}
+import React from 'react';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
-    </QueryClientProvider>
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh', 
+      backgroundColor: '#f0f4f8' 
+    }}>
+      <div style={{ 
+        padding: '2rem', 
+        backgroundColor: 'white', 
+        borderRadius: '0.5rem', 
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' 
+      }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+          DataPulse Dashboard
+        </h1>
+        <p style={{ marginBottom: '1rem' }}>
+          Welcome to your dashboard!
+        </p>
+        <p>
+          Current time: {new Date().toLocaleTimeString()}
+        </p>
+      </div>
+    </div>
   );
 }
 

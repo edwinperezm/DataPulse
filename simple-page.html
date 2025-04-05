@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataPulse Simple Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    .container {
+      padding: 2rem;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 600px;
+    }
+    h1 {
+      color: #2563eb;
+      margin-bottom: 1rem;
+    }
+    p {
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .time {
+      font-weight: bold;
+      color: #059669;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DataPulse Test Page</h1>
+    <p>If you can see this page, the server is working correctly!</p>
+    <p>This is a simple test page to verify that the browser preview is functioning properly.</p>
+    <p class="time" id="current-time">Current time: Loading...</p>
+  </div>
+
+  <script>
+    // Update the time every second
+    function updateTime() {
+      document.getElementById('current-time').textContent = 'Current time: ' + new Date().toLocaleTimeString();
+    }
+    
+    // Update time immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+</body>
+</html>
