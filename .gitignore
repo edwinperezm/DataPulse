@@ -1,5 +1,15 @@
+# Dependencies
 node_modules
+
+# Build output
 dist
 server/public
+
+# Environment variables
+.env
+
+# Editor files
 vite.config.ts.*
+
+# Archives
 *.tar.gz
