@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SideNav } from "./side-nav";
 import { TopNav } from "./top-nav";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { Activity } from "lucide-react";
 
 interface MainLayoutProps {
@@ -33,7 +33,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7]">
+    <div className="flex min-h-screen bg-[#f7f7f7]">
       {/* Backdrop for mobile */}
       <div
         className={cn(
@@ -44,59 +44,45 @@ export function MainLayout({ children }: MainLayoutProps) {
         onClick={toggleSidebar}
       />
 
-      <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <div
+      {/* Sidebar */}
+      <div
+        className={cn(
+          "fixed inset-y-0 z-50 flex flex-col bg-black shadow-[0_0_1px_rgba(255,255,255,0.1)]",
+          "transform transition-all duration-300 ease-in-out lg:relative lg:transform-none",
+          isSidebarOpen ? "w-64" : "w-16",
+          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        <div className="flex h-14 items-center justify-center border-b border-white/[0.08]">
+          <div className={cn(
+            "transition-[opacity,width] duration-300 ease-in-out overflow-hidden whitespace-nowrap",
+            isSidebarOpen ? "w-auto opacity-100" : "w-0 opacity-0 lg:w-auto lg:opacity-100"
+          )}>
+            <h1 className="text-lg font-medium text-white tracking-tight">
+              DataPulse
+            </h1>
+          </div>
+          <Activity className={cn(
+            "h-5 w-5 text-white transition-[opacity,width] duration-300 ease-in-out",
+            isSidebarOpen ? "w-0 opacity-0" : "w-auto opacity-100"
+          )} />
+        </div>
+        <SideNav isCollapsed={!isSidebarOpen} />
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col min-h-screen">
+        <TopNav toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+        <main 
           className={cn(
-            "fixed inset-y-0 z-50 flex flex-col bg-black shadow-[0_0_1px_rgba(255,255,255,0.1)]",
-            "transform transition-all duration-300 ease-in-out lg:relative lg:transform-none",
-            isSidebarOpen ? "w-64" : "w-16",
-            isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+            "flex-1 p-6 transition-all duration-300 ease-in-out will-change-[padding]",
+            isSidebarOpen ? "lg:pl-70" : "lg:pl-22"
           )}
         >
-          <div className="flex flex-1 flex-col">
-            <div className="flex h-14 items-center justify-center border-b border-white/[0.08]">
-              <div className={cn(
-                "transition-[opacity,width] duration-300 ease-in-out overflow-hidden whitespace-nowrap",
-                isSidebarOpen ? "w-auto opacity-100" : "w-0 opacity-0 lg:w-auto lg:opacity-100"
-              )}>
-                <h1 className="text-lg font-medium text-white tracking-tight">
-                  DataPulse
-                </h1>
-              </div>
-              <Activity className={cn(
-                "h-5 w-5 text-white transition-[opacity,width] duration-300 ease-in-out",
-                isSidebarOpen ? "w-0 opacity-0" : "w-auto opacity-100"
-              )} />
-            </div>
-            <SideNav isCollapsed={!isSidebarOpen} />
+          <div className="max-w-[2000px] mx-auto w-full">
+            {children}
           </div>
-        </div>
-
-        {/* Main content */}
-        <div className="flex-1 flex flex-col min-h-screen">
-          <TopNav toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
-          <main 
-            className={cn(
-              "flex-1 p-6 transition-all duration-300 ease-in-out will-change-[padding]",
-              isSidebarOpen ? "lg:pl-70" : "lg:pl-22"
-            )}
-          >
-            <div className="grid gap-6 max-w-[2000px] mx-auto w-full">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="rounded-xl bg-white p-6 shadow-[0_0_1px_rgba(0,0,0,0.12),0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] transition-shadow duration-300 ease-in-out hover:shadow-[0_0_1px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)]">
-                  {children}
-                </div>
-                <div className="rounded-xl bg-red-100 p-6 shadow-[0_0_1px_rgba(0,0,0,0.12),0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] transition-shadow duration-300 ease-in-out hover:shadow-[0_0_1px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)]">
-                  {/* Stats content will go here */}
-                </div>
-              </div>
-              <div className="rounded-xl bg-blue-100 p-6 shadow-[0_0_1px_rgba(0,0,0,0.12),0_1px_4px_rgba(0,0,0,0.06)] border border-black/[0.06] transition-shadow duration-300 ease-in-out hover:shadow-[0_0_1px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)]">
-                {/* Additional content will go here */}
-              </div>
-            </div>
-          </main>
-        </div>
+        </main>
       </div>
     </div>
   );

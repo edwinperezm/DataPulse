@@ -15,7 +15,7 @@ interface SideNavProps {
 const navigation = [
   {
     name: "Dashboard",
-    href: "/",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
@@ -29,14 +29,14 @@ const navigation = [
     icon: FileText,
   },
   {
-    name: "Widget Dashboard",
-    href: "/widget-dashboard",
+    name: "Analytics",
+    href: "/analytics-dashboard",
     icon: BarChart2,
   },
   {
-    name: "Loading Demo",
-    href: "/loading-demo",
-    icon: Settings,
+    name: "Widget Dashboard",
+    href: "/widget-dashboard",
+    icon: BarChart2,
   },
 ];
 
