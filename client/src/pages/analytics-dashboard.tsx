@@ -43,11 +43,7 @@ import {
   Legend,
   ResponsiveContainer,
   AreaChart,
-  Area,
-  FunnelChart,
-  Funnel,
-  FunnelProps,
-  LabelList
+  Area
 } from 'recharts';
 
 // Import the data and helper functions
@@ -124,9 +120,9 @@ const getDateRange = (period: string): { start: Date, end: Date } => {
 // Define platform options
 const platforms = [
   { value: 'all', label: 'All Platforms', color: '#888888' },
-  { value: 'web', label: 'Web', color: '#4F9BFF' },
-  { value: 'ios', label: 'iOS', color: '#FF4E61' },
-  { value: 'android', label: 'Android', color: '#36D399' }
+  { value: 'web', label: 'Web', color: '#888888' },
+  { value: 'ios', label: 'iOS', color: '#888888' },
+  { value: 'android', label: 'Android', color: '#888888' }
 ];
 
 // Define device options
@@ -165,12 +161,12 @@ const KPICard: React.FC<KPICardProps> = ({ title, value, change, icon, className
             <h3 className="text-2xl font-bold mt-1">{value}</h3>
             <div className="flex items-center mt-2">
               {change > 0 ? (
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
                   <ArrowUp className="h-3 w-3 mr-1" />
                   {Math.abs(change)}%
                 </Badge>
               ) : (
-                <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+                <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
                   <ArrowDown className="h-3 w-3 mr-1" />
                   {Math.abs(change)}%
                 </Badge>
@@ -178,7 +174,7 @@ const KPICard: React.FC<KPICardProps> = ({ title, value, change, icon, className
               <span className="text-xs text-gray-500 ml-2">vs previous period</span>
             </div>
           </div>
-          <div className="p-3 rounded-full bg-gray-100">
+          <div className="h-12 w-12 bg-gray-100 rounded-full flex items-center justify-center">
             {icon}
           </div>
         </div>
@@ -269,79 +265,7 @@ const COLORS = {
   purple: '#A87FFF'
 };
 
-// Conversion Funnel component using Recharts
-const ConversionFunnel: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
-  // Calculate funnel data based on the analytics data
-  const totalSessions = data.reduce((sum, item) => sum + item.sessions, 0);
-  const totalConversions = Math.round(totalSessions * (data.reduce((sum, item) => sum + item.conversionRate, 0) / data.length));
-  
-  // Define the funnel steps
-  const funnelData = [
-    {
-      name: 'Sessions',
-      value: totalSessions,
-      fill: COLORS.blue
-    },
-    {
-      name: 'Product Views',
-      value: Math.round(totalSessions * 0.7), // Assuming 70% of sessions view products
-      fill: COLORS.green
-    },
-    {
-      name: 'Add to Cart',
-      value: Math.round(totalSessions * 0.4), // Assuming 40% add to cart
-      fill: COLORS.yellow
-    },
-    {
-      name: 'Checkout',
-      value: Math.round(totalSessions * 0.25), // Assuming 25% reach checkout
-      fill: COLORS.purple
-    },
-    {
-      name: 'Purchases',
-      value: totalConversions,
-      fill: COLORS.primary
-    }
-  ];
 
-  return (
-    <div className="h-80 w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <FunnelChart>
-          <Tooltip 
-            contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-            }}
-            formatter={(value) => [`${value.toLocaleString()} users`, '']}
-          />
-          <Funnel
-            dataKey="value"
-            data={funnelData}
-            isAnimationActive
-          >
-            <LabelList 
-              position="right" 
-              fill={COLORS.darkGray} 
-              stroke="none" 
-              dataKey="name" 
-            />
-            <LabelList
-              position="right"
-              fill={COLORS.mediumGray}
-              stroke="none"
-              dataKey="value"
-              formatter={(value: number) => value.toLocaleString()}
-              offset={60}
-            />
-          </Funnel>
-        </FunnelChart>
-      </ResponsiveContainer>
-    </div>
-  );
-};
 
 // Revenue Chart component using Recharts
 const RevenueChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
@@ -769,7 +693,7 @@ export default function AnalyticsDashboard() {
             {format(getDateRange(timePeriod).start, 'MMM d, yyyy')} - {format(getDateRange(timePeriod).end, 'MMM d, yyyy')}
           </span>
         </div>
-        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+        <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
           {timePeriods.find(p => p.value === timePeriod)?.label}
         </Badge>
       </div>
@@ -850,8 +774,8 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      {/* KPI Cards - Grid Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {/* Date range summary */}
         <div className="lg:col-span-4 bg-white p-4 rounded-lg shadow-sm mb-2">
           <div className="flex items-center justify-between">
@@ -865,35 +789,35 @@ export default function AnalyticsDashboard() {
           title="Total Sessions"
           value={totalSessions.toLocaleString()}
           change={5.2}
-          icon={<Users className="h-6 w-6 text-blue-500" />}
+          icon={<Users className="h-6 w-6 text-gray-600" />}
         />
         <KPICard
           title="Total Revenue"
           value={`$${totalRevenue.toLocaleString()}`}
           change={7.8}
-          icon={<DollarSign className="h-6 w-6 text-green-500" />}
+          icon={<DollarSign className="h-6 w-6 text-gray-600" />}
         />
         <KPICard
           title="Bounce Rate"
           value={`${(avgBounceRate * 100).toFixed(2)}%`}
           change={-2.3}
-          icon={<Percent className="h-6 w-6 text-red-500" />}
+          icon={<Percent className="h-6 w-6 text-gray-600" />}
         />
         <KPICard
           title="Conversion Rate"
           value={`${(avgConversionRate * 100).toFixed(2)}%`}
           change={1.5}
-          icon={<Percent className="h-6 w-6 text-purple-500" />}
+          icon={<Percent className="h-6 w-6 text-gray-600" />}
         />
       </div>
 
-      {/* Tabs for different views */}
-      <Tabs defaultValue="overview" className="mb-6">
+      {/* Tabs for different views - Flex Layout */}
+      <div className="flex flex-col w-full mb-6">
+      <Tabs defaultValue="overview" className="w-full">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="revenue">Revenue</TabsTrigger>
           <TabsTrigger value="sessions">Sessions</TabsTrigger>
-          <TabsTrigger value="funnel">Conversion Funnel</TabsTrigger>
           <TabsTrigger value="engagement">Engagement</TabsTrigger>
           <TabsTrigger value="platforms">Platforms</TabsTrigger>
           <TabsTrigger value="geography">Geography</TabsTrigger>
@@ -1012,7 +936,7 @@ export default function AnalyticsDashboard() {
                     <div className="text-2xl font-bold">
                       ${(totalRevenue / (totalSessions || 1)).toFixed(2)}
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-red-500">
+                    <div className="flex items-center text-sm mt-2 text-gray-500">
                       <ArrowDown className="h-4 w-4 mr-1" />
                       <span>1.2% vs. last period</span>
                     </div>
@@ -1063,7 +987,7 @@ export default function AnalyticsDashboard() {
                     <div className="text-2xl font-bold">
                       {(avgBounceRate * 100).toFixed(2)}%
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-red-500">
+                    <div className="flex items-center text-sm mt-2 text-gray-500">
                       <ArrowDown className="h-4 w-4 mr-1" />
                       <span>3.4% vs. last period</span>
                     </div>
@@ -1149,93 +1073,7 @@ export default function AnalyticsDashboard() {
           </ChartCard>
         </TabsContent>
 
-        <TabsContent value="funnel" className="mt-6">
-          <ChartCard title="Conversion Funnel" description="Visualization of user journey steps and drop-off rates">
-            <ConversionFunnel data={filteredData} />
-          </ChartCard>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Funnel Insights</CardTitle>
-                <CardDescription>Key metrics and drop-off analysis</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm font-medium text-gray-500 mb-1">Overall Conversion Rate</h4>
-                    <div className="text-2xl font-bold">
-                      {(filteredData.reduce((sum, item) => sum + item.conversionRate, 0) / filteredData.length * 100).toFixed(2)}%
-                    </div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
-                      <ArrowUp className="h-4 w-4 mr-1" />
-                      <span>2.3% vs. last period</span>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium">Biggest Drop-off Points</h4>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Add to Cart → Checkout</span>
-                      <span className="text-sm text-red-500">-37.5%</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Product Views → Add to Cart</span>
-                      <span className="text-sm text-red-500">-42.9%</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Conversion by Platform</CardTitle>
-                <CardDescription>Platform performance comparison</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {Object.entries(platforms)
-                    .filter(([_, platform]) => platform.value !== 'all')
-                    .map(([_, platform]) => {
-                      // Calculate platform conversion
-                      const platformData = filteredData.filter(item => 
-                        platform.value === 'all' || item.platform.toLowerCase() === platform.value
-                      );
-                      const platformConvRate = platformData.length > 0 
-                        ? platformData.reduce((sum, item) => sum + item.conversionRate, 0) / platformData.length 
-                        : 0;
-                      
-                      return (
-                        <div key={platform.value} className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 rounded-full mr-2" 
-                                 style={{ backgroundColor: platform.color || COLORS.primary }} />
-                            <span>{platform.label}</span>
-                          </div>
-                          <div className="flex items-center space-x-4">
-                            <span className="text-sm font-medium">
-                              {(platformConvRate * 100).toFixed(2)}%
-                            </span>
-                            <div className="w-24 bg-gray-100 rounded-full h-2">
-                              <div 
-                                className="h-2 rounded-full" 
-                                style={{ 
-                                  width: `${platformConvRate * 100 * 5}%`, // Scale for better visualization
-                                  backgroundColor: platform.color || COLORS.primary 
-                                }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  }
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+
 
         <TabsContent value="engagement" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -1275,7 +1113,7 @@ export default function AnalyticsDashboard() {
                             {Math.abs(metric.change)}%
                           </Badge>
                         ) : (
-                          <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+                          <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
                             <ArrowDown className="h-3 w-3 mr-1" />
                             {Math.abs(metric.change)}%
                           </Badge>
@@ -1305,9 +1143,9 @@ export default function AnalyticsDashboard() {
                   </p>
                 </div>
                 
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h4 className="text-sm font-medium text-blue-900">Recommendations</h4>
-                  <ul className="text-sm text-blue-700 mt-1 list-disc list-inside space-y-1">
+                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <h4 className="text-sm font-medium text-gray-900">Recommendations</h4>
+                  <ul className="text-sm text-gray-700 mt-1 list-disc list-inside space-y-1">
                     <li>Focus on improving mobile engagement which shows 15% lower session duration</li>
                     <li>Consider implementing push notifications for abandoned carts to improve conversion</li>
                     <li>Target users from the Aug 15-21 cohort with special offers to improve retention</li>
@@ -1349,6 +1187,7 @@ export default function AnalyticsDashboard() {
           </ChartCard>
         </TabsContent>
       </Tabs>
+      </div>
 
       {/* Data Table */}
       <Card className="mb-6">

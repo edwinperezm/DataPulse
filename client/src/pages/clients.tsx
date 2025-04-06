@@ -74,8 +74,8 @@ export default function Clients() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card>
             <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-green-100 p-3 mr-4">
-                <CheckCircle className="h-6 w-6 text-green-600" />
+              <div className="rounded-full bg-gray-100 p-3 mr-4">
+                <CheckCircle className="h-6 w-6 text-gray-600" />
               </div>
               <div>
                 <p className="text-gray-500 text-sm">Healthy</p>
@@ -87,8 +87,8 @@ export default function Clients() {
           </Card>
           <Card>
             <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-yellow-100 p-3 mr-4">
-                <Clock className="h-6 w-6 text-yellow-600" />
+              <div className="rounded-full bg-gray-100 p-3 mr-4">
+                <Clock className="h-6 w-6 text-gray-600" />
               </div>
               <div>
                 <p className="text-gray-500 text-sm">Needs Attention</p>
@@ -100,8 +100,8 @@ export default function Clients() {
           </Card>
           <Card>
             <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-red-100 p-3 mr-4">
-                <AlertTriangle className="h-6 w-6 text-red-600" />
+              <div className="rounded-full bg-gray-100 p-3 mr-4">
+                <AlertTriangle className="h-6 w-6 text-gray-600" />
               </div>
               <div>
                 <p className="text-gray-500 text-sm">At Risk</p>
@@ -161,7 +161,7 @@ export default function Clients() {
                         >
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-medium">
+                              <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 font-medium">
                                 {client.initials}
                               </div>
                               <div className="ml-4">
@@ -179,7 +179,7 @@ export default function Clients() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">{client.healthScore}</div>
-                            <div className={cn("text-xs", client.trendValue > 0 ? "text-green-600" : client.trendValue < 0 ? "text-red-600" : "text-gray-500")}>
+                            <div className={cn("text-xs", client.trendValue > 0 ? "text-gray-600" : client.trendValue < 0 ? "text-gray-600" : "text-gray-500")}>
                               {client.trendValue > 0 ? '↑' : client.trendValue < 0 ? '↓' : '→'} {Math.abs(client.trendValue)}%
                             </div>
                           </td>

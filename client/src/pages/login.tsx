@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "@/providers/auth-provider";
-import { useNavigate } from "wouter";
+import { useAuth } from "../providers/auth-provider";
+import { useLocation } from "wouter";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +8,7 @@ import { Button } from "@/components/common/button";
 import { Input } from "@/components/common/input";
 import { Label } from "@/components/common/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/common/card";
-import { useToast } from "@/components/common/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 // Login form schema
 const loginSchema = z.object({
@@ -21,7 +21,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function Login() {
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [, navigate] = useNavigate();
+  const [, navigate] = useLocation();
   const { toast } = useToast();
   
   const {
@@ -71,7 +71,7 @@ export default function Login() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Button variant="link" className="px-0 font-normal h-auto" type="button">
+                <Button variant="ghost" className="px-0 font-normal h-auto" type="button">
                   Forgot password?
                 </Button>
               </div>
@@ -93,7 +93,7 @@ export default function Login() {
             </Button>
             <div className="text-center text-sm">
               Don't have an account?{" "}
-              <Button variant="link" className="px-0 font-normal h-auto" onClick={() => navigate("/register")}>
+              <Button variant="ghost" className="px-0 font-normal h-auto" onClick={() => navigate("/register")}>
                 Register
               </Button>
             </div>

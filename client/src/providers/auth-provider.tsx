@@ -47,42 +47,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // Check for existing token on mount
+  // Auto-authenticate with mock user for development
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-      fetchUserData(storedToken);
-    } else {
-      setIsLoading(false);
-    }
+    // Create a mock user for automatic authentication
+    const mockUser: User = {
+      id: 1,
+      username: 'demo_user',
+      name: 'Demo User',
+      email: 'demo@example.com',
+      role: 'admin'
+    };
+    
+    // Set mock token
+    const mockToken = 'mock-jwt-token-for-development';
+    
+    // Set user and token
+    setUser(mockUser);
+    setToken(mockToken);
+    localStorage.setItem('token', mockToken);
+    
+    // Finish loading
+    setIsLoading(false);
   }, []);
 
-  // Fetch user data with token
+  // Mock fetch user data function (not used in bypass mode)
   const fetchUserData = async (authToken: string) => {
-    try {
-      setIsLoading(true);
-      const response = await fetch('/api/auth/me', {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        // If token is invalid, clear it
-        localStorage.removeItem('token');
-        setToken(null);
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      localStorage.removeItem('token');
-      setToken(null);
-    } finally {
-      setIsLoading(false);
-    }
+    // This function is not used in bypass mode but kept for reference
+    console.log('fetchUserData called with token:', authToken);
+    // In bypass mode, we're using the mock user set in the useEffect
   };
 
   // Login function

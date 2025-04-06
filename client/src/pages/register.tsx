@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth, RegisterData } from "@/providers/auth-provider";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 export default function Register() {
   const { register: registerUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [, navigate] = useNavigate();
+  const [, navigate] = useLocation();
   
   const {
     register,
@@ -144,7 +144,7 @@ export default function Register() {
             </Button>
             <div className="text-center text-sm">
               Already have an account?{" "}
-              <Button variant="link" className="px-0 font-normal h-auto" onClick={() => navigate("/login")}>
+              <Button variant="ghost" className="px-0 font-normal h-auto" onClick={() => navigate("/login")}>
                 Login
               </Button>
             </div>

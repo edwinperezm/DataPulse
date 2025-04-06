@@ -23,31 +23,61 @@ export function log(message: string, source = "express") {
 }
 
 export async function setupVite(app: Express, server: Server) {
+  // Log that we're setting up Vite
+  log("Setting up Vite development server");
+  
+  // Configure Vite server options
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
     allowedHosts: true as const,
   };
 
+  // Create Vite server with custom configuration
   const vite = await createViteServer({
     ...viteConfig,
     configFile: false,
-    customLogger: {
-      ...viteLogger,
-      error: (msg, options) => {
-        viteLogger.error(msg, options);
-        process.exit(1);
-      },
-    },
+    customLogger: viteLogger, // Use standard logger without custom error handler
     server: serverOptions,
     appType: "custom",
   });
 
+  // Serve static files from client/public directory
+  const publicDir = path.resolve(__dirname, "..", "..", "client", "public");
+  app.use(express.static(publicDir));
+  
+  // Use Vite middleware for handling HMR and asset serving
   app.use(vite.middlewares);
+  
+  // Special route for test page
+  app.get('/test.html', async (req, res) => {
+    try {
+      const staticHtmlPath = path.resolve(publicDir, "index.html");
+      if (fs.existsSync(staticHtmlPath)) {
+        const content = await fs.promises.readFile(staticHtmlPath, "utf-8");
+        return res.status(200).set({ "Content-Type": "text/html" }).end(content);
+      } else {
+        return res.status(404).send('Test page not found');
+      }
+    } catch (error) {
+      log(`Error serving test page: ${error}`);
+      return res.status(500).send('Error serving test page');
+    }
+  });
+  
+  // For all non-API routes, use Vite to transform and serve the index.html
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
+    
+    // Skip API routes
+    if (url.startsWith('/api')) {
+      return next();
+    }
 
+    log(`Serving React app for path: ${url}`);
+    
     try {
+      // Get the path to the client's index.html template
       const clientTemplate = path.resolve(
         __dirname,
         "..",
@@ -56,16 +86,31 @@ export async function setupVite(app: Express, server: Server) {
         "index.html"
       );
 
-      // always reload the index.html file from disk incase it changes
+      // Read the template from disk and add cache-busting for the main entry point
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      
+      // Add a timestamp to prevent caching issues
+      const timestamp = Date.now();
       template = template.replace(
         `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`,
+        `src="/src/main.tsx?v=${timestamp}"`,
       );
+      
+      // Let Vite transform the HTML (resolving imports, applying HMR, etc.)
       const page = await vite.transformIndexHtml(url, template);
+      
+      // Send the transformed HTML to the client
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      
+      log(`Successfully served React app for ${url}`);
     } catch (e) {
+      // Fix stack traces for better debugging
       vite.ssrFixStacktrace(e as Error);
+      
+      // Log the error
+      log(`Error serving React app: ${e}`);
+      
+      // Pass the error to the next middleware
       next(e);
     }
   });

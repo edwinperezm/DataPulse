@@ -12,13 +12,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Public API Routes
   app.use('/api/auth', authRoutes);
   
-  // Temporarily disable authentication for testing
   // Protected API Routes - require authentication
-  app.use('/api/clients', clientRoutes); // removed authenticateToken
-  app.use('/api/activities', activityRoutes); // removed authenticateToken
-  app.use('/api/surveys', surveyRoutes); // removed authenticateToken
-  app.use('/api/survey-recipients', surveyRecipientRoutes); // removed authenticateToken
-  app.use('/api/suggestions', suggestionRoutes); // removed authenticateToken
+  app.use('/api/clients', authenticateToken, clientRoutes);
+  app.use('/api/activities', authenticateToken, activityRoutes);
+  app.use('/api/surveys', authenticateToken, surveyRoutes);
+  app.use('/api/survey-recipients', authenticateToken, surveyRecipientRoutes);
+  app.use('/api/suggestions', authenticateToken, suggestionRoutes);
 
   // Create the HTTP server
   const httpServer = createServer(app);

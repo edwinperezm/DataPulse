@@ -199,9 +199,7 @@ export default function WidgetDashboard() {
                 <td className="px-4 py-3 whitespace-nowrap text-sm font-boldonse font-medium text-apple-black">{client.name}</td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm">
                   <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-boldonse
-                    ${client.status === 'healthy' ? 'bg-green-100/70 text-green-700' : 
-                      client.status === 'needs-attention' ? 'bg-yellow-100/70 text-yellow-700' :
-                      'bg-red-100/70 text-red-700'}`}>
+                    bg-gray-100/70 text-gray-700`}>
                     {client.status === 'healthy' ? 'Healthy' : 
                      client.status === 'needs-attention' ? 'Needs Attention' : 'At Risk'}
                   </span>
@@ -219,8 +217,8 @@ export default function WidgetDashboard() {
     <div className="space-y-3">
       {recentActivities.map((activity, index) => (
         <div key={index} className="flex items-start space-x-4 py-3 px-2 border-b border-gray-100 last:border-0 hover:bg-white/40 rounded-xl transition-colors">
-          <div className="bg-apple-blue/10 p-2.5 rounded-full">
-            <Activity className="h-5 w-5 text-apple-blue" />
+          <div className="bg-gray-100 p-2.5 rounded-full">
+            <Activity className="h-5 w-5 text-gray-600" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-boldonse font-medium text-apple-black truncate">{activity.client}</p>
