@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { SideNav } from "./side-nav";
 import { TopNav } from "./top-nav";
 import { cn } from "@/utils/utils";
@@ -10,6 +11,13 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [location] = useLocation();
+
+  // Trigger resize event when route changes
+  useEffect(() => {
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+  }, [location]);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -33,13 +41,13 @@ export function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f7f7f7]">
+    <div className="flex min-h-screen bg-[#f7f7f7] dark:bg-gray-900 overflow-hidden">
       {/* Backdrop for mobile */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-black/10 backdrop-blur-[2px] lg:hidden",
-          "transition-[opacity,visibility] duration-300 ease-in-out",
-          isMobileOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          "fixed inset-0 z-40 bg-black/5 dark:bg-black/20 backdrop-blur-[2px] lg:hidden",
+          "transition-all duration-300 ease-in-out",
+          isMobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         )}
         onClick={toggleSidebar}
       />
@@ -47,25 +55,26 @@ export function MainLayout({ children }: MainLayoutProps) {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 z-50 flex flex-col bg-black shadow-[0_0_1px_rgba(255,255,255,0.1)]",
+          "fixed inset-y-0 z-50 flex flex-col bg-white dark:bg-gray-900 border-r border-black/[0.06]",
           "transform transition-all duration-300 ease-in-out lg:relative lg:transform-none",
+          "border-r border-gray-200 dark:border-gray-800",
           isSidebarOpen ? "w-64" : "w-16",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
-        <div className="flex h-14 items-center justify-center border-b border-white/[0.08]">
+        <div className="flex h-16 items-center justify-center">
           <div className={cn(
-            "transition-[opacity,width] duration-300 ease-in-out overflow-hidden whitespace-nowrap",
+            "transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap",
+            "flex items-center gap-3",
             isSidebarOpen ? "w-auto opacity-100" : "w-0 opacity-0 lg:w-auto lg:opacity-100"
           )}>
-            <h1 className="text-lg font-medium text-white tracking-tight">
-              DataPulse
-            </h1>
+            <Activity className="h-5 w-5 text-gray-900 dark:text-gray-100" />
+            {isSidebarOpen && (
+              <h1 className="text-lg font-medium text-gray-900 dark:text-gray-100 tracking-tight">
+                DataPulse
+              </h1>
+            )}
           </div>
-          <Activity className={cn(
-            "h-5 w-5 text-white transition-[opacity,width] duration-300 ease-in-out",
-            isSidebarOpen ? "w-0 opacity-0" : "w-auto opacity-100"
-          )} />
         </div>
         <SideNav isCollapsed={!isSidebarOpen} />
       </div>
@@ -74,14 +83,9 @@ export function MainLayout({ children }: MainLayoutProps) {
       <div className="flex-1 flex flex-col min-h-screen">
         <TopNav toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         <main 
-          className={cn(
-            "flex-1 p-6 transition-all duration-300 ease-in-out will-change-[padding]",
-            isSidebarOpen ? "lg:pl-70" : "lg:pl-22"
-          )}
+
         >
-          <div className="max-w-[2000px] mx-auto w-full">
-            {children}
-          </div>
+          {children}
         </main>
       </div>
     </div>

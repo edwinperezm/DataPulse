@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLayoutEffect } from '@/hooks/use-layout-effect';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/common/card";
 import { Button } from "@/components/common/button";
 import { Badge } from "@/components/common/badge";
@@ -53,6 +54,9 @@ export default function Dashboard() {
   const [clients, setClients] = useState(mockClients);
   const [activities, setActivities] = useState(mockActivities);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Use layout effect to handle resize events
+  useLayoutEffect();
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const [timePeriod, setTimePeriod] = useState('30d');
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,7 +100,7 @@ export default function Dashboard() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="p-8 bg-white rounded-lg shadow-md text-center">
+        <div className="p-8 bg-white rounded-lg text-center">
           <h2 className="text-xl font-semibold mb-4">Loading Dashboard...</h2>
           <div className="animate-pulse flex space-x-4">
             <div className="flex-1 space-y-4 py-1">
@@ -121,51 +125,68 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="w-full">
+    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 bg-white p-6 rounded-lg shadow-sm">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Client Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Monitor client health and engagement metrics
-          </p>
-        </div>
-        <div className="flex items-center space-x-2 mt-4 md:mt-0">
-          <div className="text-sm text-gray-500 mr-4">{currentTime}</div>
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-1" />
-            Export
-          </Button>
-          <Button variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4" />
-          </Button>
+      <div className="flex flex-col md:flex-row justify-between md:justify-between mb-6 bg-white p-6 rounded-lg">
+        <div className="flex justify-between items-center w-full">
+          <div>
+            <h1 className="text-2xl font-bold text-[#222222]">Client Dashboard</h1>
+            <p className="text-sm text-[#888888] mt-1">
+              Monitor client health and engagement metrics
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#f7f7f7] rounded-full text-sm text-[#888888]">
+              <Clock className="h-4 w-4" />
+              {currentTime}
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="hover:bg-[#f7f7f7] active:bg-[#f7f7f7] border-black/[0.06] text-[#888888] hover:text-[#222222]"
+            >
+              <Download className="h-4 w-4 mr-1.5" />
+              Export
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="hover:bg-[#f7f7f7] active:bg-[#f7f7f7] border-black/[0.06] text-[#888888] hover:text-[#222222]"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
       {/* Date Range Indicator */}
-      <div className="mb-6 bg-white p-4 rounded-lg shadow-sm flex items-center justify-between">
-        <div className="flex items-center">
-          <Calendar className="h-5 w-5 text-gray-500 mr-2" />
-          <span className="text-sm font-medium">
+      <div className="mb-6 bg-white p-4 rounded-lg border border-black/[0.06] flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Calendar className="h-5 w-5 text-[#888888]" />
+          <span className="text-sm font-medium text-[#222222]">
             {format(new Date(), 'MMM d, yyyy')}
           </span>
         </div>
-        <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+        <Badge className="bg-[#f7f7f7] text-[#222222] hover:bg-[#f7f7f7] border border-black/[0.06]">
           {timePeriods.find(p => p.value === timePeriod)?.label}
         </Badge>
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-white p-4 rounded-lg border border-black/[0.06]">
         <div className="col-span-1">
           <Select value={timePeriod} onValueChange={setTimePeriod}>
-            <SelectTrigger className="border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-              <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+            <SelectTrigger className="border-black/[0.06] focus:ring-2 focus:ring-black/[0.08] focus:border-transparent bg-[#f7f7f7] text-[#222222]">
+              <Calendar className="h-4 w-4 mr-2 text-[#888888]" />
               <SelectValue placeholder="Select time period" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border border-black/[0.06]">
               {timePeriods.map((period) => (
-                <SelectItem key={period.value} value={period.value}>
+                <SelectItem 
+                  key={period.value} 
+                  value={period.value}
+                  className="text-[#222222] focus:bg-[#f7f7f7] focus:text-[#222222]"
+                >
                   {period.label}
                 </SelectItem>
               ))}
@@ -174,11 +195,11 @@ export default function Dashboard() {
         </div>
         <div className="col-span-2">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-[#888888]" />
             <Input
               type="search"
               placeholder="Search clients..."
-              className="pl-8 border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="pl-8 border-black/[0.06] focus:ring-2 focus:ring-black/[0.08] focus:border-transparent bg-[#f7f7f7] text-[#222222] placeholder:text-[#888888]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -186,15 +207,15 @@ export default function Dashboard() {
         </div>
         <div className="col-span-1">
           <Select defaultValue="all">
-            <SelectTrigger className="border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-              <Filter className="h-4 w-4 mr-2 text-gray-500" />
+            <SelectTrigger className="border-black/[0.06] focus:ring-2 focus:ring-black/[0.08] focus:border-transparent bg-[#f7f7f7] text-[#222222]">
+              <Filter className="h-4 w-4 mr-2 text-[#888888]" />
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="at-risk">At Risk</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
+            <SelectContent className="bg-white border border-black/[0.06]">
+              <SelectItem value="all" className="text-[#222222] focus:bg-[#f7f7f7] focus:text-[#222222]">All Statuses</SelectItem>
+              <SelectItem value="active" className="text-[#222222] focus:bg-[#f7f7f7] focus:text-[#222222]">Active</SelectItem>
+              <SelectItem value="at-risk" className="text-[#222222] focus:bg-[#f7f7f7] focus:text-[#222222]">At Risk</SelectItem>
+              <SelectItem value="inactive" className="text-[#222222] focus:bg-[#f7f7f7] focus:text-[#222222]">Inactive</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -202,85 +223,85 @@ export default function Dashboard() {
 
       {/* Stats Overview - Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border border-black/[0.06] hover:border-black/[0.08] transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Total Clients</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.totalClients}</h3>
+                <p className="text-sm font-medium text-[#888888]">Total Clients</p>
+                <h3 className="text-2xl font-bold mt-1 text-[#222222]">{stats.totalClients}</h3>
                 <div className="flex items-center mt-2">
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <Badge className="bg-[#f7f7f7] text-[#222222] hover:bg-[#f7f7f7] border border-black/[0.06]">
                     <ArrowUp className="h-3 w-3 mr-1" />
                     12%
                   </Badge>
-                  <span className="text-xs text-gray-500 ml-2">vs last period</span>
+                  <span className="text-xs text-[#888888] ml-2">vs last period</span>
                 </div>
               </div>
-              <div className="h-12 w-12 bg-gray-100 rounded-full flex items-center justify-center">
-                <Building className="h-6 w-6 text-gray-600" />
+              <div className="h-12 w-12 bg-[#f7f7f7] rounded-full flex items-center justify-center">
+                <Building className="h-6 w-6 text-[#888888]" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border border-black/[0.06] hover:border-black/[0.08] transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Active Clients</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.activeClients}</h3>
+                <p className="text-sm font-medium text-[#888888]">Active Clients</p>
+                <h3 className="text-2xl font-bold mt-1 text-[#222222]">{stats.activeClients}</h3>
                 <div className="flex items-center mt-2">
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <Badge className="bg-[#f7f7f7] text-[#222222] hover:bg-[#f7f7f7] border border-black/[0.06]">
                     <ArrowUp className="h-3 w-3 mr-1" />
                     8%
                   </Badge>
-                  <span className="text-xs text-gray-500 ml-2">vs last period</span>
+                  <span className="text-xs text-[#888888] ml-2">vs last period</span>
                 </div>
               </div>
-              <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Users className="h-6 w-6 text-green-600" />
+              <div className="h-12 w-12 bg-[#f7f7f7] rounded-full flex items-center justify-center">
+                <Users className="h-6 w-6 text-[#888888]" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border border-black/[0.06] hover:border-black/[0.08] transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Health Score</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.averageHealthScore}%</h3>
+                <p className="text-sm font-medium text-[#888888]">Health Score</p>
+                <h3 className="text-2xl font-bold mt-1 text-[#222222]">{stats.averageHealthScore}%</h3>
                 <div className="flex items-center mt-2">
-                  <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+                  <Badge className="bg-[#f7f7f7] text-[#222222] hover:bg-[#f7f7f7] border border-black/[0.06]">
                     <ArrowDown className="h-3 w-3 mr-1" />
                     3%
                   </Badge>
-                  <span className="text-xs text-gray-500 ml-2">vs last period</span>
+                  <span className="text-xs text-[#888888] ml-2">vs last period</span>
                 </div>
               </div>
-              <div className="h-12 w-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                <Activity className="h-6 w-6 text-yellow-600" />
+              <div className="h-12 w-12 bg-[#f7f7f7] rounded-full flex items-center justify-center">
+                <Activity className="h-6 w-6 text-[#888888]" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border border-black/[0.06] hover:border-black/[0.08] transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Activities</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.activitiesThisWeek}</h3>
+                <p className="text-sm font-medium text-[#888888]">Activities</p>
+                <h3 className="text-2xl font-bold mt-1 text-[#222222]">{stats.activitiesThisWeek}</h3>
                 <div className="flex items-center mt-2">
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <Badge className="bg-[#f7f7f7] text-[#222222] hover:bg-[#f7f7f7] border border-black/[0.06]">
                     <ArrowUp className="h-3 w-3 mr-1" />
                     15%
                   </Badge>
-                  <span className="text-xs text-gray-500 ml-2">vs last period</span>
+                  <span className="text-xs text-[#888888] ml-2">vs last period</span>
                 </div>
               </div>
-              <div className="h-12 w-12 bg-gray-100 rounded-full flex items-center justify-center">
-                <BarChartIcon className="h-6 w-6 text-gray-600" />
+              <div className="h-12 w-12 bg-[#f7f7f7] rounded-full flex items-center justify-center">
+                <BarChartIcon className="h-6 w-6 text-[#888888]" />
               </div>
             </div>
           </CardContent>
@@ -290,10 +311,25 @@ export default function Dashboard() {
       {/* Client Tabs - Flex Layout */}
       <div className="flex flex-col w-full mb-6">
         <Tabs defaultValue="clients" className="w-full">
-          <TabsList className="mb-4">
-            <TabsTrigger value="clients">Clients</TabsTrigger>
-            <TabsTrigger value="activities">Recent Activities</TabsTrigger>
-            <TabsTrigger value="insights">Insights</TabsTrigger>
+          <TabsList className="mb-4 bg-[#f7f7f7] p-1 rounded-lg border border-black/[0.06]">
+            <TabsTrigger 
+              value="clients"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#222222] text-[#888888]"
+            >
+              Clients
+            </TabsTrigger>
+            <TabsTrigger 
+              value="activities"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#222222] text-[#888888]"
+            >
+              Recent Activities
+            </TabsTrigger>
+            <TabsTrigger 
+              value="insights"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#222222] text-[#888888]"
+            >
+              Insights
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="clients">

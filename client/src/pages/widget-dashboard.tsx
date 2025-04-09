@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import GridLayout from 'react-grid-layout';
+import { useLayoutEffect } from '@/hooks/use-layout-effect';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/common/card';
 import { Button } from '@/components/common/button';
 import { BrandedSpinner, BrandedSpinnerPro } from '@/components/common/branded-spinner';
@@ -28,7 +30,7 @@ const Widget = ({
   children
 }: WidgetProps) => {
   return (
-    <Card className={`w-full h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-apple-sm border-0 hover:shadow-apple-md transition-all duration-300 ${className}`}>
+    <Card className={`w-full h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-md rounded-3xl border-0 transition-all duration-300 ${className}`}>
       <CardHeader className="py-3 px-5 flex flex-row items-center justify-between bg-transparent">
         <div>
           <CardTitle className="text-md font-bold-onse-bold text-apple-black">{title}</CardTitle>
@@ -71,12 +73,12 @@ const recentActivities = [
 ];
 
 export default function WidgetDashboard() {
-  // Define the initial layout for the grid
+  // Define the initial layout for the grid with more flexible constraints
   const [layout, setLayout] = useState([
-    { i: 'clients', x: 0, y: 0, w: 8, h: 2, minW: 4, minH: 2 },
-    { i: 'activity', x: 8, y: 0, w: 4, h: 2, minW: 3, minH: 2 },
+    { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+    { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
     { i: 'surveys', x: 0, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
-    { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 4, minH: 2 },
+    { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
   ]);
 
   // Track which widgets are expanded
@@ -87,8 +89,95 @@ export default function WidgetDashboard() {
     metrics: false,
   });
 
+  // Use layout effect to handle resize events
+  useLayoutEffect();
+
+  // Get current location to detect route changes
+  const [location] = useLocation();
+
+  // Handle initial layout and route changes
+  useEffect(() => {
+    // Function to handle screen size changes
+    const handleScreenSizeChange = () => {
+      const viewportWidth = window.innerWidth;
+      setWidth(viewportWidth);
+      
+      // Adjust layout based on screen size
+      if (viewportWidth < 640) {
+        // Mobile layout
+        setLayout([
+          { i: 'clients', x: 0, y: 0, w: 12, h: 2, minW: 3, minH: 2 },
+          { i: 'activity', x: 0, y: 2, w: 12, h: 2, minW: 3, minH: 2 },
+          { i: 'surveys', x: 0, y: 4, w: 12, h: 3, minW: 3, minH: 2 },
+          { i: 'metrics', x: 0, y: 7, w: 12, h: 3, minW: 3, minH: 2 },
+        ]);
+      } else if (viewportWidth < 1024) {
+        // Tablet layout
+        setLayout([
+          { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'surveys', x: 0, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
+          { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
+        ]);
+      } else {
+        // Desktop layout
+        setLayout([
+          { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
+          { i: 'surveys', x: 0, y: 2, w: 4, h: 3, minW: 3, minH: 2 },
+          { i: 'metrics', x: 4, y: 2, w: 8, h: 3, minW: 3, minH: 2 },
+        ]);
+      }
+    };
+
+    // Initial layout adjustment
+    handleScreenSizeChange();
+
+    // Add resize listener
+    window.addEventListener('resize', handleScreenSizeChange);
+
+    // Force immediate resize when component mounts or route changes
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+
+    // Trigger resize after a short delay to ensure proper rendering
+    const timeoutId = setTimeout(() => {
+      handleScreenSizeChange();
+    }, 100);
+
+    return () => {
+      window.removeEventListener('resize', handleScreenSizeChange);
+      clearTimeout(timeoutId);
+    };
+  }, [location]); // Re-run when route changes
+
   // Use useState for responsive width calculation
   const [width, setWidth] = useState(1200);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const gridParent = document.querySelector('.layout')?.parentElement;
+      if (gridParent) {
+        setWidth(gridParent.clientWidth);
+      }
+    };
+
+    // Create a ResizeObserver to watch the parent container
+    const resizeObserver = new ResizeObserver(handleResize);
+    const gridParent = document.querySelector('.layout')?.parentElement;
+    if (gridParent) {
+      resizeObserver.observe(gridParent);
+    }
+
+    // Also listen for window resize
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial call
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // Toggle widget expansion
   const toggleWidgetExpansion = (widgetId: string) => {
@@ -100,7 +189,18 @@ export default function WidgetDashboard() {
 
   // Handle layout changes
   const handleLayoutChange = (newLayout: any) => {
-    setLayout(newLayout);
+    // Only update layout if it's a valid change (not overlapping)
+    const hasOverlap = newLayout.some((item: any) => {
+      return newLayout.some((other: any) => {
+        if (item.i === other.i) return false;
+        return !(item.x + item.w <= other.x || other.x + other.w <= item.x ||
+                item.y + item.h <= other.y || other.y + other.h <= item.y);
+      });
+    });
+
+    if (!hasOverlap) {
+      setLayout(newLayout);
+    }
   };
   
   // Update width on window resize
@@ -150,7 +250,7 @@ export default function WidgetDashboard() {
           { i: 'clients', x: 0, y: 0, w: 12, h: 2, minW: 3, minH: 2 },
           { i: 'activity', x: 0, y: 2, w: 12, h: 2, minW: 3, minH: 2 },
           { i: 'surveys', x: 0, y: 4, w: 12, h: 3, minW: 3, minH: 2 },
-          { i: 'metrics', x: 0, y: 7, w: 12, h: 3, minW: 4, minH: 2 },
+          { i: 'metrics', x: 0, y: 7, w: 12, h: 3, minW: 3, minH: 2 },
         ]);
       } else if (viewportWidth < 1024) {
         // Tablet layout: 2-column layout
@@ -158,7 +258,7 @@ export default function WidgetDashboard() {
           { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
           { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
           { i: 'surveys', x: 0, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
-          { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 4, minH: 2 },
+          { i: 'metrics', x: 6, y: 2, w: 6, h: 3, minW: 3, minH: 2 },
         ]);
       } else {
         // Desktop layout: maintain original
@@ -166,7 +266,7 @@ export default function WidgetDashboard() {
           { i: 'clients', x: 0, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
           { i: 'activity', x: 6, y: 0, w: 6, h: 2, minW: 3, minH: 2 },
           { i: 'surveys', x: 0, y: 2, w: 4, h: 3, minW: 3, minH: 2 },
-          { i: 'metrics', x: 4, y: 2, w: 8, h: 3, minW: 4, minH: 2 },
+          { i: 'metrics', x: 4, y: 2, w: 8, h: 3, minW: 3, minH: 2 },
         ]);
       }
     };
@@ -248,14 +348,17 @@ export default function WidgetDashboard() {
   );
 
   return (
-    <div className="l-layout-container animate-fade-in">
-      <SectionTitle
-        title="Customizable Dashboard"
-        subtitle="Drag and resize widgets to customize your dashboard layout"
-        className="mb-6"
-      />
+    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
+      <div className="flex justify-between mb-6 bg-white p-6 rounded-lg">
+        <div>
+          <h1 className="text-2xl font-bold text-[#222222]">Customizable Dashboard</h1>
+          <p className="text-sm text-[#888888] mt-1">
+            Drag and resize widgets to customize your dashboard layout
+          </p>
+        </div>
+      </div>
 
-      <div className="bg-white/60 backdrop-blur-md p-5 rounded-2xl shadow-apple-sm mb-8 border border-white/20">
+      <div className="bg-white/60 backdrop-blur-md p-5 rounded-2xl mb-8 border border-white/20">
         <div className="flex items-start">
           <div className="flex-shrink-0 pt-0.5">
             <svg className="h-5 w-5 text-apple-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -273,7 +376,7 @@ export default function WidgetDashboard() {
         </div>
       </div>
 
-      <div className="grid-container p-0 animate-slide-up">
+      <div className="w-full px-0">
         <GridLayout
           className="layout"
           layout={layout}
@@ -281,12 +384,17 @@ export default function WidgetDashboard() {
           rowHeight={100}
           width={width}
           onLayoutChange={handleLayoutChange}
-          draggableHandle=".react-draggable-handle"
-          compactType="vertical"
+          isDraggable={true}
+          isResizable={true}
+          compactType={null}
+          useCSSTransforms={true}
+          preventCollision={true}
+          allowOverlap={true}
           margin={[16, 16]}
-          containerPadding={[16, 16]}
-          resizeHandles={['se']}
-          isBounded={true}
+          containerPadding={[0, 0]}
+          resizeHandles={['se', 'e', 's']}
+          draggableHandle=".react-draggable-handle"
+          transformScale={1}
         >
           <div key="clients">
             <Widget

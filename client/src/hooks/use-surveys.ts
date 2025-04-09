@@ -11,41 +11,68 @@ const mockSurveys: Survey[] = [
     createdAt: new Date('2025-01-15'),
     deadline: new Date('2025-04-15'),
     status: 'active',
+    responseCount: 245,
+    targetResponses: 500,
+    completionRate: 49,
     questions: [
-      { id: 1, text: 'How likely are you to recommend our product?', type: 'scale' },
+      { id: 1, text: 'How likely are you to recommend our product?', type: 'scale', responses: [
+        { score: 9, count: 50 },
+        { score: 8, count: 75 },
+        { score: 7, count: 120 }
+      ] },
       { id: 2, text: 'What could we improve?', type: 'text' }
     ]
   },
   {
     id: 2,
     type: 'csat',
-    title: 'Product Feedback Survey',
-    createdAt: new Date('2025-02-10'),
-    deadline: new Date('2025-05-10'),
-    status: 'draft',
+    title: 'Product Feature Feedback',
+    createdAt: new Date('2025-02-01'),
+    deadline: new Date('2025-05-01'),
+    status: 'active',
+    responseCount: 180,
+    targetResponses: 300,
+    completionRate: 60,
     questions: [
-      { id: 1, text: 'How satisfied are you with our product?', type: 'scale' },
-      { id: 2, text: 'Which features do you use most?', type: 'multiselect' }
+      { id: 3, text: 'How satisfied are you with our new features?', type: 'scale', responses: [
+        { score: 5, count: 80 },
+        { score: 4, count: 60 },
+        { score: 3, count: 40 }
+      ] },
+      { id: 4, text: 'Which feature do you use most often?', type: 'choice', responses: [
+        { answer: 'Dashboard', count: 90 },
+        { answer: 'Reports', count: 50 },
+        { answer: 'Analytics', count: 40 }
+      ] }
     ]
   },
   {
     id: 3,
-    type: 'wtp',
-    title: 'Pricing Survey',
-    createdAt: new Date('2025-03-05'),
-    deadline: new Date('2025-04-05'),
-    status: 'completed',
+    type: 'feedback',
+    title: 'User Experience Survey',
+    createdAt: new Date('2025-03-01'),
+    deadline: new Date('2025-06-01'),
+    status: 'draft',
+    responseCount: 0,
+    targetResponses: 1000,
+    completionRate: 0,
     questions: [
-      { id: 1, text: 'How much would you pay for this product?', type: 'number' },
-      { id: 2, text: 'What features would justify a higher price?', type: 'text' }
+      { id: 5, text: 'How easy is our platform to use?', type: 'scale' },
+      { id: 6, text: 'What features would you like to see?', type: 'text' }
     ]
   }
 ];
 
 export function useSurveys() {
   return useQuery<Survey[]>({
-    queryKey: ['/api/surveys'],
-    queryFn: () => Promise.resolve(mockSurveys)
+    queryKey: ['surveys'],
+    queryFn: async () => {
+      const response = await fetch('/api/mock/surveys');
+      if (!response.ok) {
+        throw new Error('Failed to fetch surveys');
+      }
+      return response.json();
+    }
   });
 }
 

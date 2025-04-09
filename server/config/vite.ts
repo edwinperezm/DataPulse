@@ -31,6 +31,13 @@ export async function setupVite(app: Express, server: Server) {
     middlewareMode: true,
     hmr: { server },
     allowedHosts: true as const,
+    proxy: {
+      '/api/mock': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      }
+    },
   };
 
   // Create Vite server with custom configuration

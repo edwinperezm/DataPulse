@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useLayoutEffect } from '@/hooks/use-layout-effect';
 import { format, subDays, startOfYear, isWithinInterval, parseISO } from 'date-fns';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/common/card';
 import { Button } from '@/components/common/button';
@@ -28,23 +29,21 @@ import {
 import { cn } from '@/utils/utils';
 
 // Import Recharts components
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  AreaChart,
-  Area
-} from 'recharts';
+import { LineChart } from 'recharts/es6/chart/LineChart';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { BarChart } from 'recharts/es6/chart/BarChart';
+import { Bar } from 'recharts/es6/cartesian/Bar';
+import { PieChart } from 'recharts/es6/chart/PieChart';
+import { Pie } from 'recharts/es6/polar/Pie';
+import { Cell } from 'recharts/es6/component/Cell';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { Legend } from 'recharts/es6/component/Legend';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { AreaChart } from 'recharts/es6/chart/AreaChart';
+import { Area } from 'recharts/es6/cartesian/Area';
 
 // Import the data and helper functions
 import { 
@@ -296,7 +295,7 @@ const RevenueChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
               backgroundColor: '#fff',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }} 
             formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']} 
           />
@@ -342,7 +341,7 @@ const SessionsChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
               backgroundColor: '#fff',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }} 
             formatter={(value) => [value.toLocaleString(), 'Sessions']} 
           />
@@ -391,7 +390,7 @@ const PlatformDistributionChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ d
               backgroundColor: '#fff',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }} 
             formatter={(value) => [value.toLocaleString(), 'Sessions']} 
           />
@@ -436,7 +435,7 @@ const DeviceDistributionChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ dat
               backgroundColor: '#fff',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }} 
             formatter={(value) => [value.toLocaleString(), 'Sessions']} 
           />
@@ -486,7 +485,7 @@ const RetentionChart: React.FC = () => {
               backgroundColor: '#fff',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }}
             formatter={(value) => [`${value}%`, '']}
           />
@@ -544,7 +543,7 @@ const SessionDurationChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }
               backgroundColor: '#fff',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }}
             formatter={(value) => [value.toLocaleString(), 'Sessions']}
           />
@@ -568,6 +567,9 @@ export default function AnalyticsDashboard() {
   const [selectedCountry, setSelectedCountry] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  // Use layout effect to handle resize events
+  useLayoutEffect();
 
   // Memoized filtered data
   const filteredData = useMemo(() => {
@@ -661,9 +663,9 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <div className="w-full">
+    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 bg-white p-6 rounded-lg shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between md:justify-between mb-6 bg-white p-6 rounded-lg">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -686,7 +688,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* Date Range Indicator */}
-      <div className="mb-6 bg-white p-4 rounded-lg shadow-sm flex items-center justify-between">
+      <div className="mb-6 bg-white p-4 rounded-lg flex items-center justify-between">
         <div className="flex items-center">
           <Calendar className="h-5 w-5 text-gray-500 mr-2" />
           <span className="text-sm font-medium">
@@ -699,7 +701,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 bg-white p-4 rounded-lg">
         <div className="col-span-1">
           <Select value={timePeriod} onValueChange={setTimePeriod}>
             <SelectTrigger className="border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -777,7 +779,7 @@ export default function AnalyticsDashboard() {
       {/* KPI Cards - Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {/* Date range summary */}
-        <div className="lg:col-span-4 bg-white p-4 rounded-lg shadow-sm mb-2">
+        <div className="lg:col-span-4 bg-white p-4 rounded-lg mb-2">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">Performance Summary</h3>
             <span className="text-sm text-gray-500">

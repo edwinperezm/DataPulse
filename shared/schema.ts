@@ -75,6 +75,9 @@ export const surveys = pgTable("surveys", {
   deadline: timestamp("deadline"),
   status: text("status").notNull().default("draft"), // "draft", "active", "completed"
   questions: json("questions").notNull().default([]),
+  responseCount: integer("response_count").notNull().default(0),
+  targetResponses: integer("target_responses").notNull().default(0),
+  completionRate: integer("completion_rate").notNull().default(0),
 });
 
 export const insertSurveySchema = createInsertSchema(surveys).pick({
@@ -126,7 +129,11 @@ export type InsertClient = z.infer<typeof insertClientSchema>;
 export type Activity = typeof activities.$inferSelect;
 export type InsertActivity = z.infer<typeof insertActivitySchema>;
 
-export type Survey = typeof surveys.$inferSelect;
+export type Survey = typeof surveys.$inferSelect & {
+  responseCount: number;
+  targetResponses: number;
+  completionRate: number;
+};
 export type InsertSurvey = z.infer<typeof insertSurveySchema>;
 
 export type SurveyRecipient = typeof surveyRecipients.$inferSelect;

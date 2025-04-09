@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import { createServer } from "http";
 import * as dotenv from 'dotenv';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./config/vite";
@@ -27,7 +28,13 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
 }));
 
-app.use(cors());
+// Configure CORS
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 // Rate limiting
 const apiLimiter = rateLimit({
@@ -84,39 +91,53 @@ app.use((req, res, next) => {
       log("WARNING: Database not available, using in-memory storage");
     }
 
-    const server = await registerRoutes(app);
+    // Create HTTP server
+    const server = createServer(app);
 
-    // Global error handling middleware
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-      const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-      
-      // Log the error
-      console.error(`[ERROR] ${status}: ${message}`);
-      if (err.stack) {
-        console.error(err.stack);
-      }
+    // Setup Vite or serve static files first
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
+    }
 
-      // Don't expose stack traces in production
-      const errorResponse = {
-        message,
-        ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
-      };
-
-      res.status(status).json(errorResponse);
-    });
+    // Then register API routes
+    await registerRoutes(app);
 
     // 404 handler for API routes
     app.use('/api/*', (req, res) => {
       res.status(404).json({ message: "API endpoint not found" });
     });
 
-    // Setup Vite or serve static files
-    if (app.get("env") === "development") {
-      await setupVite(app, server);
-    } else {
-      serveStatic(app);
-    }
+    // Global error handling middleware
+    app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      
+      // Log the error with request details
+      console.error(`[ERROR] ${status}: ${message}`);
+      console.error(`[ERROR] Request: ${req.method} ${req.path}`);
+      console.error(`[ERROR] Query: ${JSON.stringify(req.query)}`);
+      console.error(`[ERROR] Body: ${JSON.stringify(req.body)}`);
+      if (err.stack) {
+        console.error(`[ERROR] Stack: ${err.stack}`);
+      }
+
+      // Don't expose stack traces in production
+      const errorResponse = {
+        status,
+        message,
+        path: req.path,
+        timestamp: new Date().toISOString(),
+        ...(process.env.NODE_ENV !== 'production' && { 
+          stack: err.stack,
+          query: req.query,
+          body: req.body
+        }),
+      };
+
+      res.status(status).json(errorResponse);
+    });
 
     // Use port from environment variable or fallback to 3000
     const port = process.env.PORT || 3000;

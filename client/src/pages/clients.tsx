@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLayoutEffect } from '@/hooks/use-layout-effect';
 import { useClients } from "@/hooks/use-clients";
 import { ClientDetail } from "@/components/features/clients/client-detail";
 import { Button } from "@/components/common/button";
@@ -24,6 +25,9 @@ import { cn } from "@/utils/utils";
 export default function Clients() {
   const { data: clients = [], isLoading } = useClients();
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
+  // Use layout effect to handle resize events
+  useLayoutEffect();
   const [searchQuery, setSearchQuery] = useState("");
   
   // Filter clients based on search query
@@ -32,10 +36,10 @@ export default function Clients() {
   );
   
   return (
-    <>
+    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
       {/* Page header with call to action */}
-      <div className="py-6 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center">
+      <div className="flex justify-between mb-6 bg-white p-6 rounded-lg">
+        <div className="flex justify-between items-center w-full">
           <h1 className="text-2xl font-semibold text-gray-900">Clients</h1>
           <div className="flex space-x-3">
             <Link href="/clients/new">
@@ -49,7 +53,7 @@ export default function Clients() {
       </div>
 
       {/* Clients content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
+      <div className="mx-auto py-0 px-0 ml-0 mr-0">
         {/* Search and filters */}
         <div className="flex flex-wrap gap-4 mb-6">
           <div className="relative flex-grow max-w-lg">
@@ -217,6 +221,6 @@ export default function Clients() {
           onClose={() => setSelectedClient(null)}
         />
       )}
-    </>
+    </div>
   );
 }

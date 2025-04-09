@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // Import pages
 import Dashboard from './pages/dashboard';
@@ -201,24 +202,25 @@ const ProtectedRoute = ({ component: Component, ...rest }: { component: React.Co
 // Main App component
 function App() {
   const [isReady, setIsReady] = useState(false);
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsReady(true);
-      console.log('App is ready!');
+      console.log('[App] Ready, current location:', location);
     }, 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [location]);
+
+  useEffect(() => {
+    if (location === '/') {
+      console.log('[App] Redirecting to /dashboard');
+      setLocation('/dashboard');
+    }
+  }, [location, setLocation]);
 
   if (!isReady) {
     return <Loading />;
-  }
-
-  // Redirect root path to /dashboard
-  if (location === '/') {
-    window.location.href = '/dashboard';
-    return null;
   }
 
   // Check if the path contains .html or has query parameters
@@ -264,6 +266,7 @@ function App() {
           </Switch>
           {process.env.NODE_ENV !== 'production' && <DebugInfo />}
         </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ErrorBoundary>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLayoutEffect } from '@/hooks/use-layout-effect';
 import { useSurveys } from "@/hooks/use-surveys";
 import { Button } from "@/components/common/button";
 import { Card, CardContent } from "@/components/common/card";
@@ -14,6 +15,9 @@ export default function Surveys() {
   const { data: surveys = [], isLoading } = useSurveys();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null);
+
+  // Use layout effect to handle resize events
+  useLayoutEffect();
   
   // Helper function to get survey status colors
   const getSurveyStatusColors = (status: string) => {
@@ -38,19 +42,21 @@ export default function Surveys() {
   };
   
   // Helper function to format date
-  const formatDate = (date: Date) => {
+  const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
   };
+
+
   
   return (
-    <>
+    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
       {/* Page header with call to action */}
-      <div className="py-6 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center">
+      <div className="flex justify-between mb-6 bg-white p-6 rounded-lg">
+        <div className="flex justify-between items-center w-full">
           <h1 className="text-2xl font-semibold text-gray-900">Surveys</h1>
           <div className="flex space-x-3">
             <Button onClick={() => setShowCreateModal(true)}>
@@ -62,7 +68,7 @@ export default function Surveys() {
       </div>
 
       {/* Surveys content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
+      <div className="max-w-7xl mx-auto py-0 px-0 ml-0 mr-0">
         {/* Quick stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card>
@@ -229,6 +235,6 @@ export default function Surveys() {
           surveyToEdit={selectedSurvey}
         />
       )}
-    </>
+    </div>
   );
 }
