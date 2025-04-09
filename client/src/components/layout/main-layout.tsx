@@ -41,7 +41,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f7f7f7] dark:bg-gray-900 overflow-hidden">
+    <div className="flex min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
       {/* Backdrop for mobile */}
       <div
         className={cn(
