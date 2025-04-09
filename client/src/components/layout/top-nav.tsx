@@ -1,4 +1,4 @@
-import { Menu, ChevronLeft, Search, Bell, Settings, User } from "lucide-react";
+import { Menu, ChevronLeft, Search, Bell, Settings, User, PanelLeftClose } from "lucide-react";
 import { Button } from "@/components/common/button";
 import { Input } from "@/components/common/input";
 import { cn } from "@/utils/utils";
@@ -20,9 +20,20 @@ export function TopNav({ toggleSidebar, isSidebarOpen }: TopNavProps) {
         >
           <Menu className="h-5 w-5" />
         </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleSidebar}
+          className={cn(
+            "hidden lg:flex rounded-full hover:bg-black/[0.04] active:bg-black/[0.08] transition-all duration-300",
+            !isSidebarOpen && "rotate-180"
+          )}
+        >
+          <PanelLeftClose className="h-5 w-5" />
+        </Button>
         
         <div className="flex flex-1 items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <div className="relative max-w-md w-full hidden sm:block">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black/40" />
               <Input
@@ -31,9 +42,6 @@ export function TopNav({ toggleSidebar, isSidebarOpen }: TopNavProps) {
                 className="w-full pl-10 rounded-full border-black/[0.08] bg-white/80 hover:bg-white focus:bg-white focus:border-black/20 transition-all duration-200"
               />
             </div>
-          </div>
-          
-          <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
               size="icon" 
