@@ -30,7 +30,7 @@ const Widget = ({
   children
 }: WidgetProps) => {
   return (
-    <Card className={`w-full h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-md rounded-3xl border-0 transition-all duration-300 ${className}`}>
+    <Card className={`w-full h-full overflow-hidden flex flex-col bg-white/80 backdrop-blur-md rounded-3xl border border-gray-100/50 shadow-sm transition-all duration-300 ${className}`}>
       <CardHeader className="py-3 px-5 flex flex-row items-center justify-between bg-transparent">
         <div>
           <CardTitle className="text-md font-bold-onse-bold text-apple-black">{title}</CardTitle>
