@@ -20,17 +20,6 @@ export function TopNav({ toggleSidebar, isSidebarOpen }: TopNavProps) {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-          className={cn(
-            "hidden lg:flex rounded-full hover:bg-black/[0.04] active:bg-black/[0.08] transition-all duration-300",
-            !isSidebarOpen && "rotate-180"
-          )}
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </Button>
         
         <div className="flex flex-1 items-center justify-between">
           <div className="flex items-center gap-4">

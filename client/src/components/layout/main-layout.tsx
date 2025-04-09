@@ -76,7 +76,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             )}
           </div>
         </div>
-        <SideNav isCollapsed={!isSidebarOpen} />
+        <SideNav isCollapsed={!isSidebarOpen} onToggle={toggleSidebar} />
       </div>
 
       {/* Main content */}

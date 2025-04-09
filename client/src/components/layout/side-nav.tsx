@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { Button } from "@/components/common/button";
 import { cn } from "@/utils/utils";
 import {
   LayoutDashboard,
@@ -7,10 +8,12 @@ import {
   ChartColumnIncreasing,
   Loader,
   Settings,
+  PanelLeftClose,
 } from "lucide-react";
 
 interface SideNavProps {
   isCollapsed: boolean;
+  onToggle: () => void;
 }
 
 const navigation = [
@@ -41,11 +44,20 @@ const navigation = [
   },
 ];
 
-export function SideNav({ isCollapsed }: SideNavProps) {
+export function SideNav({ isCollapsed, onToggle }: SideNavProps) {
   const [location] = useLocation();
 
   return (
-    <nav className="flex flex-1 flex-col gap-2 p-3 transition-all duration-500">
+    <nav className="flex flex-1 flex-col gap-2 p-2 transition-all duration-500">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onToggle}
+        className="self-end mb-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+        title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        <PanelLeftClose className={cn("h-4 w-4 transition-transform", isCollapsed ? "rotate-180" : "")} />
+      </Button>
       {navigation.map((item) => {
         const isActive = location === item.href;
         return (
