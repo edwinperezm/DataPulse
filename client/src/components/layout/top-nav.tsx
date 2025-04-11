@@ -11,7 +11,7 @@ interface TopNavProps {
 export function TopNav({ toggleSidebar, isSidebarOpen }: TopNavProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-white/80 backdrop-blur-md supports-[backdrop-filter]:bg-white/60">
-      <div className="flex h-16 items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-between h-16 items-center gap-max-w pl-6 pr-6">
         <Button
           variant="ghost"
           size="icon"
