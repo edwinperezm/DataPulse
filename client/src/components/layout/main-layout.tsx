@@ -4,12 +4,14 @@ import { SideNav } from "./side-nav";
 import { TopNav } from "./top-nav";
 import { cn } from "@/utils/utils";
 import { Activity } from "lucide-react";
+import { useTheme } from "@/context/theme-context";
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
+  const { colors } = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [location] = useLocation();
 
@@ -41,23 +43,26 @@ export function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
+    <div 
+      className="flex min-h-screen overflow-hidden"
+      style={{ backgroundColor: colors.background.primary }}
+    >
       {/* Backdrop for mobile */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-black/5 dark:bg-black/20 backdrop-blur-[2px] lg:hidden",
+          "fixed inset-0 z-40 backdrop-blur-[2px] lg:hidden",
           "transition-all duration-300 ease-in-out",
           isMobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         )}
+        style={{ backgroundColor: `${colors.background.secondary}40` }}
         onClick={toggleSidebar}
       />
 
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 z-50 flex flex-col bg-white dark:bg-gray-900 border-r border-black/[0.06]",
+          "fixed inset-y-0 z-50 flex flex-col border-r border-[#020E13]",
           "transform transition-all duration-300 ease-in-out lg:relative lg:transform-none",
-          "border-r border-gray-200 dark:border-gray-800",
           isSidebarOpen ? "w-64" : "w-16",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
@@ -68,9 +73,12 @@ export function MainLayout({ children }: MainLayoutProps) {
             "flex items-center gap-3",
             isSidebarOpen ? "w-auto opacity-100" : "w-0 opacity-0 lg:w-auto lg:opacity-100"
           )}>
-            <Activity className="h-5 w-5 text-gray-900 dark:text-gray-100" />
+            <Activity className="h-5 w-5" style={{ color: colors.text.primary }} />
             {isSidebarOpen && (
-              <h1 className="text-lg font-medium text-gray-900 dark:text-gray-100 tracking-tight">
+              <h1 
+                className="text-lg font-medium tracking-tight"
+                style={{ color: colors.text.primary }}
+              >
                 DataPulse
               </h1>
             )}
@@ -83,7 +91,8 @@ export function MainLayout({ children }: MainLayoutProps) {
       <div className="flex-1 flex flex-col min-h-screen">
         <TopNav toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         <main 
-
+          className="flex-1 p-6"
+          style={{ backgroundColor: colors.background.secondary }}
         >
           {children}
         </main>

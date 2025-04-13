@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-
+import { useTheme } from "@/context/theme-context";
 import { cn } from "@/utils/utils";
 import {
   LayoutDashboard,
@@ -45,9 +45,13 @@ const navigation = [
 
 export function SideNav({ isCollapsed, onToggle }: SideNavProps) {
   const [location] = useLocation();
+  const { colors } = useTheme();
 
   return (
-    <nav className="flex flex-1 flex-col gap-2 p-3 transition-all duration-500">
+    <nav 
+      className="flex flex-1 flex-col gap-2 p-3 transition-all duration-0 rounded-lg group-data-[collapsible=icon]:rounded-md"
+      style={{ backgroundColor: colors.background.primary }}
+    >
       {navigation.map((item) => {
         const isActive = location === item.href;
         return (
@@ -55,21 +59,28 @@ export function SideNav({ isCollapsed, onToggle }: SideNavProps) {
             key={item.name}
             to={item.href}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
-              "hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100",
-              isActive
-                ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm dark:shadow-gray-800"
-                : "text-gray-600 dark:text-gray-400",
-              isCollapsed ? "justify-center px-2 opacity-100" : undefined
+              "group flex items-center gap-3 rounded-lg py-2 text-sm font-medium transition-all duration-0",
+              isActive 
+                ? "bg-[#101E22] text-[#00927C]" 
+                : "hover:bg-[#152C2D] hover:text-[#00927C] text-white",
+              isCollapsed ? "w-[42px] px-3" : "w-[231px] px-3"
             )}
           >
-            <item.icon
-              className={cn(
-                "h-5 w-5 transition-colors duration-200",
-                isActive ? "text-gray-900 dark:text-gray-100" : "text-gray-600 dark:text-gray-400"
+            <div 
+              className="flex items-center gap-3 min-w-0"
+            >
+              <item.icon 
+                className={cn(
+                  "h-5 w-5 min-h-[20px] min-w-[20px]",
+                  isActive 
+                    ? "text-[#00927C]" 
+                    : "text-white group-hover:text-[#00927C]"
+                )}
+              />
+              {!isCollapsed && (
+                <span className="truncate">{item.name}</span>
               )}
-            />
-            {!isCollapsed && <span>{item.name}</span>}
+            </div>
           </Link>
         );
       })}
