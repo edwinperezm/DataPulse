@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLayoutEffect } from '@/hooks/use-layout-effect';
 import { useSurveys } from "@/hooks/use-surveys";
+import { Survey } from "@shared/schema";
 import { Button } from "@/components/common/button";
 import { Card, CardContent } from "@/components/common/card";
 import { Badge } from "@/components/common/badge";
@@ -8,11 +9,10 @@ import { Progress } from "@/components/common/progress";
 import { CreateSurveyModal } from "@/components/features/surveys/create-survey-modal";
 import { PlusCircle, BarChart2, Users, Calendar, FileText, CheckCircle, Clock, Edit } from "lucide-react";
 import { Skeleton } from "@/components/common/skeleton";
-import { Survey } from "@shared/schema";
 import { cn } from "@/utils/utils";
 
 export default function Surveys() {
-  const { data: surveys = [], isLoading } = useSurveys();
+  const { data: surveys = [], isLoading } = useSurveys() as { data: Survey[]; isLoading: boolean };
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null);
 
@@ -53,14 +53,18 @@ export default function Surveys() {
 
   
   return (
-    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
+    <div className="flex-1 overflow-x-hidden space-y-5 p-5">
       {/* Page header with call to action */}
-      <div className="flex justify-between mb-6 bg-white p-6 rounded-lg">
+      <div className="rounded-lg transition-all duration-200 flex flex-col md:flex-row justify-between md:justify-between p-6 bg-[#0E1A1D] border-none">
         <div className="flex justify-between items-center w-full">
-          <h1 className="text-2xl font-semibold text-gray-900">Surveys</h1>
+          <h1 className="text-2xl font-semibold text-white">Surveys</h1>
           <div className="flex space-x-3">
-            <Button onClick={() => setShowCreateModal(true)}>
-              <PlusCircle className="w-4 h-4 mr-2" />
+            <Button 
+              variant="default" 
+              className="bg-[#020e13] hover:bg-[#132622] text-white border-none"
+              onClick={() => setShowCreateModal(true)}
+            >
+              <PlusCircle className="w-4 h-4 mr-2 text-white" />
               Create Survey
             </Button>
           </div>
@@ -68,43 +72,49 @@ export default function Surveys() {
       </div>
 
       {/* Surveys content */}
-      <div className="max-w-7xl mx-auto py-0 px-0 ml-0 mr-0">
+      <div className="w-full max-w-screen-2xl mx-auto">
         {/* Quick stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-primary-100 p-3 mr-4">
-                <FileText className="h-6 w-6 text-primary-600" />
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm">Total Surveys</p>
-                <p className="text-2xl font-semibold">{surveys.length}</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-green-100 p-3 mr-4">
-                <CheckCircle className="h-6 w-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm">Completed</p>
-                <p className="text-2xl font-semibold">
-                  {surveys.filter(s => s.status === 'completed').length}
-                </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
+            <CardContent className="py-4 sm:py-6 flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-[#020e13] p-3">
+                  <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-white text-sm font-medium">Total Surveys</p>
+                  <p className="text-xl sm:text-2xl font-semibold text-white">{surveys.length}</p>
+                </div>
               </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-yellow-100 p-3 mr-4">
-                <Clock className="h-6 w-6 text-yellow-600" />
+          <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
+            <CardContent className="py-4 sm:py-6 flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-[#020e13] p-3">
+                  <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-white text-sm font-medium">Completed</p>
+                  <p className="text-xl sm:text-2xl font-semibold text-white">
+                    {surveys.filter(s => s.status === 'completed').length}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-gray-500 text-sm">Active</p>
-                <p className="text-2xl font-semibold">
-                  {surveys.filter(s => s.status === 'active').length}
-                </p>
+            </CardContent>
+          </Card>
+          <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
+            <CardContent className="py-4 sm:py-6 flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-[#020e13] p-3">
+                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-white text-sm font-medium">Active</p>
+                  <p className="text-xl sm:text-2xl font-semibold text-white">
+                    {surveys.filter(s => s.status === 'active').length}
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -112,7 +122,7 @@ export default function Surveys() {
 
         {/* Survey list */}
         <div className="space-y-6">
-          <h2 className="text-lg font-medium text-gray-900">Recent Surveys</h2>
+          <h2 className="text-lg font-medium text-white">Recent Surveys</h2>
           
           {isLoading ? (
             <div className="space-y-4">
@@ -121,12 +131,16 @@ export default function Surveys() {
               <Skeleton className="h-36 w-full" />
             </div>
           ) : surveys.length === 0 ? (
-            <Card>
+            <Card className="bg-[#0E1A1D] border-none">
               <CardContent className="p-8 text-center">
-                <BarChart2 className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <p className="text-gray-500 mb-4">No surveys created yet</p>
-                <Button onClick={() => setShowCreateModal(true)}>
-                  <PlusCircle className="w-4 h-4 mr-2" />
+                <BarChart2 className="h-12 w-12 mx-auto text-white mb-4" />
+                <p className="text-white mb-4">No surveys created yet</p>
+                <Button 
+                  variant="default" 
+                  className="bg-[#020e13] hover:bg-[#132622] text-white hover:text-white border-none"
+                  onClick={() => setShowCreateModal(true)}
+                >
+                  <PlusCircle className="w-4 h-4 mr-2 text-white" />
                   Create Your First Survey
                 </Button>
               </CardContent>
@@ -134,19 +148,19 @@ export default function Surveys() {
           ) : (
             <div className="grid grid-cols-1 gap-6">
               {surveys.map((survey) => (
-                <Card key={survey.id} className="overflow-hidden">
+                <Card key={survey.id} className="overflow-hidden bg-[#0E1A1D] border-none">
                   <CardContent className="p-0">
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center">
-                          <div className="bg-primary-100 rounded-full p-2 mr-3">
-                            <BarChart2 className="h-5 w-5 text-primary-600" />
+                          <div className="bg-[#020e13] rounded-full p-2 mr-3">
+                            <BarChart2 className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-medium text-gray-900">
+                            <h3 className="text-lg font-medium text-white">
                               {survey.title}
                             </h3>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-white">
                               {getSurveyTypeDisplay(survey.type)}
                             </p>
                           </div>
@@ -162,22 +176,22 @@ export default function Surveys() {
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div className="flex items-center">
-                          <Calendar className="text-gray-400 h-5 w-5 mr-2" />
-                          <span className="text-sm text-gray-600">
+                          <Calendar className="text-white h-5 w-5 mr-2" />
+                          <span className="text-sm text-white">
                             Created: {formatDate(survey.createdAt)}
                           </span>
                         </div>
                         {survey.deadline && (
                           <div className="flex items-center">
-                            <Clock className="text-gray-400 h-5 w-5 mr-2" />
-                            <span className="text-sm text-gray-600">
+                            <Clock className="text-white h-5 w-5 mr-2" />
+                            <span className="text-sm text-white">
                               Deadline: {formatDate(survey.deadline)}
                             </span>
                           </div>
                         )}
                         <div className="flex items-center">
-                          <Users className="text-gray-400 h-5 w-5 mr-2" />
-                          <span className="text-sm text-gray-600">
+                          <Users className="text-white h-5 w-5 mr-2" />
+                          <span className="text-sm text-white">
                             Recipients: 1
                           </span>
                         </div>
@@ -185,31 +199,32 @@ export default function Surveys() {
                       
                       <div className="mb-4">
                         <div className="flex justify-between mb-1">
-                          <span className="text-sm text-gray-600">Response rate</span>
-                          <span className="text-sm font-medium text-gray-900">0%</span>
+                          <span className="text-sm text-white">Response rate</span>
+                          <span className="text-sm font-medium text-white">0%</span>
                         </div>
                         <Progress value={0} className="h-2" />
                       </div>
                       
                       <div className="flex flex-wrap gap-2">
                         {survey.questions.length > 0 && (
-                          <Badge variant="outline" className="bg-gray-50">
+                          <Badge variant="outline" className="bg-[#020e13] text-white">
                             {survey.questions.length} Questions
                           </Badge>
                         )}
                       </div>
                     </div>
                     
-                    <div className="border-t border-gray-200 bg-gray-50 px-6 py-3 flex justify-between">
+                    <div className="px-6 py-3 flex justify-between bg-[#020e13] border-none">
                       <Button 
                         variant="ghost" 
                         size="sm"
+                        className="text-white hover:text-white hover:bg-[#132622]"
                         onClick={() => setSelectedSurvey(survey)}
                       >
-                        <Edit className="h-4 w-4 mr-2" />
+                        <Edit className="h-4 w-4 mr-2 text-white" />
                         Edit
                       </Button>
-                      <Button size="sm">
+                      <Button size="sm" className="text-white hover:text-white hover:bg-[#132622] border-none">
                         View Results
                       </Button>
                     </div>

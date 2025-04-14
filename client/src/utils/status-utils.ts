@@ -7,39 +7,39 @@ export const getStatusColor = (status: ClientStatus) => {
   switch (status) {
     case 'healthy':
       return {
-        bg: 'bg-blue-100',
-        text: 'text-blue-800',
-        badge: 'bg-blue-100 text-blue-800',
-        dot: 'bg-blue-500',
-        icon: 'text-blue-500',
-        accentBg: 'bg-blue-50'
+        bg: 'bg-[#152C14]',
+        text: 'text-[#07A500]',
+        badge: 'bg-[#152C14] text-[#07A500]',
+        dot: 'bg-[#07A500]',
+        icon: 'text-[#07A500]',
+        accentBg: 'bg-[#152C14]'
       };
     case 'needs-attention':
       return {
-        bg: 'bg-yellow-100',
-        text: 'text-yellow-800',
-        badge: 'bg-yellow-100 text-yellow-800',
-        dot: 'bg-yellow-500',
-        icon: 'text-yellow-500',
-        accentBg: 'bg-yellow-50'
+        bg: 'bg-[#333116]',
+        text: 'text-[#EDDD05]',
+        badge: 'bg-[#333116] text-[#EDDD05]',
+        dot: 'bg-[#EDDD05]',
+        icon: 'text-[#EDDD05]',
+        accentBg: 'bg-[#333116]'
       };
     case 'at-risk':
       return {
-        bg: 'bg-red-100',
-        text: 'text-red-800',
-        badge: 'bg-red-100 text-red-800',
-        dot: 'bg-red-500',
-        icon: 'text-red-500',
-        accentBg: 'bg-red-50'
+        bg: 'bg-[#331616]',
+        text: 'text-[#E30000]',
+        badge: 'bg-[#331616] text-[#E30000]',
+        dot: 'bg-[#E30000]',
+        icon: 'text-[#E30000]',
+        accentBg: 'bg-[#331616]'
       };
     default:
       return {
-        bg: 'bg-gray-100',
-        text: 'text-gray-800',
-        badge: 'bg-gray-100 text-gray-800',
-        dot: 'bg-gray-500',
-        icon: 'text-gray-500',
-        accentBg: 'bg-gray-50'
+        bg: 'bg-[#192832]',
+        text: 'text-[#0095FF]',
+        badge: 'bg-[#192832] text-[#0095FF]',
+        dot: 'bg-[#0095FF]',
+        icon: 'text-[#0095FF]',
+        accentBg: 'bg-[#192832]'
       };
   }
 };

@@ -18,13 +18,34 @@ import {
   ExternalLink
 } from "lucide-react";
 import { Skeleton } from "@/components/common/skeleton";
-import { Client } from "@shared/schema";
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  initials: string;
+  status: string;
+  lastActivityAt: Date;
+  clientSince: Date;
+  healthScore: number;
+  trend: string;
+  trendValue: number;
+  usageStats: unknown;
+}
 import { formatActivityDate, getStatusColor, getStatusLabel } from "@/utils/status-utils";
 import { cn } from "@/utils/utils";
 
 export default function Clients() {
-  const { data: clients = [], isLoading } = useClients();
+  const { data: clients = [], isLoading, mutate } = useClients();
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
+  const handleDeleteClient = async (id: number) => {
+    try {
+      await fetch(`/api/clients/${id}`, { method: 'DELETE' });
+      mutate();
+    } catch (error) {
+      console.error('Error deleting client:', error);
+    }
+  };
 
   // Use layout effect to handle resize events
   useLayoutEffect();
@@ -36,15 +57,18 @@ export default function Clients() {
   );
   
   return (
-    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
+    <div className="flex-1 overflow-x-hidden space-y-8">
       {/* Page header with call to action */}
-      <div className="flex justify-between mb-6 bg-white p-6 rounded-lg">
+      <div className="rounded-lg transition-all duration-200 flex flex-col md:flex-row justify-between md:justify-between p-6 bg-[#0E1A1D]">
         <div className="flex justify-between items-center w-full">
-          <h1 className="text-2xl font-semibold text-gray-900">Clients</h1>
+          <h1 className="text-2xl font-semibold text-white">Clients</h1>
           <div className="flex space-x-3">
             <Link href="/clients/new">
-              <Button>
-                <PlusCircle className="w-4 h-4 mr-2" />
+              <Button 
+                variant="default" 
+                className="bg-[#020e13] hover:bg-[#132622] text-white hover:text-white border-none"
+              >
+                <PlusCircle className="w-4 h-4 mr-2 text-[#98B0AF]" />
                 Add Client
               </Button>
             </Link>
@@ -55,61 +79,65 @@ export default function Clients() {
       {/* Clients content */}
       <div className="mx-auto py-0 px-0 ml-0 mr-0">
         {/* Search and filters */}
-        <div className="flex flex-wrap gap-4 mb-6">
+        <div className="rounded-lg duration-200 mb-6 p-4 flex items-center justify-between bg-[#0E1A1D] border-none transition-colors" style={{ borderStyle: 'none' }}>
           <div className="relative flex-grow max-w-lg">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+              <Search className="h-5 w-5 text-white" />
             </div>
             <Input
               type="text"
-              placeholder="Search clients..."
-              className="pl-10"
+              className="pl-10 bg-[#020e13] text-white placeholder:text-white border-none"
+              style={{ borderStyle: 'none' }}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button variant="outline">
-            <Filter className="w-4 h-4 mr-2" />
+          <Button 
+            variant="outline" 
+            className="bg-[#020e13] hover:bg-[#132622] text-white hover:text-white border-none"
+            style={{ borderStyle: 'none' }}
+          >
+            <Filter className="w-4 h-4 mr-2 text-white" />
             Filters
           </Button>
         </div>
 
         {/* Status summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-gray-100 p-3 mr-4">
-                <CheckCircle className="h-6 w-6 text-gray-600" />
+          <Card className="bg-[#0E1A1D] border-none" style={{ border: 'none' }}>
+            <CardContent className="p-4 flex items-center border-none" style={{ border: 'none', borderStyle: 'none' }}>
+              <div className="rounded-full bg-[#020e13] p-3 mr-4">
+                <CheckCircle className="h-6 w-6 text-white" />
               </div>
               <div>
-                <p className="text-gray-500 text-sm">Healthy</p>
-                <p className="text-2xl font-semibold">
+                <p className="text-white text-sm">Healthy</p>
+                <p className="text-2xl font-semibold text-white">
                   {clients.filter(c => c.status === 'healthy').length}
                 </p>
               </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-gray-100 p-3 mr-4">
-                <Clock className="h-6 w-6 text-gray-600" />
+          <Card className="bg-[#0E1A1D] border-none" style={{ border: 'none' }}>
+            <CardContent className="p-4 flex items-center border-none" style={{ border: 'none', borderStyle: 'none' }}>
+              <div className="rounded-full bg-[#020e13] p-3 mr-4">
+                <Clock className="h-6 w-6 text-white" />
               </div>
               <div>
-                <p className="text-gray-500 text-sm">Needs Attention</p>
-                <p className="text-2xl font-semibold">
+                <p className="text-white text-sm">Needs Attention</p>
+                <p className="text-2xl font-semibold text-white">
                   {clients.filter(c => c.status === 'needs-attention').length}
                 </p>
               </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent className="p-4 flex items-center">
-              <div className="rounded-full bg-gray-100 p-3 mr-4">
-                <AlertTriangle className="h-6 w-6 text-gray-600" />
+          <Card className="bg-[#0E1A1D] border-none" style={{ border: 'none' }}>
+            <CardContent className="p-4 flex items-center border-none" style={{ border: 'none', borderStyle: 'none' }}>
+              <div className="rounded-full bg-[#020e13] p-3 mr-4">
+                <AlertTriangle className="h-6 w-6 text-white" />
               </div>
               <div>
-                <p className="text-gray-500 text-sm">At Risk</p>
-                <p className="text-2xl font-semibold">
+                <p className="text-white text-sm">At Risk</p>
+                <p className="text-2xl font-semibold text-white">
                   {clients.filter(c => c.status === 'at-risk').length}
                 </p>
               </div>
@@ -118,24 +146,27 @@ export default function Clients() {
         </div>
 
         {/* Client list */}
-        <Card>
-          <CardContent className="p-0">
+        <Card className="bg-[#0E1A1D] border-none" style={{ border: 'none' }}>
+          <CardContent className="p-0 border-none" style={{ border: 'none', borderStyle: 'none' }}>
             {isLoading ? (
               <div className="p-6 space-y-6">
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full bg-[#132622]" />
+                <Skeleton className="h-16 w-full bg-[#132622]" />
+                <Skeleton className="h-16 w-full bg-[#132622]" />
               </div>
             ) : filteredClients.length === 0 ? (
               <div className="p-8 text-center">
                 {searchQuery ? (
-                  <p className="text-gray-500 mb-4">No clients found matching "{searchQuery}"</p>
+                  <p className="text-white mb-4">No clients found matching "{searchQuery}"</p>
                 ) : (
                   <>
-                    <p className="text-gray-500 mb-4">No clients found</p>
+                    <p className="text-white mb-4">No clients found</p>
                     <Link href="/clients/new">
-                      <Button>
-                        <PlusCircle className="w-4 h-4 mr-2" />
+                      <Button 
+                        variant="default" 
+                        className="bg-[#020e13] hover:bg-[#132622] text-white hover:text-white border-none"
+                      >
+                        <PlusCircle className="w-4 h-4 mr-2 text-white" />
                         Add Your First Client
                       </Button>
                     </Link>
@@ -143,71 +174,87 @@ export default function Clients() {
                 )}
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Health Score</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Activity</th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredClients.map((client) => {
-                      const statusColors = getStatusColor(client.status as any);
-                      return (
-                        <tr 
-                          key={client.id}
-                          className="hover:bg-gray-50 cursor-pointer"
-                          onClick={() => setSelectedClient(client)}
-                        >
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 font-medium">
-                                {client.initials}
-                              </div>
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">{client.name}</div>
-                                <div className="text-sm text-gray-500">
-                                  Since {new Date(client.clientSince).toLocaleDateString()}
+              <div className="flex flex-col p-0">
+                <div className="rounded-md border border-[#243531] overflow-hidden w-full">
+                  <table className="min-w-full divide-y divide-[#243531]">
+                    <thead className="bg-[#020E13]">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">Health Score</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">Last Activity</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-white/80 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#243531]">
+                      {filteredClients.map((client) => {
+                        const statusColors = getStatusColor(client.status as any);
+                        return (
+                          <tr key={client.id} className="hover:bg-[#020E13] transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap font-medium text-white">
+                              <div className="flex items-center">
+                                <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#020E13] flex items-center justify-center text-white font-medium mr-4">
+                                  {client.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                  <div className="text-sm font-medium text-white">{client.name}</div>
+                                  <div className="text-sm text-white/60">{client.email}</div>
                                 </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge className={cn(statusColors.badge)}>
-                              {getStatusLabel(client.status as any)}
-                            </Badge>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{client.healthScore}</div>
-                            <div className={cn("text-xs", client.trendValue > 0 ? "text-gray-600" : client.trendValue < 0 ? "text-gray-600" : "text-gray-500")}>
-                              {client.trendValue > 0 ? '↑' : client.trendValue < 0 ? '↓' : '→'} {Math.abs(client.trendValue)}%
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {formatActivityDate(new Date(client.lastActivityAt))}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedClient(client);
-                              }}
-                            >
-                              <ExternalLink className="h-4 w-4 mr-1" />
-                              View
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <Badge
+                                className={cn(
+                                  "text-xs font-medium bg-[#020E13]",
+                                  statusColors.badge
+                                )}
+                              >
+                                {getStatusLabel(client.status as any)}
+                              </Badge>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <span className="mr-2 text-white">{client.healthScore}%</span>
+                                <div className="w-24 bg-[#020E13] rounded-full h-2">
+                                  <div 
+                                    className={`h-2 rounded-full ${
+                                      client.healthScore > 70 ? 'bg-[#98B0AF]' :
+                                      client.healthScore > 50 ? 'bg-[#607877]' :
+                                      'bg-[#3D4F4D]'
+                                    }`}
+                                    style={{ width: `${client.healthScore}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white/60">{formatActivityDate(new Date(client.lastActivityAt))}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm">
+                              <div className="flex space-x-2">
+                                <Link href={`/clients/${client.id}/edit`}>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    className="hover:bg-[#020E13] text-white/60 hover:text-white transition-colors"
+                                  >
+                                    Edit
+                                  </Button>
+                                </Link>
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="hover:bg-[#020E13] text-white/60 hover:text-white transition-colors"
+                                  onClick={() => handleDeleteClient(client.id)}
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </CardContent>

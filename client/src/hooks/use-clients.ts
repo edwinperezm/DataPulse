@@ -1,12 +1,27 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/utils/queryClient";
-import { Client, InsertClient } from "@shared/schema";
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  initials: string;
+  status: string;
+  lastActivityAt: Date;
+  clientSince: Date;
+  healthScore: number;
+  trend: string;
+  trendValue: number;
+  usageStats: unknown;
+}
+
+interface InsertClient extends Omit<Client, 'id'> {}
 
 // Mock client data for development
 const mockClients: Client[] = [
   {
     id: 1,
     name: 'Acme Corporation',
+    email: 'contact@acme.com',
     initials: 'AC',
     status: 'healthy',
     lastActivityAt: new Date('2025-04-01'),
@@ -19,6 +34,7 @@ const mockClients: Client[] = [
   {
     id: 2,
     name: 'Globex Industries',
+    email: 'info@globex.com',
     initials: 'GI',
     status: 'needs-attention',
     lastActivityAt: new Date('2025-03-28'),
@@ -31,6 +47,7 @@ const mockClients: Client[] = [
   {
     id: 3,
     name: 'Initech LLC',
+    email: 'support@initech.com',
     initials: 'IL',
     status: 'healthy',
     lastActivityAt: new Date('2025-04-03'),
@@ -43,6 +60,7 @@ const mockClients: Client[] = [
   {
     id: 4,
     name: 'Massive Dynamic',
+    email: 'help@massivedynamic.com',
     initials: 'MD',
     status: 'at-risk',
     lastActivityAt: new Date('2025-03-15'),
@@ -55,10 +73,15 @@ const mockClients: Client[] = [
 ];
 
 export function useClients() {
-  return useQuery<Client[]>({
+  const query = useQuery<Client[]>({
     queryKey: ['/api/clients'],
     queryFn: () => Promise.resolve(mockClients)
   });
+
+  return {
+    ...query,
+    mutate: () => query.refetch()
+  };
 }
 
 export function useClient(id: number) {

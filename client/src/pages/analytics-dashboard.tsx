@@ -6,7 +6,8 @@ import { Button } from '@/components/common/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/common/select';
 import { Input } from '@/components/common/input';
-import { Badge } from '@/components/common/badge';
+import { ThemedBadge } from '@/components/common/themed-badge';
+
 import { 
   ArrowUp, 
   ArrowDown, 
@@ -152,28 +153,28 @@ interface KPICardProps {
 
 const KPICard: React.FC<KPICardProps> = ({ title, value, change, icon, className }) => {
   return (
-    <Card className={cn("overflow-hidden", className)}>
+    <Card className={cn("overflow-hidden bg-[#0E1A1D] border-none", className)}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-500">{title}</p>
-            <h3 className="text-2xl font-bold mt-1">{value}</h3>
+            <p className="text-sm font-medium text-white/70">{title}</p>
+            <h3 className="text-2xl font-bold mt-1 text-white">{value}</h3>
             <div className="flex items-center mt-2">
               {change > 0 ? (
-                <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+                <ThemedBadge variant="outline" className="text-xs font-medium bg-[#020e13] text-white border-none">
                   <ArrowUp className="h-3 w-3 mr-1" />
                   {Math.abs(change)}%
-                </Badge>
+                </ThemedBadge>
               ) : (
-                <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+                <ThemedBadge variant="outline" className="text-xs font-medium bg-[#020e13] text-white border-none">
                   <ArrowDown className="h-3 w-3 mr-1" />
                   {Math.abs(change)}%
-                </Badge>
+                </ThemedBadge>
               )}
-              <span className="text-xs text-gray-500 ml-2">vs previous period</span>
+              <span className="text-xs text-white/70 ml-2">vs previous period</span>
             </div>
           </div>
-          <div className="h-12 w-12 bg-gray-100 rounded-full flex items-center justify-center">
+          <div className="h-12 w-12 bg-[#020e13] rounded-full flex items-center justify-center text-white">
             {icon}
           </div>
         </div>
@@ -192,14 +193,14 @@ interface ChartCardProps {
 
 const ChartCard: React.FC<ChartCardProps> = ({ title, description, children, className }) => {
   return (
-    <Card className={cn("overflow-hidden", className)}>
+    <Card className={cn("overflow-hidden bg-[#0E1A1D] border-none", className)}>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-medium">{title}</CardTitle>
-            {description && <CardDescription>{description}</CardDescription>}
+            <CardTitle className="text-lg font-medium text-white">{title}</CardTitle>
+            {description && <CardDescription className="text-white/70">{description}</CardDescription>}
           </div>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" className="text-white hover:bg-[#132622]">
             <Filter className="h-4 w-4 mr-1" />
             Filter
           </Button>
@@ -220,30 +221,30 @@ const AnalyticsTable: React.FC<TableProps> = ({ data }) => {
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
-          <tr className="bg-gray-50 border-b border-gray-200">
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Platform</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Device</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sessions</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bounce Rate</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Conv. Rate</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg. Time</th>
+          <tr className="bg-[#020e13] border-b border-[#132622]">
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Date</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Platform</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Device</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Country</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Sessions</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Revenue</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Bounce Rate</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Conv. Rate</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Avg. Time</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="divide-y bg-[#0E1A1D] border-[#132622]">
           {data.map((row, index) => (
-            <tr key={index} className="hover:bg-gray-50">
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{row.date}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{row.platform}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{row.device}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{row.country}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{row.sessions.toLocaleString()}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${row.revenue.toLocaleString()}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{(row.bounceRate * 100).toFixed(2)}%</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{(row.conversionRate * 100).toFixed(2)}%</td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{row.avgSessionTime}</td>
+            <tr key={index} className="hover:bg-[#132622]">
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{row.date}</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{row.platform}</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{row.device}</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{row.country}</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{row.sessions.toLocaleString()}</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">${row.revenue.toLocaleString()}</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{(row.bounceRate * 100).toFixed(2)}%</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{(row.conversionRate * 100).toFixed(2)}%</td>
+              <td className="px-3 py-2 whitespace-nowrap text-sm text-white">{row.avgSessionTime}</td>
             </tr>
           ))}
         </tbody>
@@ -252,16 +253,23 @@ const AnalyticsTable: React.FC<TableProps> = ({ data }) => {
   );
 };
 
-// Define colors from the PRD color palette
+// Define colors from the deep forest theme
 const COLORS = {
-  primary: '#FF4E61',  // Soft Red
-  darkGray: '#222222',
-  mediumGray: '#888888',
-  lightGray: '#F7F7F7',
-  blue: '#4F9BFF',
-  green: '#36D399',
-  yellow: '#FFCA00',
-  purple: '#A87FFF'
+  primary: '#00C8AA',  // Teal
+  background: {
+    primary: '#0E1A1D',   // Deep forest
+    secondary: '#020E13', // Darker forest
+  },
+  text: {
+    primary: '#FFFFFF',   // White
+    secondary: '#98B0AF', // Forest mist
+    muted: '#607877',     // Muted forest
+  },
+  border: '#243531',      // Forest border
+  hover: '#132622',       // Hover forest
+  success: '#00C8AA',     // Success teal
+  warning: '#607877',     // Warning gray
+  error: '#3D4F4D',       // Error dark
 };
 
 
@@ -276,7 +284,7 @@ const RevenueChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
     }));
 
   return (
-    <div className="h-80 w-full">
+    <div className="h-80 w-full p-5">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={revenueData}
@@ -287,14 +295,15 @@ const RevenueChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
             bottom: 0,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis dataKey="date" stroke={COLORS.darkGray} />
-          <YAxis stroke={COLORS.darkGray} />
+          <CartesianGrid strokeDasharray="3 3" stroke={COLORS.border} />
+          <XAxis dataKey="date" stroke={COLORS.text.secondary} />
+          <YAxis stroke={COLORS.text.secondary} />
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
+              backgroundColor: COLORS.background.secondary,
+              border: `1px solid ${COLORS.border}`,
               borderRadius: '8px',
+              color: COLORS.text.primary,
               boxShadow: 'none'
             }} 
             formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']} 
@@ -304,7 +313,7 @@ const RevenueChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
             dataKey="revenue" 
             stroke={COLORS.primary} 
             fill={COLORS.primary} 
-            fillOpacity={0.2} 
+            fillOpacity={0.1} 
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -322,7 +331,7 @@ const SessionsChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
     }));
 
   return (
-    <div className="h-80 w-full">
+    <div className="h-80 w-full p-5">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={sessionsData}
@@ -333,21 +342,22 @@ const SessionsChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
             bottom: 0,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis dataKey="date" stroke={COLORS.darkGray} />
-          <YAxis stroke={COLORS.darkGray} />
+          <CartesianGrid strokeDasharray="3 3" stroke={COLORS.border} />
+          <XAxis dataKey="date" stroke={COLORS.text.secondary} />
+          <YAxis stroke={COLORS.text.secondary} />
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
+              backgroundColor: COLORS.background.secondary,
+              border: `1px solid ${COLORS.border}`,
               borderRadius: '8px',
+              color: COLORS.text.primary,
               boxShadow: 'none'
             }} 
             formatter={(value) => [value.toLocaleString(), 'Sessions']} 
           />
           <Bar 
             dataKey="sessions" 
-            fill={COLORS.blue} 
+            fill={COLORS.primary} 
             radius={[4, 4, 0, 0]} 
           />
         </BarChart>
@@ -363,11 +373,11 @@ const PlatformDistributionChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ d
     .map(([name, value], index) => ({
       name,
       value,
-      color: Object.values(COLORS)[index + 1] // Skip the first color (primary)
+      color: COLORS.text.secondary
     }));
 
   return (
-    <div className="h-80 w-full">
+    <div className="h-80 w-full p-5">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -387,9 +397,10 @@ const PlatformDistributionChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ d
           </Pie>
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
+              backgroundColor: COLORS.background.secondary,
+              border: `1px solid ${COLORS.border}`,
               borderRadius: '8px',
+              color: COLORS.text.primary,
               boxShadow: 'none'
             }} 
             formatter={(value) => [value.toLocaleString(), 'Sessions']} 
@@ -408,11 +419,11 @@ const DeviceDistributionChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ dat
     .map(([name, value], index) => ({
       name,
       value,
-      color: Object.values(COLORS)[index + 3] // Use different colors
+      color: COLORS.text.secondary
     }));
 
   return (
-    <div className="h-80 w-full">
+    <div className="h-80 w-full p-5">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -432,9 +443,10 @@ const DeviceDistributionChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ dat
           </Pie>
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
+              backgroundColor: COLORS.background.secondary,
+              border: `1px solid ${COLORS.border}`,
               borderRadius: '8px',
+              color: COLORS.text.primary,
               boxShadow: 'none'
             }} 
             formatter={(value) => [value.toLocaleString(), 'Sessions']} 
@@ -466,7 +478,7 @@ const RetentionChart: React.FC = () => {
   }));
 
   return (
-    <div className="h-80 w-full">
+    <div className="h-80 w-full p-5">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
@@ -477,23 +489,24 @@ const RetentionChart: React.FC = () => {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis label={{ value: 'Retention %', angle: -90, position: 'insideLeft' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke={COLORS.border} />
+          <XAxis dataKey="name" stroke={COLORS.text.secondary} />
+          <YAxis label={{ value: 'Retention %', angle: -90, position: 'insideLeft', fill: COLORS.text.secondary }} stroke={COLORS.text.secondary} />
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
+              backgroundColor: COLORS.background.secondary,
+              border: `1px solid ${COLORS.border}`,
               borderRadius: '8px',
+              color: COLORS.text.primary,
               boxShadow: 'none'
             }}
             formatter={(value) => [`${value}%`, '']}
           />
-          <Legend />
-          <Bar dataKey="Week 1" fill={COLORS.blue} />
-          <Bar dataKey="Week 2" fill={COLORS.green} />
-          <Bar dataKey="Week 3" fill={COLORS.yellow} />
-          <Bar dataKey="Week 4" fill={COLORS.purple} />
+          <Legend wrapperStyle={{ color: COLORS.text.secondary }} />
+          <Bar dataKey="Week 1" fill={COLORS.text.secondary} />
+          <Bar dataKey="Week 2" fill={COLORS.text.muted} />
+          <Bar dataKey="Week 3" fill={COLORS.primary} />
+          <Bar dataKey="Week 4" fill={COLORS.success} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -504,11 +517,11 @@ const RetentionChart: React.FC = () => {
 const SessionDurationChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }) => {
   // Group sessions by duration buckets
   const durationBuckets = [
-    { name: '0-1 min', count: 0, color: COLORS.blue },
-    { name: '1-3 min', count: 0, color: COLORS.green },
-    { name: '3-5 min', count: 0, color: COLORS.yellow },
-    { name: '5-10 min', count: 0, color: COLORS.purple },
-    { name: '10+ min', count: 0, color: COLORS.primary }
+    { name: '0-1 min', count: 0, color: COLORS.text.secondary },
+    { name: '1-3 min', count: 0, color: COLORS.text.muted },
+    { name: '3-5 min', count: 0, color: COLORS.primary },
+    { name: '5-10 min', count: 0, color: COLORS.success },
+    { name: '10+ min', count: 0, color: COLORS.warning }
   ];
 
   // Process data to count sessions in each duration bucket
@@ -524,7 +537,7 @@ const SessionDurationChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }
   });
 
   return (
-    <div className="h-80 w-full">
+    <div className="h-80 w-full p-5">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={durationBuckets}
@@ -535,14 +548,15 @@ const SessionDurationChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" stroke={COLORS.border} />
+          <XAxis dataKey="name" stroke={COLORS.text.secondary} />
+          <YAxis stroke={COLORS.text.secondary} />
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e0e0e0',
+              backgroundColor: COLORS.background.secondary,
+              border: `1px solid ${COLORS.border}`,
               borderRadius: '8px',
+              color: COLORS.text.primary,
               boxShadow: 'none'
             }}
             formatter={(value) => [value.toLocaleString(), 'Sessions']}
@@ -559,7 +573,8 @@ const SessionDurationChart: React.FC<{ data: AnalyticsDataPoint[] }> = ({ data }
 };
 
 // Main Analytics Dashboard Component
-export default function AnalyticsDashboard() {
+function AnalyticsDashboard() {
+
   // State for filters
   const [timePeriod, setTimePeriod] = useState('30d');
   const [selectedPlatform, setSelectedPlatform] = useState('all');
@@ -663,54 +678,54 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <div className="flex-1 overflow-x-hidden mx-auto py-6 px-6 ml-0 mr-0">
+    <div className="flex-1 overflow-x-hidden space-y-5 p-5">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between md:justify-between mb-6 bg-white p-6 rounded-lg">
+      <div className="flex flex-col md:flex-row justify-between md:justify-between p-6 rounded-lg bg-[#0E1A1D]">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-white">Analytics Dashboard</h1>
+          <p className="text-sm text-white/70 mt-1">
             Track your key metrics and performance indicators
           </p>
         </div>
         <div className="flex items-center space-x-2 mt-4 md:mt-0">
-          <Button variant="outline" size="sm" onClick={() => exportData('csv')}>
+          <Button variant="outline" size="sm" onClick={() => exportData('csv')} className="text-white border-[#132622] hover:bg-[#132622]">
             <Download className="h-4 w-4 mr-1" />
             Export CSV
           </Button>
-          <Button variant="outline" size="sm" onClick={() => exportData('pdf')}>
+          <Button variant="outline" size="sm" onClick={() => exportData('pdf')} className="text-white border-[#132622] hover:bg-[#132622]">
             <Download className="h-4 w-4 mr-1" />
             Export PDF
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="text-white border-[#132622] hover:bg-[#132622]">
             <RefreshCw className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
       {/* Date Range Indicator */}
-      <div className="mb-6 bg-white p-4 rounded-lg flex items-center justify-between">
+      <div className="mb-6 p-4 rounded-lg flex items-center justify-between bg-[#0E1A1D]">
         <div className="flex items-center">
-          <Calendar className="h-5 w-5 text-gray-500 mr-2" />
-          <span className="text-sm font-medium">
+          <Calendar className="h-5 w-5 text-white mr-2" />
+          <span className="text-sm font-medium text-white">
             {format(getDateRange(timePeriod).start, 'MMM d, yyyy')} - {format(getDateRange(timePeriod).end, 'MMM d, yyyy')}
           </span>
         </div>
-        <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+        <ThemedBadge variant="outline" className="text-xs font-medium bg-[#020e13] text-white border-none">
           {timePeriods.find(p => p.value === timePeriod)?.label}
-        </Badge>
+        </ThemedBadge>
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 bg-white p-4 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 p-4 rounded-lg bg-[#0E1A1D]">
         <div className="col-span-1">
           <Select value={timePeriod} onValueChange={setTimePeriod}>
-            <SelectTrigger className="border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-              <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+            <SelectTrigger className="bg-[#020e13] border-none focus:ring-2 focus:ring-[#132622] text-white">
+              <Calendar className="h-4 w-4 mr-2 text-white" />
               <SelectValue placeholder="Select time period" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#0E1A1D] border-none text-white">
               {timePeriods.map((period) => (
-                <SelectItem key={period.value} value={period.value}>
+                <SelectItem key={period.value} value={period.value} className="hover:bg-[#132622]">
                   {period.label}
                 </SelectItem>
               ))}
@@ -719,13 +734,13 @@ export default function AnalyticsDashboard() {
         </div>
         <div className="col-span-1">
           <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
-            <SelectTrigger>
-              <Globe className="h-4 w-4 mr-2" />
+            <SelectTrigger className="bg-[#020e13] border-none focus:ring-2 focus:ring-[#132622] text-white">
+              <Globe className="h-4 w-4 mr-2 text-white" />
               <SelectValue placeholder="Select platform" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#0E1A1D] border-none text-white">
               {platforms.map((platform) => (
-                <SelectItem key={platform.value} value={platform.value}>
+                <SelectItem key={platform.value} value={platform.value} className="hover:bg-[#132622]">
                   {platform.label}
                 </SelectItem>
               ))}
@@ -734,13 +749,13 @@ export default function AnalyticsDashboard() {
         </div>
         <div className="col-span-1">
           <Select value={selectedDevice} onValueChange={setSelectedDevice}>
-            <SelectTrigger>
-              <Laptop className="h-4 w-4 mr-2" />
+            <SelectTrigger className="bg-[#020e13] border-none focus:ring-2 focus:ring-[#132622] text-white">
+              <Laptop className="h-4 w-4 mr-2 text-white" />
               <SelectValue placeholder="Select device" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#0E1A1D] border-none text-white">
               {devices.map((device) => (
-                <SelectItem key={device.value} value={device.value}>
+                <SelectItem key={device.value} value={device.value} className="hover:bg-[#132622]">
                   {device.label}
                 </SelectItem>
               ))}
@@ -749,13 +764,13 @@ export default function AnalyticsDashboard() {
         </div>
         <div className="col-span-1">
           <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-            <SelectTrigger>
-              <Globe className="h-4 w-4 mr-2" />
+            <SelectTrigger className="bg-[#020e13] border-none focus:ring-2 focus:ring-[#132622] text-white">
+              <Globe className="h-4 w-4 mr-2 text-white" />
               <SelectValue placeholder="Select country" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#0E1A1D] border-none text-white">
               {countries.map((country) => (
-                <SelectItem key={country.value} value={country.value}>
+                <SelectItem key={country.value} value={country.value} className="hover:bg-[#132622]">
                   {country.label}
                 </SelectItem>
               ))}
@@ -764,11 +779,11 @@ export default function AnalyticsDashboard() {
         </div>
         <div className="col-span-1">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white" />
             <Input
               type="search"
               placeholder="Search..."
-              className="pl-10"
+              className="pl-10 bg-[#020e13] border-none text-white placeholder:text-white/50 focus:ring-2 focus:ring-[#132622]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -777,12 +792,12 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* KPI Cards - Grid Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 bg-[#0E1A1D] p-4 rounded-lg">
         {/* Date range summary */}
-        <div className="lg:col-span-4 bg-white p-4 rounded-lg mb-2">
+        <div className="lg:col-span-4 p-4 rounded-lg mb-2 bg-[#0E1A1D]">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-gray-900">Performance Summary</h3>
-            <span className="text-sm text-gray-500">
+            <h3 className="text-lg font-medium text-white">Performance Summary</h3>
+            <span className="text-sm text-white/70">
               {timePeriods.find(p => p.value === timePeriod)?.label} • {filteredData.length} data points
             </span>
           </div>
@@ -791,30 +806,30 @@ export default function AnalyticsDashboard() {
           title="Total Sessions"
           value={totalSessions.toLocaleString()}
           change={5.2}
-          icon={<Users className="h-6 w-6 text-gray-600" />}
+          icon={<Users className="h-6 w-6 text-white" />}
         />
         <KPICard
           title="Total Revenue"
           value={`$${totalRevenue.toLocaleString()}`}
           change={7.8}
-          icon={<DollarSign className="h-6 w-6 text-gray-600" />}
+          icon={<DollarSign className="h-6 w-6 text-white" />}
         />
         <KPICard
           title="Bounce Rate"
           value={`${(avgBounceRate * 100).toFixed(2)}%`}
           change={-2.3}
-          icon={<Percent className="h-6 w-6 text-gray-600" />}
+          icon={<Percent className="h-6 w-6 text-white" />}
         />
         <KPICard
           title="Conversion Rate"
           value={`${(avgConversionRate * 100).toFixed(2)}%`}
           change={1.5}
-          icon={<Percent className="h-6 w-6 text-gray-600" />}
+          icon={<Percent className="h-6 w-6 text-white" />}
         />
       </div>
 
       {/* Tabs for different views - Flex Layout */}
-      <div className="flex flex-col w-full mb-6">
+      <div className="flex flex-col w-full my-5">
       <Tabs defaultValue="overview" className="w-full">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -825,7 +840,7 @@ export default function AnalyticsDashboard() {
           <TabsTrigger value="geography">Geography</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="mt-6">
+        <TabsContent value="overview" className="mt-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <ChartCard title="Revenue Trend" description="Daily revenue for the selected period">
               <RevenueChart data={filteredData} />
@@ -870,13 +885,13 @@ export default function AnalyticsDashboard() {
                           <div className="flex items-center">
                             <div className="w-3 h-3 rounded-full mr-2" 
                                  style={{ backgroundColor: platform.color || COLORS.primary }} />
-                            <span>{platform.label}</span>
+                            <span className="text-white">{platform.label}</span>
                           </div>
                           <div className="flex items-center space-x-4">
-                            <span className="text-sm font-medium">
+                            <span className="text-sm font-medium text-white">
                               ${platformRevenue.toLocaleString()}
                             </span>
-                            <div className="w-24 bg-gray-100 rounded-full h-2">
+                            <div className="w-24 bg-[#132622] rounded-full h-2">
                               <div 
                                 className="h-2 rounded-full" 
                                 style={{ 
@@ -885,7 +900,7 @@ export default function AnalyticsDashboard() {
                                 }}
                               />
                             </div>
-                            <span className="text-xs text-gray-500">{percentage.toFixed(1)}%</span>
+                            <span className="text-xs text-white/70">{percentage.toFixed(1)}%</span>
                           </div>
                         </div>
                       );
@@ -902,43 +917,43 @@ export default function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Current Period</div>
-                    <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Current Period</div>
+                    <div className="text-2xl font-bold text-white">${totalRevenue.toLocaleString()}</div>
+                    <div className="flex items-center text-sm mt-2 text-white">
                       <ArrowUp className="h-4 w-4 mr-1" />
                       <span>8.2% vs. last period</span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Average Order Value</div>
-                    <div className="text-2xl font-bold">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Average Order Value</div>
+                    <div className="text-2xl font-bold text-white">
                       ${(totalRevenue / (totalSessions || 1)).toFixed(2)}
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
+                    <div className="flex items-center text-sm mt-2 text-white">
                       <ArrowUp className="h-4 w-4 mr-1" />
                       <span>3.5% vs. last period</span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Conversion Value</div>
-                    <div className="text-2xl font-bold">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Conversion Value</div>
+                    <div className="text-2xl font-bold text-white">
                       ${(totalRevenue * avgConversionRate).toFixed(2)}
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
+                    <div className="flex items-center text-sm mt-2 text-white">
                       <ArrowUp className="h-4 w-4 mr-1" />
                       <span>5.7% vs. last period</span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Revenue per Session</div>
-                    <div className="text-2xl font-bold">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Revenue per Session</div>
+                    <div className="text-2xl font-bold text-white">
                       ${(totalRevenue / (totalSessions || 1)).toFixed(2)}
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-gray-500">
+                    <div className="flex items-center text-sm mt-2 text-white/70">
                       <ArrowDown className="h-4 w-4 mr-1" />
                       <span>1.2% vs. last period</span>
                     </div>
@@ -975,43 +990,43 @@ export default function AnalyticsDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Total Sessions</div>
-                    <div className="text-2xl font-bold">{totalSessions.toLocaleString()}</div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Total Sessions</div>
+                    <div className="text-2xl font-bold text-white">{totalSessions.toLocaleString()}</div>
+                    <div className="flex items-center text-sm mt-2 text-white">
                       <ArrowUp className="h-4 w-4 mr-1" />
                       <span>12.5% vs. last period</span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Avg. Bounce Rate</div>
-                    <div className="text-2xl font-bold">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Avg. Bounce Rate</div>
+                    <div className="text-2xl font-bold text-white">
                       {(avgBounceRate * 100).toFixed(2)}%
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-gray-500">
+                    <div className="flex items-center text-sm mt-2 text-white/70">
                       <ArrowDown className="h-4 w-4 mr-1" />
                       <span>3.4% vs. last period</span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">Sessions per User</div>
-                    <div className="text-2xl font-bold">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">Sessions per User</div>
+                    <div className="text-2xl font-bold text-white">
                       1.8
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
+                    <div className="flex items-center text-sm mt-2 text-white">
                       <ArrowUp className="h-4 w-4 mr-1" />
                       <span>2.1% vs. last period</span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-500 mb-1">New User Rate</div>
-                    <div className="text-2xl font-bold">
+                  <div className="bg-[#0E1A1D] p-4 rounded-lg border border-[#132622]">
+                    <div className="text-sm text-white/70 mb-1">New User Rate</div>
+                    <div className="text-2xl font-bold text-white">
                       42.3%
                     </div>
-                    <div className="flex items-center text-sm mt-2 text-green-500">
+                    <div className="flex items-center text-sm mt-2 text-white">
                       <ArrowUp className="h-4 w-4 mr-1" />
                       <span>5.8% vs. last period</span>
                     </div>
@@ -1031,10 +1046,10 @@ export default function AnalyticsDashboard() {
               <div className="space-y-4">
                 {[
                   { source: 'Direct', sessions: Math.round(totalSessions * 0.35), color: COLORS.primary },
-                  { source: 'Organic Search', sessions: Math.round(totalSessions * 0.25), color: COLORS.blue },
-                  { source: 'Social Media', sessions: Math.round(totalSessions * 0.20), color: COLORS.green },
-                  { source: 'Referral', sessions: Math.round(totalSessions * 0.15), color: COLORS.yellow },
-                  { source: 'Email', sessions: Math.round(totalSessions * 0.05), color: COLORS.purple }
+                  { source: 'Organic Search', sessions: Math.round(totalSessions * 0.25), color: COLORS.text.secondary },
+                  { source: 'Social Media', sessions: Math.round(totalSessions * 0.20), color: COLORS.text.muted },
+                  { source: 'Referral', sessions: Math.round(totalSessions * 0.15), color: COLORS.success },
+                  { source: 'Email', sessions: Math.round(totalSessions * 0.05), color: COLORS.warning }
                 ].map(source => {
                   const percentage = (source.sessions / totalSessions) * 100;
                   return (
@@ -1044,13 +1059,13 @@ export default function AnalyticsDashboard() {
                           className="w-3 h-3 rounded-full mr-2" 
                           style={{ backgroundColor: source.color }}
                         />
-                        <span>{source.source}</span>
+                        <span className="text-white">{source.source}</span>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <span className="text-sm font-medium">
+                        <span className="text-sm font-medium text-white">
                           {source.sessions.toLocaleString()}
                         </span>
-                        <div className="w-32 bg-gray-100 rounded-full h-2">
+                        <div className="w-32 bg-[#132622] rounded-full h-2">
                           <div 
                             className="h-2 rounded-full" 
                             style={{ 
@@ -1059,7 +1074,7 @@ export default function AnalyticsDashboard() {
                             }}
                           />
                         </div>
-                        <span className="text-xs text-gray-500">{percentage.toFixed(1)}%</span>
+                        <span className="text-xs text-white/70">{percentage.toFixed(1)}%</span>
                       </div>
                     </div>
                   );
@@ -1098,29 +1113,29 @@ export default function AnalyticsDashboard() {
               { name: 'Pages per Session', value: 4.2, change: 3.1, unit: 'pages' },
               { name: 'Repeat Visit Rate', value: 42, change: 7.5, unit: '%' }
             ].map((metric, index) => (
-              <Card key={index} className="overflow-hidden">
-                <CardContent className="p-6">
+              <Card key={index} className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622] overflow-hidden">
+                <CardContent className="py-4 sm:py-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-gray-500">{metric.name}</p>
-                      <h3 className="text-2xl font-bold mt-1">
+                      <p className="text-sm font-medium text-white">{metric.name}</p>
+                      <h3 className="text-xl sm:text-2xl font-semibold text-white mt-1">
                         {metric.name === 'Avg. Session Duration' ? 
                           `${Math.floor(metric.value / 60)}:${(metric.value % 60).toFixed(0).padStart(2, '0')}` : 
                           `${metric.value.toLocaleString()}${metric.unit}`}
                       </h3>
                       <div className="flex items-center mt-2">
                         {metric.change > 0 ? (
-                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                          <ThemedBadge variant="outline" className="text-xs font-medium bg-[#020e13] text-white border-none">
                             <ArrowUp className="h-3 w-3 mr-1" />
                             {Math.abs(metric.change)}%
-                          </Badge>
+                          </ThemedBadge>
                         ) : (
-                          <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+                          <ThemedBadge variant="outline" className="text-xs font-medium bg-[#020e13] text-white border-none">
                             <ArrowDown className="h-3 w-3 mr-1" />
                             {Math.abs(metric.change)}%
-                          </Badge>
+                          </ThemedBadge>
                         )}
-                        <span className="text-xs text-gray-500 ml-2">vs previous period</span>
+                        <span className="text-xs text-white/70 ml-2">vs previous period</span>
                       </div>
                     </div>
                   </div>
@@ -1129,25 +1144,25 @@ export default function AnalyticsDashboard() {
             ))}
           </div>
 
-          <Card className="mb-6">
+          <Card className="mb-6 bg-[#0E1A1D] border-none">
             <CardHeader>
-              <CardTitle>Engagement Insights</CardTitle>
-              <CardDescription>Key metrics and recommendations</CardDescription>
+              <CardTitle className="text-white">Engagement Insights</CardTitle>
+              <CardDescription className="text-white/70">Key metrics and recommendations</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <h4 className="text-sm font-medium text-gray-900">Engagement Summary</h4>
-                  <p className="text-sm text-gray-500 mt-1">
+                <div className="p-4 bg-[#020e13] rounded-lg">
+                  <h4 className="text-sm font-medium text-white">Engagement Summary</h4>
+                  <p className="text-sm text-white/70 mt-1">
                     User engagement is showing positive trends with a {filteredData.length > 0 ? 
                     (filteredData.reduce((sum, item) => sum + item.conversionRate, 0) / filteredData.length * 100).toFixed(1) : 0}% conversion rate.
                     Session duration has increased by 5.2% compared to the previous period.
                   </p>
                 </div>
                 
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <h4 className="text-sm font-medium text-gray-900">Recommendations</h4>
-                  <ul className="text-sm text-gray-700 mt-1 list-disc list-inside space-y-1">
+                <div className="p-4 bg-[#020e13] rounded-lg">
+                  <h4 className="text-sm font-medium text-white">Recommendations</h4>
+                  <ul className="text-sm text-white/70 mt-1 list-disc list-inside space-y-1">
                     <li>Focus on improving mobile engagement which shows 15% lower session duration</li>
                     <li>Consider implementing push notifications for abandoned carts to improve conversion</li>
                     <li>Target users from the Aug 15-21 cohort with special offers to improve retention</li>
@@ -1165,8 +1180,8 @@ export default function AnalyticsDashboard() {
               {isLoading ? (
                  <div className="h-60 flex items-center justify-center">
                    <div className="text-center">
-                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                     <p className="text-gray-500">Loading geographic data...</p>
+                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+                     <p className="text-white/70">Loading geographic data...</p>
                    </div>
                  </div>
               ) : Object.keys(groupByCountry(filteredData)).length > 0 ? (
@@ -1175,13 +1190,13 @@ export default function AnalyticsDashboard() {
                     .sort(([, a], [, b]) => b - a) // Sort by session count descending
                     .map(([country, sessions]) => (
                       <li key={country} className="flex items-center justify-between text-sm">
-                        <span className="font-medium text-gray-700">{country}</span>
-                        <span className="text-gray-500">{sessions.toLocaleString()} sessions</span>
+                        <span className="font-medium text-white">{country}</span>
+                        <span className="text-white/70">{sessions.toLocaleString()} sessions</span>
                       </li>
                     ))}
                 </ul>
               ) : (
-                <div className="text-center text-gray-500 py-10">
+                <div className="text-center text-white/70 py-10">
                   No geographic data available for the current filters.
                 </div>
               )}
@@ -1213,7 +1228,7 @@ export default function AnalyticsDashboard() {
             <div className="h-60 flex items-center justify-center">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                <p className="text-gray-500">Applying filters...</p>
+                <p className="text-white/70">Applying filters...</p>
               </div>
             </div>
           ) : (
@@ -1224,3 +1239,5 @@ export default function AnalyticsDashboard() {
     </div>
   );
 }
+
+export default AnalyticsDashboard;

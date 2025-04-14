@@ -15,6 +15,7 @@ import NotFoundPage from './pages/not-found';
 
 // Import providers
 import { AuthProvider, useAuth } from './providers/auth-provider';
+import { ThemeProvider } from './context/theme-context';
 import { queryClient } from './lib/react-query';
 
 // Import layout
@@ -240,7 +241,8 @@ function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
           <Switch>
           {/* Auth routes without main layout */}
           <Route path="/login">
@@ -265,7 +267,8 @@ function App() {
           </Route>
           </Switch>
           {process.env.NODE_ENV !== 'production' && <DebugInfo />}
-        </AuthProvider>
+          </AuthProvider>
+        </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ErrorBoundary>
