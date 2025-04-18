@@ -53,7 +53,7 @@ export default function Surveys() {
 
   
   return (
-    <div className="flex-1 overflow-x-hidden space-y-5 p-5">
+    <div className="flex-1 overflow-x-hidden space-y-5 p-0">
       {/* Page header with call to action */}
       <div className="rounded-lg transition-all duration-200 flex flex-col md:flex-row justify-between md:justify-between p-6 bg-[#0E1A1D] border-none">
         <div className="flex justify-between items-center w-full">
@@ -75,8 +75,8 @@ export default function Surveys() {
       <div className="w-full max-w-screen-2xl mx-auto">
         {/* Quick stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
-            <CardContent className="py-4 sm:py-6 flex items-center justify-between">
+          <Card className="bg-none border-none transition-all duration-200 hover:bg-[#132622]">
+            <CardContent className="py-4 px-4 sm:py-6 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-[#020e13] p-3">
                   <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
@@ -88,8 +88,8 @@ export default function Surveys() {
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
-            <CardContent className="py-4 sm:py-6 flex items-center justify-between">
+          <Card className="bg-none border-none transition-all duration-200 hover:bg-[#132622]">
+            <CardContent className="py-4 px-4 sm:py-6 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-[#020e13] p-3">
                   <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
@@ -104,7 +104,7 @@ export default function Surveys() {
             </CardContent>
           </Card>
           <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
-            <CardContent className="py-4 sm:py-6 flex items-center justify-between">
+            <CardContent className="py-4 px-4 sm:py-6 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-[#020e13] p-3">
                   <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
@@ -131,8 +131,8 @@ export default function Surveys() {
               <Skeleton className="h-36 w-full" />
             </div>
           ) : surveys.length === 0 ? (
-            <Card className="bg-[#0E1A1D] border-none">
-              <CardContent className="p-8 text-center">
+            <Card className="bg-[#0E1A1D] rounded-lg border-none">
+              <CardContent className="text-white bg-[#0E1A1D] hover:bg-[#132622] transition-colors p-8 text-center rounded-lg">
                 <BarChart2 className="h-12 w-12 mx-auto text-white mb-4" />
                 <p className="text-white mb-4">No surveys created yet</p>
                 <Button 

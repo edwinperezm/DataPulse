@@ -129,10 +129,21 @@ export type InsertClient = z.infer<typeof insertClientSchema>;
 export type Activity = typeof activities.$inferSelect;
 export type InsertActivity = z.infer<typeof insertActivitySchema>;
 
+export type SurveyQuestion = {
+  id: number;
+  text: string;
+  type: 'scale' | 'text';
+  responses?: Array<{
+    score: number;
+    count: number;
+  }>;
+};
+
 export type Survey = typeof surveys.$inferSelect & {
   responseCount: number;
   targetResponses: number;
   completionRate: number;
+  questions: SurveyQuestion[];
 };
 export type InsertSurvey = z.infer<typeof insertSurveySchema>;
 

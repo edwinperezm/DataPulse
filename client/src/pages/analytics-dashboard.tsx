@@ -678,7 +678,7 @@ function AnalyticsDashboard() {
   };
 
   return (
-    <div className="flex-1 overflow-x-hidden space-y-5 p-5">
+    <div className="flex-1 overflow-x-hidden space-y-5 p-0">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between md:justify-between p-6 rounded-lg bg-[#0E1A1D]">
         <div>
@@ -792,7 +792,7 @@ function AnalyticsDashboard() {
       </div>
 
       {/* KPI Cards - Grid Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 bg-[#0E1A1D] p-4 rounded-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 bg-[#0E1A1D] pl-4 pr-4 rounded-lg">
         {/* Date range summary */}
         <div className="lg:col-span-4 p-4 rounded-lg mb-2 bg-[#0E1A1D]">
           <div className="flex items-center justify-between">
@@ -1114,7 +1114,7 @@ function AnalyticsDashboard() {
               { name: 'Repeat Visit Rate', value: 42, change: 7.5, unit: '%' }
             ].map((metric, index) => (
               <Card key={index} className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622] overflow-hidden">
-                <CardContent className="py-4 sm:py-6">
+                <CardContent className="py-4 px-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-white">{metric.name}</p>
@@ -1144,7 +1144,7 @@ function AnalyticsDashboard() {
             ))}
           </div>
 
-          <Card className="mb-6 bg-[#0E1A1D] border-none">
+          <Card className="mb-6 px-4 py-4 bg-[#0E1A1D] border-none">
             <CardHeader>
               <CardTitle className="text-white">Engagement Insights</CardTitle>
               <CardDescription className="text-white/70">Key metrics and recommendations</CardDescription>
@@ -1207,7 +1207,7 @@ function AnalyticsDashboard() {
       </div>
 
       {/* Data Table */}
-      <Card className="mb-6">
+      <Card className="mb-6 overflow-hidden">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-medium">Detailed Analytics Data</CardTitle>
