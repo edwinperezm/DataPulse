@@ -61,7 +61,7 @@ export default function Surveys() {
           <div className="flex space-x-3">
             <Button 
               variant="default" 
-              className="bg-[#020e13] hover:bg-[#132622] text-white border-none"
+              className="bg-[#020e13] text-white border-none"
               onClick={() => setShowCreateModal(true)}
             >
               <PlusCircle className="w-4 h-4 mr-2 text-white" />
@@ -103,7 +103,7 @@ export default function Surveys() {
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-[#0E1A1D] border-none transition-all duration-200 hover:bg-[#132622]">
+          <Card className="bg-none border-none transition-all duration-200 hover:bg-[#132622]">
             <CardContent className="py-4 px-4 sm:py-6 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-[#020e13] p-3">

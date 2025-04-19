@@ -350,7 +350,7 @@ export default function WidgetDashboard() {
   );
 
   return (
-    <div className="flex-1 overflow-x-hidden space-y-5 p-5">
+    <div className="flex-1 overflow-x-hidden space-y-5">
       <div className="rounded-lg transition-all duration-200 flex flex-col md:flex-row justify-between md:justify-between p-6 bg-[#0E1A1D]">
         <div className="flex justify-between items-center w-full">
           <h1 className="text-2xl font-semibold text-[#98B0AF]">Widget Dashboard</h1>

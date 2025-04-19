@@ -137,7 +137,7 @@ function Dashboard() {
   ];
 
   return (
-    <div className="flex-1 overflow-x-hidden space-y-5 p-5">
+    <div className="flex-1 overflow-x-hidden space-y-5">
       {/* Header */}
       <ThemedCard className="flex flex-col md:flex-row justify-between md:justify-between">
         <div className="flex justify-between items-center w-full p-6">
