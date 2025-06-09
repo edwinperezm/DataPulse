@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Theme variables will be set by ThemeApplier component */
+    --background: var(--background-primary, #ffffff);
+    --foreground: var(--text-primary, #000000);
+    --card: var(--background-secondary, #f8f9fa);
+    --card-foreground: var(--text-primary, #000000);
+    --popover: var(--background-primary, #ffffff);
+    --popover-foreground: var(--text-primary, #000000);
+    --primary: var(--accent-primary, #000000);
+    --primary-foreground: var(--text-primary, #ffffff);
+    --secondary: var(--background-hover, #f1f3f5);
+    --secondary-foreground: var(--text-primary, #000000);
+    --muted: var(--background-hover, #f1f3f5);
+    --muted-foreground: var(--text-muted, #6c757d);
+    --accent: var(--accent-secondary, #e9ecef);
+    --accent-foreground: var(--text-primary, #000000);
+    --destructive: var(--accent-error, #dc3545);
+    --destructive-foreground: #ffffff;
+    --border: var(--border-default, #dee2e6);
+    --input: var(--border-default, #dee2e6);
+    --ring: var(--accent-primary, #000000);
+    --radius: 0.5rem;
+  }
+
+  /* Add smooth transitions for theme changes */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}

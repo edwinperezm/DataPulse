@@ -583,8 +583,20 @@ function AnalyticsDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Use layout effect to handle resize events
-  useLayoutEffect();
+  // Handle window resize for responsive charts and any DOM measurements
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      // Add any resize handling logic here if needed
+      console.log('Window resized');
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // Memoized filtered data
   const filteredData = useMemo(() => {

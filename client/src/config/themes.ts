@@ -1,6 +1,32 @@
 export type ThemeType = 'sand' | 'deep-forest' | 'charcoal' | 'white-clouds';
 
-export const themes = {
+export interface ThemeColors {
+  background: {
+    primary: string;
+    secondary: string;
+    hover: string;
+    active: string;
+  };
+  text: {
+    primary: string;
+    secondary: string;
+    muted: string;
+  };
+  border: {
+    default: string;
+    hover: string;
+  };
+  accent: {
+    primary: string;
+    secondary: string;
+    success: string;
+    error: string;
+    warning?: string;
+    info?: string;
+  };
+}
+
+export const themes: Record<ThemeType, ThemeColors> = {
   'sand': {
     background: {
       primary: '#F5F5DC',
@@ -43,8 +69,10 @@ export const themes = {
     accent: {
       primary: '#98B0AF',
       secondary: '#607877',
-      success: '#98B0AF',
-      error: '#607877'
+      success: '#4CAF50',
+      error: '#FF4E61',
+      warning: '#FFA000',
+      info: '#2196F3'
     }
   },
   'charcoal': {

@@ -58,9 +58,19 @@ function Dashboard() {
   const [activities, setActivities] = useState(mockActivities);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Use layout effect to handle resize events
-  useLayoutEffect();
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  
+  // Handle window resize events for responsive layout
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      // Add any responsive layout logic here
+    };
+    
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const refreshData = () => {
     setIsLoading(true);
@@ -91,18 +101,20 @@ function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  // Status badge component
-  const StatusBadge = ({ status }: { status: string }) => {
-    const colors = {
-      active: "bg-[#f7f7f7] text-[#222222]",
-      "at-risk": "bg-[#f7f7f7] text-[#222222]",
-      inactive: "bg-[#f7f7f7] text-[#222222]",
+  // Status badge component using theme colors
+  type StatusType = 'active' | 'at-risk' | 'inactive';
+  
+  const StatusBadge = ({ status }: { status: StatusType }) => {
+    const statusColors: Record<StatusType, string> = {
+      active: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+      "at-risk": "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+      inactive: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200",
     };
 
     return (
-      <span
-        className={`px-2 py-1 text-xs font-medium rounded-full border border-black/[0.06] ${colors[status as keyof typeof colors]}`}
-      >
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+        statusColors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+      }`}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );

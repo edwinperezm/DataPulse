@@ -16,8 +16,20 @@ export default function Surveys() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null);
 
-  // Use layout effect to handle resize events
-  useLayoutEffect();
+  // Handle window resize events
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      // Add any resize handling logic here if needed
+      console.log('Window resized');
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   // Helper function to get survey status colors
   const getSurveyStatusColors = (status: string) => {

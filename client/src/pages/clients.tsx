@@ -47,9 +47,22 @@ export default function Clients() {
     }
   };
 
-  // Use layout effect to handle resize events
-  useLayoutEffect();
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Handle window resize events
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      // Add any resize handling logic here if needed
+      console.log('Window resized');
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   // Filter clients based on search query
   const filteredClients = clients.filter(client =>

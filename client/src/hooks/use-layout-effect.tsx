@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect as useReactLayoutEffect } from 'react';
 
-export function useLayoutEffect() {
-  useEffect(() => {
-    // Force a resize event to ensure proper layout
+export function useLayoutEffect(effect: React.EffectCallback, deps?: React.DependencyList) {
+  // First run the effect passed by the component
+  useReactLayoutEffect(() => {
+    const cleanup = effect();
+    
+    // Then set up our resize observer
     const resizeEvent = new Event('resize');
     window.dispatchEvent(resizeEvent);
 
@@ -15,7 +18,10 @@ export function useLayoutEffect() {
     resizeObserver.observe(document.body);
 
     return () => {
+      // Clean up the effect
+      if (cleanup) cleanup();
+      // Clean up the resize observer
       resizeObserver.disconnect();
     };
-  }, []); // Run only once when component mounts
+  }, deps);
 }

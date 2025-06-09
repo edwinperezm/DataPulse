@@ -91,18 +91,21 @@ export default function WidgetDashboard() {
     metrics: false,
   });
 
-  // Use layout effect to handle resize events
-  useLayoutEffect();
-
   // Get current location to detect route changes
   const [location] = useLocation();
+  const [width, setWidth] = useState(1200);
 
-  // Handle initial layout and route changes
+  // Handle layout changes and responsiveness
   useEffect(() => {
     // Function to handle screen size changes
     const handleScreenSizeChange = () => {
       const viewportWidth = window.innerWidth;
-      setWidth(viewportWidth);
+      
+      // Update width for grid layout
+      const gridParent = document.querySelector('.layout')?.parentElement;
+      if (gridParent) {
+        setWidth(gridParent.clientWidth);
+      }
       
       // Adjust layout based on screen size
       if (viewportWidth < 640) {
@@ -135,51 +138,28 @@ export default function WidgetDashboard() {
     // Initial layout adjustment
     handleScreenSizeChange();
 
-    // Add resize listener
-    window.addEventListener('resize', handleScreenSizeChange);
-
-    // Force immediate resize when component mounts or route changes
-    const resizeEvent = new Event('resize');
-    window.dispatchEvent(resizeEvent);
-
-    // Trigger resize after a short delay to ensure proper rendering
-    const timeoutId = setTimeout(() => {
-      handleScreenSizeChange();
-    }, 100);
-
-    return () => {
-      window.removeEventListener('resize', handleScreenSizeChange);
-      clearTimeout(timeoutId);
-    };
-  }, [location]); // Re-run when route changes
-
-  // Use useState for responsive width calculation
-  const [width, setWidth] = useState(1200);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const gridParent = document.querySelector('.layout')?.parentElement;
-      if (gridParent) {
-        setWidth(gridParent.clientWidth);
-      }
-    };
-
-    // Create a ResizeObserver to watch the parent container
-    const resizeObserver = new ResizeObserver(handleResize);
+    // Set up ResizeObserver for the grid parent
+    const resizeObserver = new ResizeObserver(handleScreenSizeChange);
     const gridParent = document.querySelector('.layout')?.parentElement;
     if (gridParent) {
       resizeObserver.observe(gridParent);
     }
 
-    // Also listen for window resize
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial call
+    // Add window resize listener
+    window.addEventListener('resize', handleScreenSizeChange);
 
+    // Trigger initial resize after a short delay
+    const timeoutId = setTimeout(() => {
+      handleScreenSizeChange();
+    }, 100);
+
+    // Cleanup
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleScreenSizeChange);
+      clearTimeout(timeoutId);
     };
-  }, []);
+  }, [location]); // Re-run when route changes
 
   // Toggle widget expansion
   const toggleWidgetExpansion = (widgetId: string) => {

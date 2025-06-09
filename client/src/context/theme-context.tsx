@@ -1,20 +1,32 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ThemeType, themes } from '@/config/themes';
+import { ThemeType, themes, ThemeColors } from '@/config/themes';
 
 interface ThemeContextType {
   theme: ThemeType;
   setTheme: (theme: ThemeType) => void;
-  colors: typeof themes[ThemeType];
+  colors: ThemeColors;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<ThemeType>('deep-forest');
+interface ThemeProviderProps {
+  children: ReactNode;
+  defaultTheme?: ThemeType;
+}
 
+export function ThemeProvider({ children, defaultTheme = 'deep-forest' }: ThemeProviderProps) {
+  const [theme, setTheme] = useState<ThemeType>(defaultTheme);
+  const [colors, setColors] = useState<ThemeColors>(themes[defaultTheme]);
+
+  // Update colors when theme changes
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as ThemeType;
-    if (savedTheme && themes[savedTheme]) {
+    setColors(themes[theme]);
+  }, [theme]);
+
+  // Load saved theme from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as ThemeType | null;
+    if (savedTheme && themes[savedTheme as ThemeType]) {
       setTheme(savedTheme);
     }
   }, []);
@@ -29,7 +41,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       value={{ 
         theme, 
         setTheme: handleThemeChange, 
-        colors: themes[theme] 
+        colors
       }}
     >
       {children}

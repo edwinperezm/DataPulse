@@ -45,7 +45,10 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div 
       className="flex min-h-screen overflow-hidden"
-      style={{ backgroundColor: colors.background.primary }}
+      style={{ 
+        backgroundColor: colors.background.primary,
+        color: colors.text.primary
+      }}
     >
       {/* Backdrop for mobile */}
       <div
@@ -61,11 +64,15 @@ export function MainLayout({ children }: MainLayoutProps) {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 z-50 flex flex-col border-r border-[#020E13]",
+          "fixed inset-y-0 z-50 flex flex-col border-r",
           "transform transition-all duration-300 ease-in-out lg:relative lg:transform-none",
           isSidebarOpen ? "w-64" : "w-16",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
+        style={{
+          backgroundColor: colors.background.primary,
+          borderColor: colors.border.default
+        }}
       >
         <div className="flex h-16 items-center justify-center">
           <div className={cn(
@@ -91,8 +98,11 @@ export function MainLayout({ children }: MainLayoutProps) {
       <div className="flex-1 flex flex-col min-h-screen">
         <TopNav toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         <main 
-          className="flex-1 p-6"
-          style={{ backgroundColor: colors.background.secondary }}
+          className="flex-1 p-6 transition-colors duration-200"
+          style={{ 
+            backgroundColor: colors.background.secondary,
+            color: colors.text.primary
+          }}
         >
           {children}
         </main>
